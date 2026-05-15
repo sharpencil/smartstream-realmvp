@@ -185,7 +185,7 @@ function GridLayer({ zoomScale, nowX, totalWidth, sidebarWidth }: {
           <React.Fragment key={offset}>
             {/* Vertical Rays (Grid Lines) */}
             {!weekend && (
-              <div 
+              <div
                 className="absolute top-0 bottom-0 w-[1px] bg-border opacity-5 dark:opacity-10"
                 style={{ left: x }}
               />
@@ -471,7 +471,7 @@ export function PulseDashboard() {
   const { isDeepDive, setIsDeepDive, setActivePersona, setFeed, selectedProjectId, activePersona, analysisMode, setAnalysisMode } = usePersona();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
-  
+
   const currentProject = useMemo(() => {
     if (!selectedProjectId) return null;
     return MOCK_FIRM_PROJECTS.find(p => p.id === selectedProjectId);
@@ -937,15 +937,15 @@ export function PulseDashboard() {
             "flex flex-col relative min-h-0 w-full flex-none"
           )}>
             {/* Scrollable Flow Area (Horizontal) */}
-              <div
-                ref={scrollContainerRef}
-                onClick={(e) => {
-                  if (e.target === e.currentTarget) setSelectedDropId(null);
-                }}
-                className={cn(
-                  'flex flex-col pt-0 pb-32 relative min-w-0 transition-all duration-500',
-                  'flex-none overflow-x-auto custom-scrollbar'
-                )}>
+            <div
+              ref={scrollContainerRef}
+              onClick={(e) => {
+                if (e.target === e.currentTarget) setSelectedDropId(null);
+              }}
+              className={cn(
+                'flex flex-col pt-0 pb-32 relative min-w-0 transition-all duration-500',
+                'flex-none overflow-x-auto custom-scrollbar'
+              )}>
 
               {/* Invisible Scroll Width Spacer */}
               <div style={{ minWidth: (PROJECT_END_X * zoomScale) + currentSidebarWidth, height: 1 }} className="shrink-0 pointer-events-none" />
@@ -990,38 +990,38 @@ export function PulseDashboard() {
 
                 {/* Right: Zoom Controls */}
                 <div className="flex-1 flex justify-end items-center pointer-events-auto">
-                    <div className="inline-flex items-center bg-background dark:backdrop-blur-md rounded-xl p-1 h-10 border border-border dark:shadow-[0_0_20px_rgba(0,0,0,0.5)]">
-                      <button
-                        onClick={() => setZoomScale(prev => Math.max(minZoom, prev - 0.1))}
-                        className="w-8 h-full flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-all disabled:opacity-30"
-                        disabled={zoomScale <= minZoom}
-                      >
-                        <Minus className="w-4 h-4" />
-                      </button>
+                  <div className="inline-flex items-center bg-background dark:backdrop-blur-md rounded-xl p-1 h-10 border border-border dark:shadow-[0_0_20px_rgba(0,0,0,0.5)]">
+                    <button
+                      onClick={() => setZoomScale(prev => Math.max(minZoom, prev - 0.1))}
+                      className="w-8 h-full flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-all disabled:opacity-30"
+                      disabled={zoomScale <= minZoom}
+                    >
+                      <Minus className="w-4 h-4" />
+                    </button>
 
-                      <div className="px-3 flex items-center">
-                        <input
-                          type="range"
-                          min={minZoom}
-                          max={2}
-                          step={0.01}
-                          value={zoomScale}
-                          onChange={(e) => setZoomScale(parseFloat(e.target.value))}
-                          className="w-32 h-1 bg-muted rounded-full appearance-none cursor-pointer accent-cyan-500
+                    <div className="px-3 flex items-center">
+                      <input
+                        type="range"
+                        min={minZoom}
+                        max={2}
+                        step={0.01}
+                        value={zoomScale}
+                        onChange={(e) => setZoomScale(parseFloat(e.target.value))}
+                        className="w-32 h-1 bg-muted rounded-full appearance-none cursor-pointer accent-cyan-500
                                     [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 
                                     [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-cyan-500
                                     [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(34,211,238,0.8)]
                                     hover:[&::-webkit-slider-thumb]:scale-125 transition-transform"
-                        />
-                      </div>
-
-                      <button
-                        onClick={() => setZoomScale(prev => Math.min(2, prev + 0.1))}
-                        className="w-8 h-full flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-all"
-                      >
-                        <Plus className="w-4 h-4" />
-                      </button>
+                      />
                     </div>
+
+                    <button
+                      onClick={() => setZoomScale(prev => Math.min(2, prev + 0.1))}
+                      className="w-8 h-full flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-all"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
 
               </div>
@@ -1044,73 +1044,73 @@ export function PulseDashboard() {
                       selectedDrop={selectedDropId ? drops.find(d => d.id === selectedDropId) : null}
                     />
 
-              {/* Task 2: AI-Powered Decisions Waiting */}
-              {viewLevel === 'team' && (
-                <div className="absolute top-[60px] z-[130] flex gap-4 px-8 pointer-events-none" style={{ left: currentSidebarWidth }}>
-                  <AnimatePresence>
-                    {decisions.map(decision => {
-                      const drop = drops.find(d => d.id === decision.dropId);
-                      if (!drop) return null;
-                      const fromMember = TEAM_MEMBERS.find(m => m.id === decision.fromMemberId);
-                      const toMember = TEAM_MEMBERS.find(m => m.id === decision.toMemberId);
-                      
-                      return (
+                    {/* Task 2: AI-Powered Decisions Waiting */}
+                    {viewLevel === 'team' && (
+                      <div className="absolute top-[60px] z-[130] flex gap-4 px-8 pointer-events-none" style={{ left: currentSidebarWidth }}>
+                        <AnimatePresence>
+                          {decisions.map(decision => {
+                            const drop = drops.find(d => d.id === decision.dropId);
+                            if (!drop) return null;
+                            const fromMember = TEAM_MEMBERS.find(m => m.id === decision.fromMemberId);
+                            const toMember = TEAM_MEMBERS.find(m => m.id === decision.toMemberId);
+
+                            return (
+                              <motion.div
+                                key={decision.id}
+                                initial={{ opacity: 0, y: -20, scale: 0.9 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                exit={{ opacity: 0, y: -10, scale: 0.9 }}
+                                className="pointer-events-auto bg-card backdrop-blur-xl border border-cyan-500/30 rounded-2xl p-3 dark:shadow-[0_0_30px_rgba(34,211,238,0.2)] flex items-center gap-4 group min-w-[450px]"
+                              >
+                                <div className="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center border border-cyan-500/30">
+                                  <Brain className="w-4 h-4 text-cyan-400" />
+                                </div>
+                                <div className="flex flex-col">
+                                  <span className="text-[10px] font-black uppercase tracking-tighter text-cyan-400/70">AI Suggestion</span>
+                                  <span className="text-xs text-foreground font-bold whitespace-nowrap">
+                                    Move <span className="text-cyan-400 font-black">{drop.id.toUpperCase()}</span> from {fromMember?.name} to {toMember?.name}
+                                  </span>
+                                  <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-tight">Impact: {decision.impact}</span>
+                                </div>
+                                <div className="flex gap-1.5 ml-2">
+                                  <button
+                                    onClick={() => handleApproveDecision(decision)}
+                                    className="px-3 py-1 rounded-lg bg-cyan-500 text-white text-[10px] font-black uppercase tracking-widest hover:bg-cyan-400 transition-colors"
+                                  >
+                                    Approve
+                                  </button>
+                                  <button className="px-3 py-1 rounded-lg bg-white/5 text-slate-400 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-colors">
+                                    Modify
+                                  </button>
+                                </div>
+                              </motion.div>
+                            );
+                          })}
+                        </AnimatePresence>
+                      </div>
+                    )}
+
+
+
+                    {/* Now Line Distance Gauge (Hover-based) */}
+                    <AnimatePresence>
+                      {isNowLineHovered && selectedDropId && (drops.find(d => d.id === selectedDropId)?.xOffset || 0) > NOW_LINE_BASE && (
                         <motion.div
-                          key={decision.id}
-                          initial={{ opacity: 0, y: -20, scale: 0.9 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: -10, scale: 0.9 }}
-                          className="pointer-events-auto bg-card backdrop-blur-xl border border-cyan-500/30 rounded-2xl p-3 dark:shadow-[0_0_30px_rgba(34,211,238,0.2)] flex items-center gap-4 group min-w-[450px]"
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.8 }}
+                          className="absolute top-[135px] pointer-events-none z-[120] flex items-center gap-2 bg-cyan-500 text-white px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest dark:shadow-[0_0_20px_rgba(34,211,238,0.4)]"
+                          style={{ left: (NOW_LINE_X * zoomScale) + currentSidebarWidth + 10 }}
                         >
-                          <div className="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center border border-cyan-500/30">
-                            <Brain className="w-4 h-4 text-cyan-400" />
-                          </div>
-                          <div className="flex flex-col">
-                            <span className="text-[10px] font-black uppercase tracking-tighter text-cyan-400/70">AI Suggestion</span>
-                            <span className="text-xs text-foreground font-bold whitespace-nowrap">
-                              Move <span className="text-cyan-400 font-black">{drop.id.toUpperCase()}</span> from {fromMember?.name} to {toMember?.name}
-                            </span>
-                            <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-tight">Impact: {decision.impact}</span>
-                          </div>
-                          <div className="flex gap-1.5 ml-2">
-                            <button 
-                              onClick={() => handleApproveDecision(decision)}
-                              className="px-3 py-1 rounded-lg bg-cyan-500 text-white text-[10px] font-black uppercase tracking-widest hover:bg-cyan-400 transition-colors"
-                            >
-                              Approve
-                            </button>
-                            <button className="px-3 py-1 rounded-lg bg-white/5 text-slate-400 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-colors">
-                              Modify
-                            </button>
-                          </div>
+                          <Clock className="w-3 h-3" />
+                          T-minus {Math.max(1, Math.round((drops.find(d => d.id === selectedDropId)!.xOffset - NOW_LINE_BASE) / DAY_WIDTH))} days
                         </motion.div>
-                      );
-                    })}
-                  </AnimatePresence>
-                </div>
-              )}
+                      )}
+                    </AnimatePresence>
 
-
-
-              {/* Now Line Distance Gauge (Hover-based) */}
-              <AnimatePresence>
-                {isNowLineHovered && selectedDropId && (drops.find(d => d.id === selectedDropId)?.xOffset || 0) > NOW_LINE_BASE && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    className="absolute top-[135px] pointer-events-none z-[120] flex items-center gap-2 bg-cyan-500 text-white px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest dark:shadow-[0_0_20px_rgba(34,211,238,0.4)]"
-                    style={{ left: (NOW_LINE_X * zoomScale) + currentSidebarWidth + 10 }}
-                  >
-                    <Clock className="w-3 h-3" />
-                    T-minus {Math.max(1, Math.round((drops.find(d => d.id === selectedDropId)!.xOffset - NOW_LINE_BASE) / DAY_WIDTH))} days
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* Now Line */}
-              <div
-                className="absolute top-[120px] bottom-0 w-[2px] bg-cyan-500 dark:bg-gradient-to-b dark:from-cyan-400/0 dark:via-cyan-400 dark:to-cyan-400/0 z-[120]
+                    {/* Now Line */}
+                    <div
+                      className="absolute top-[120px] bottom-0 w-[2px] bg-cyan-500 dark:bg-gradient-to-b dark:from-cyan-400/0 dark:via-cyan-400 dark:to-cyan-400/0 z-[120]
                        dark:animate-time-pulse pointer-events-none
                        before:absolute before:content-[''] before:left-1/2 before:-translate-x-1/2 before:-top-3
                        before:w-3.5 before:h-3.5 before:bg-cyan-500 dark:before:bg-cyan-400 before:rounded-full before:shadow-sm dark:before:shadow-[0_0_10px_rgba(34,211,238,1)]
@@ -1119,652 +1119,652 @@ export function PulseDashboard() {
                        after:bg-transparent after:text-cyan-500 dark:after:text-cyan-400
                        after:text-[10px] after:font-bold after:tracking-widest
                        transition-all duration-500"
-                style={{ left: (NOW_LINE_X * zoomScale) + currentSidebarWidth }}
-                onMouseEnter={() => setIsNowLineHovered(true)}
-                onMouseLeave={() => setIsNowLineHovered(false)}
-              >
-              </div>
+                      style={{ left: (NOW_LINE_X * zoomScale) + currentSidebarWidth }}
+                      onMouseEnter={() => setIsNowLineHovered(true)}
+                      onMouseLeave={() => setIsNowLineHovered(false)}
+                    >
+                    </div>
 
-              {/* Swimlanes container */}
-              <div className="flex flex-col gap-0 mt-6 relative">
-                <GridLayer
-                  zoomScale={zoomScale}
-                  nowX={NOW_LINE_X}
-                  totalWidth={PROJECT_END_X * zoomScale}
-                  sidebarWidth={currentSidebarWidth}
-                />
+                    {/* Swimlanes container */}
+                    <div className="flex flex-col gap-0 mt-6 relative">
+                      <GridLayer
+                        zoomScale={zoomScale}
+                        nowX={NOW_LINE_X}
+                        totalWidth={PROJECT_END_X * zoomScale}
+                        sidebarWidth={currentSidebarWidth}
+                      />
 
 
-                {/* Dependency Traces SVG Layer - Elevated above popups with additive blending */}
-                <svg id="svg-overlay-container" className="absolute inset-0 w-full h-full pointer-events-none z-[1500] overflow-visible" style={{ mixBlendMode: 'plus-lighter' }}>
-                  <defs>
-                    <filter id="underwater-blur">
-                      <feGaussianBlur stdDeviation="3" result="blur" />
-                      <feMerge>
-                        <feMergeNode in="blur" />
-                        <feMergeNode in="blur" />
-                        <feMergeNode in="SourceGraphic" />
-                      </feMerge>
-                    </filter>
-                  </defs>
-                  <AnimatePresence>
-                    {/* 1. Stream Dependency Arcs */}
-                    {activeStreamDependencyPaths.map(path => {
-                      const srcPos = nodePositions[`stream-${path.srcStreamId}`];
-                      const dstPos = nodePositions[`stream-${path.dstStreamId}`];
-                      if (!srcPos || !dstPos) return null;
+                      {/* Dependency Traces SVG Layer - Elevated above popups with additive blending */}
+                      <svg id="svg-overlay-container" className="absolute inset-0 w-full h-full pointer-events-none z-[1500] overflow-visible" style={{ mixBlendMode: 'plus-lighter' }}>
+                        <defs>
+                          <filter id="underwater-blur">
+                            <feGaussianBlur stdDeviation="3" result="blur" />
+                            <feMerge>
+                              <feMergeNode in="blur" />
+                              <feMergeNode in="blur" />
+                              <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                          </filter>
+                        </defs>
+                        <AnimatePresence>
+                          {/* 1. Stream Dependency Arcs */}
+                          {activeStreamDependencyPaths.map(path => {
+                            const srcPos = nodePositions[`stream-${path.srcStreamId}`];
+                            const dstPos = nodePositions[`stream-${path.dstStreamId}`];
+                            if (!srcPos || !dstPos) return null;
 
-                      const targetStreamDef = STAGING_STREAM_MAP[path.srcStreamId];
-                      const traceColor = targetStreamDef ? getStreamColor(targetStreamDef.colorKey).hex : '#94a3b8';
+                            const targetStreamDef = STAGING_STREAM_MAP[path.srcStreamId];
+                            const traceColor = targetStreamDef ? getStreamColor(targetStreamDef.colorKey).hex : '#94a3b8';
 
-                      const startX = currentSidebarWidth - 20;
-                      const midX = startX + 50;
-                      const dPath = `M ${startX} ${srcPos.y} C ${midX} ${srcPos.y}, ${midX} ${dstPos.y}, ${startX} ${dstPos.y}`;
+                            const startX = currentSidebarWidth - 20;
+                            const midX = startX + 50;
+                            const dPath = `M ${startX} ${srcPos.y} C ${midX} ${srcPos.y}, ${midX} ${dstPos.y}, ${startX} ${dstPos.y}`;
 
-                      return (
-                        <motion.path
-                          key={`stream-${path.srcStreamId}-${path.dstStreamId}`}
-                          initial={{ pathLength: 0, opacity: 0 }}
-                          animate={{ pathLength: 1, opacity: 0.8 }}
-                          exit={{ opacity: 0, transition: { duration: 0.2 } }}
-                          transition={{ duration: 0.6, ease: "easeInOut" }}
-                          d={dPath}
-                          fill="none"
-                          stroke={traceColor}
-                          strokeWidth="3"
-                          style={{ filter: isDark ? `drop-shadow(0 0 5px ${traceColor}80)` : 'none' }}
-                        />
-                      );
-                    })}
+                            return (
+                              <motion.path
+                                key={`stream-${path.srcStreamId}-${path.dstStreamId}`}
+                                initial={{ pathLength: 0, opacity: 0 }}
+                                animate={{ pathLength: 1, opacity: 0.8 }}
+                                exit={{ opacity: 0, transition: { duration: 0.2 } }}
+                                transition={{ duration: 0.6, ease: "easeInOut" }}
+                                d={dPath}
+                                fill="none"
+                                stroke={traceColor}
+                                strokeWidth="3"
+                                style={{ filter: isDark ? `drop-shadow(0 0 5px ${traceColor}80)` : 'none' }}
+                              />
+                            );
+                          })}
 
-                    {/* 2. Drop Dependency Traces */}
-                    {(() => {
-                      const linksToDraw: { src: DropData, dst: DropData }[] = [];
-                      const activeDropId = hoveredDropId || selectedDropId;
-                      const added = new Set<string>();
-                      const focusedMemberLaneIndex = focusedMemberId ? TEAM_MEMBERS.findIndex(m => m.id === focusedMemberId) : -1;
+                          {/* 2. Drop Dependency Traces */}
+                          {(() => {
+                            const linksToDraw: { src: DropData, dst: DropData }[] = [];
+                            const activeDropId = hoveredDropId || selectedDropId;
+                            const added = new Set<string>();
+                            const focusedMemberLaneIndex = focusedMemberId ? TEAM_MEMBERS.findIndex(m => m.id === focusedMemberId) : -1;
 
-                      drops.forEach(drop => {
-                        if (drop.dependsOn) {
-                          drop.dependsOn.forEach(depId => {
-                            const parent = drops.find(d => d.id === depId || d.id === `staging-${depId}`);
-                            if (parent) {
-                              // Enforce strict same-stream dependency visibility
-                              if (parent.streamId !== drop.streamId) return;
+                            drops.forEach(drop => {
+                              if (drop.dependsOn) {
+                                drop.dependsOn.forEach(depId => {
+                                  const parent = drops.find(d => d.id === depId || d.id === `staging-${depId}`);
+                                  if (parent) {
+                                    // Enforce strict same-stream dependency visibility
+                                    if (parent.streamId !== drop.streamId) return;
 
-                              // FOCUS MODE FILTER: Only show lines if at least one end is in the focused view
-                              if (focusedStreamId && (drop.streamId !== focusedStreamId && parent.streamId !== focusedStreamId)) {
-                                return;
+                                    // FOCUS MODE FILTER: Only show lines if at least one end is in the focused view
+                                    if (focusedStreamId && (drop.streamId !== focusedStreamId && parent.streamId !== focusedStreamId)) {
+                                      return;
+                                    }
+                                    if (false) {
+                                      return;
+                                    }
+                                    if (focusedMemberLaneIndex !== -1 && (drop.lane !== focusedMemberLaneIndex && parent.lane !== focusedMemberLaneIndex)) {
+                                      return;
+                                    }
+
+                                    if (drop.id === selectedDropId || parent.id === selectedDropId) {
+                                      const key = `${parent.id}-${drop.id}`;
+                                      // Only draw if BOTH ends are rendered in the DOM (have stored positions)
+                                      const bothRendered = nodePositions[`drop-${parent.id}`] !== undefined && nodePositions[`drop-${drop.id}`] !== undefined;
+
+                                      if (!added.has(key) && bothRendered) {
+                                        added.add(key);
+                                        linksToDraw.push({ src: parent, dst: drop });
+                                      }
+                                    }
+                                  }
+                                });
                               }
-                              if (false) {
-                                return;
-                              }
-                              if (focusedMemberLaneIndex !== -1 && (drop.lane !== focusedMemberLaneIndex && parent.lane !== focusedMemberLaneIndex)) {
-                                return;
-                              }
-
-                              if (drop.id === selectedDropId || parent.id === selectedDropId) {
-                                const key = `${parent.id}-${drop.id}`;
-                                // Only draw if BOTH ends are rendered in the DOM (have stored positions)
-                                const bothRendered = nodePositions[`drop-${parent.id}`] !== undefined && nodePositions[`drop-${drop.id}`] !== undefined;
-
-                                if (!added.has(key) && bothRendered) {
-                                  added.add(key);
-                                  linksToDraw.push({ src: parent, dst: drop });
-                                }
-                              }
-                            }
-                          });
-                        }
-                      });
-                      return linksToDraw;
-                    })().map(({ src, dst }) => {
-                      const getCenter = (d: DropData) => {
-
-                        const storedPos = nodePositions[`drop-${d.id}`];
-
-                        if (storedPos) {
-                          return { x: storedPos.x, y: storedPos.y };
-                        }
-
-                        // Fallback (should be rare with visibility filtering)
-                        const width = getDropWidth(d, zoomScale);
-                        const y = (d.lane * 100) + 50;
-                        return {
-                          x: currentSidebarWidth + (d.xOffset * zoomScale) + width / 2,
-                          y
-                        };
-                      };
-
-                      const p1 = getCenter(src);
-                      const p2 = getCenter(dst);
-
-                      const isSimulating = false;
-                      const isBroken = dst.isBlocked;
-
-                      const targetStreamDef = STAGING_STREAM_MAP[dst.streamId || ''];
-                      const traceColor = isSimulating ? '#f59e0b' : (isBroken ? '#f43f5e' : (targetStreamDef ? getStreamColor(targetStreamDef.colorKey).hex : '#94a3b8'));
-
-                      const dPath = `M ${p1.x} ${p1.y} C ${p1.x + 100} ${p1.y}, ${p2.x - 100} ${p2.y}, ${p2.x} ${p2.y}`;
-
-                      return (
-                        <motion.path
-                          key={`drop-${src.id}-${dst.id}`}
-                          initial={{ pathLength: 0, opacity: 0 }}
-                          animate={{
-                            pathLength: 1,
-                            opacity: (hoveredDropId === src.id || hoveredDropId === dst.id || selectedDropId === src.id || selectedDropId === dst.id) ? 1 : 0.6,
-                            strokeDashoffset: (selectedDropId === src.id || selectedDropId === dst.id) ? [0, -20] : 0
-                          }}
-                          exit={{ opacity: 0, transition: { duration: 0.2 } }}
-                          transition={{
-                            pathLength: { duration: 0.5, ease: "easeInOut" },
-                            strokeDashoffset: { repeat: Infinity, duration: 1, ease: "linear" }
-                          }}
-                          d={dPath}
-                          fill="none"
-                          stroke={traceColor}
-                          strokeWidth={(hoveredDropId === src.id || hoveredDropId === dst.id || selectedDropId === src.id || selectedDropId === dst.id) || isBroken ? "3" : "1.5"}
-                          strokeDasharray={(selectedDropId === src.id || selectedDropId === dst.id) ? "10,5" : "none"}
-                          className={cn(isBroken && !isSimulating && 'animate-pulse')}
-                          style={{
-                            filter: isDark && (hoveredDropId === src.id || hoveredDropId === dst.id || selectedDropId === src.id || selectedDropId === dst.id)
-                              ? `drop-shadow(0 0 8px ${traceColor})`
-                              : 'none'
-                          }}
-                        />
-                      );
-                    })}
-                  </AnimatePresence>
-                </svg>
-
-
-
-
-
-                {/* ── Swimlane Rows ── */}
-                {viewLevel === 'team' ? (
-                  <div className="flex flex-col gap-0">
-                    <AnimatePresence mode="popLayout">
-                      {TEAM_MEMBERS
-                        .filter(m => !focusedMemberId || m.id === focusedMemberId)
-                        .map((member, laneIndex) => {
-                          const memberDrops = drops.filter(d => d.lane === laneIndex);
-                          const isFocused = focusedMemberId === member.id;
-                          const empData = mockEmployees.find(e => e.name.toLowerCase().includes(member.name.toLowerCase())) || mockEmployees[0];
-
-                          // For Focused Mode, group drops by stream
-                          const dropsByStream: Record<string, DropData[]> = {};
-                          if (isFocused) {
-                            memberDrops.forEach(d => {
-                              const sId = d.streamId || 'unassigned';
-                              if (!dropsByStream[sId]) dropsByStream[sId] = [];
-                              dropsByStream[sId].push(d);
                             });
-                          }
+                            return linksToDraw;
+                          })().map(({ src, dst }) => {
+                            const getCenter = (d: DropData) => {
 
-                          return (
-                            <motion.div
-                              key={member.id}
-                              layout
-                              initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                              animate={{ opacity: 1, y: 0, scale: 1 }}
-                              exit={{ opacity: 0, y: 10, scale: 0.95, transition: { duration: 0.3 } }}
-                              className={cn(
-                                "transition-all duration-700",
-                                isFocused ? "border-2 border-cyan-500/30 bg-cyan-950/5 dark:shadow-[0_0_40px_rgba(34,211,238,0.1)] p-1" : "border-b border-border",
-                                highlightHotLanes && (parseInt(member.id) === 3 || parseInt(member.id) === 5) && !isFocused && "bg-amber-50/50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-500/40 dark:shadow-[inset_0_0_50px_rgba(245,158,11,0.05)]"
-                              )}
-                              style={{ minWidth: (PROJECT_END_X * zoomScale) + 320 }}
-                            >
-                              <div className="flex items-center relative group">
-                                {/* Member Sidebar */}
-                                <div
-                                  className={cn(
-                                    "shrink-0 flex items-center gap-4 py-6 px-8 sticky left-0 z-[60] border-r border-border dark:border-slate-900/50 bg-background/95 dark:bg-slate-950 transition-all duration-500 w-80 dark:shadow-[15px_0_40px_rgba(0,0,0,0.7)]",
-                                    isFocused && isDark && "shadow-[30px_0_60px_rgba(0,0,0,0.8)] rounded-l-[38px]"
-                                  )}
-                                >
-                                  <div className="flex-1 min-w-0 flex flex-col gap-4">
-                                    <div className="flex items-center gap-4">
-                                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-50 to-cyan-100 dark:from-cyan-950 dark:to-[#0a192f] border border-cyan-200 dark:border-cyan-800/30 flex items-center justify-center shadow-sm dark:shadow-lg group-hover:border-cyan-400/50 dark:group-hover:shadow-[0_0_15px_rgba(34,211,238,0.2)] transition-all">
-                                        <span className="text-cyan-700 dark:text-cyan-200 font-bold text-lg">{member.name.charAt(0)}</span>
-                                      </div>
-                                      <div className="flex flex-col min-w-0">
-                                        <span className="font-bold text-foreground truncate text-lg tracking-tight hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">
-                                          {member.name}
-                                        </span>
-                                        <div className="flex flex-col gap-1.5 mt-1.5">
-                                          <div className={cn(
-                                            'text-[10px] font-bold px-1.5 py-0.5 rounded transition-all duration-500 w-fit border',
-                                            (memberVelocity[member.id] || 0) >= 0
-                                              ? 'bg-green-50 dark:bg-green-950/40 text-green-600 dark:text-green-400 border-green-200 dark:border-green-500/20 dark:shadow-[0_0_8px_rgba(34,197,94,0.1)]'
-                                              : 'bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-500 border-amber-200 dark:border-amber-500/20 dark:shadow-[0_0_8px_rgba(245,158,11,0.1)]'
-                                          )}>
-                                            {(memberVelocity[member.id] || 0) >= 0 ? '+' : ''}{memberVelocity[member.id] || 0}%
-                                          </div>
-                                          
-                                          {/* Task 3: Resource Load Metrics */}
-                                          <div className="flex items-center gap-2">
-                                            <span className={cn(
-                                              "text-[10px] font-black uppercase tracking-tighter transition-colors duration-500",
-                                              (parseInt(member.id) === 3 || parseInt(member.id) === 5) ? (highlightHotLanes ? (isDark ? "text-amber-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.8)]" : "text-amber-600") : "text-amber-600 dark:text-amber-500") : "text-emerald-600 dark:text-emerald-400"
-                                            )}>
-                                              {(parseInt(member.id) === 3 || parseInt(member.id) === 5) ? "145% Load" : "78% Load"}
-                                            </span>
-                                            <span className="text-[9px] text-slate-500 font-bold italic truncate max-w-[80px]">
-                                              {parseInt(member.id) % 2 === 0 ? "free at 2 p.m." : "out Mon"}
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
+                              const storedPos = nodePositions[`drop-${d.id}`];
 
-                                  <button
-                                    onClick={(e) => toggleMemberExpand(member.id, e)}
-                                    className={cn(
-                                      'shrink-0 w-8 h-8 rounded-xl border flex items-center justify-center transition-all shadow-sm dark:shadow-none',
-                                      isFocused 
-                                        ? 'bg-cyan-500 text-white border-cyan-400 hover:bg-cyan-600 shadow-lg' 
-                                        : 'border-slate-200/60 dark:border-white/10 text-muted-foreground hover:bg-cyan-50 dark:hover:bg-cyan-950/30 hover:text-cyan-600 dark:hover:text-cyan-400'
-                                    )}
-                                  >
-                                    <ChevronDown className={cn('w-4 h-4 transition-transform duration-300', isFocused && 'rotate-180')} />
-                                  </button>
-                                </div>
+                              if (storedPos) {
+                                return { x: storedPos.x, y: storedPos.y };
+                              }
 
-                                {/* Timeline / Macro-Bar */}
-                                <div className="flex-1 h-full relative border-l border-slate-800/30 min-h-[100px] flex items-center">
-                                  {!isFocused ? (
-                                    /* MACRO-FLATTENED VIEW: Liquid Tube using Drop component */
-                                    <div className="absolute inset-0 flex items-center">
-                                      <AnimatePresence>
-                                        {memberDrops.map(drop => {
-                                          const streamDef = STAGING_STREAM_MAP[drop.streamId || ''];
-                                          const streamColorHex = streamDef ? getStreamColor(streamDef.colorKey).hex : '#64748b';
-                                          const intensity = 1.2; // Consistent intensity for macro view
-                                          return (
-                                            <Drop
-                                              key={`macro-${member.id}-${drop.id}`}
-                                              {...drop}
-                                              variant="minimal"
-                                              intensity={intensity}
-                                              streamColorHex={streamColorHex}
-                                              zoomScale={zoomScale}
-                                              onHoverStream={setHoveredStreamId}
-                                              hoveredStreamId={hoveredStreamId}
-                                              onHoverDrop={handleHoverDrop}
-                                              selectedDropId={selectedDropId}
-                                              onSelectDrop={setSelectedDropId}
+                              // Fallback (should be rare with visibility filtering)
+                              const width = getDropWidth(d, zoomScale);
+                              const y = (d.lane * 100) + 50;
+                              return {
+                                x: currentSidebarWidth + (d.xOffset * zoomScale) + width / 2,
+                                y
+                              };
+                            };
 
-                                              hasDependencies={(drop.dependsOn && drop.dependsOn.length > 0) || drops.some(d => d.dependsOn?.includes(drop.id))}
-                                              isBlocked={drop.isBlocked}
-                                              isReady={drop.isReady}
-                                              ownerName={member.name}
-                                            />
-                                          );
-                                        })}
-                                      </AnimatePresence>
-                                    </div>
-                                  ) : (
-                                    /* FOCUSED VIEW PLACEHOLDER (Actual sub-lanes are rendered below) */
-                                    <div className="flex-1" />
-                                  )}
-                                </div>
-                              </div>
+                            const p1 = getCenter(src);
+                            const p2 = getCenter(dst);
 
-                              {/* Focus Mode Sub-Lanes */}
-                              <AnimatePresence>
-                                {isFocused && (
+                            const isSimulating = false;
+                            const isBroken = dst.isBlocked;
+
+                            const targetStreamDef = STAGING_STREAM_MAP[dst.streamId || ''];
+                            const traceColor = isSimulating ? '#f59e0b' : (isBroken ? '#f43f5e' : (targetStreamDef ? getStreamColor(targetStreamDef.colorKey).hex : '#94a3b8'));
+
+                            const dPath = `M ${p1.x} ${p1.y} C ${p1.x + 100} ${p1.y}, ${p2.x - 100} ${p2.y}, ${p2.x} ${p2.y}`;
+
+                            return (
+                              <motion.path
+                                key={`drop-${src.id}-${dst.id}`}
+                                initial={{ pathLength: 0, opacity: 0 }}
+                                animate={{
+                                  pathLength: 1,
+                                  opacity: (hoveredDropId === src.id || hoveredDropId === dst.id || selectedDropId === src.id || selectedDropId === dst.id) ? 1 : 0.6,
+                                  strokeDashoffset: (selectedDropId === src.id || selectedDropId === dst.id) ? [0, -20] : 0
+                                }}
+                                exit={{ opacity: 0, transition: { duration: 0.2 } }}
+                                transition={{
+                                  pathLength: { duration: 0.5, ease: "easeInOut" },
+                                  strokeDashoffset: { repeat: Infinity, duration: 1, ease: "linear" }
+                                }}
+                                d={dPath}
+                                fill="none"
+                                stroke={traceColor}
+                                strokeWidth={(hoveredDropId === src.id || hoveredDropId === dst.id || selectedDropId === src.id || selectedDropId === dst.id) || isBroken ? "3" : "1.5"}
+                                strokeDasharray={(selectedDropId === src.id || selectedDropId === dst.id) ? "10,5" : "none"}
+                                className={cn(isBroken && !isSimulating && 'animate-pulse')}
+                                style={{
+                                  filter: isDark && (hoveredDropId === src.id || hoveredDropId === dst.id || selectedDropId === src.id || selectedDropId === dst.id)
+                                    ? `drop-shadow(0 0 8px ${traceColor})`
+                                    : 'none'
+                                }}
+                              />
+                            );
+                          })}
+                        </AnimatePresence>
+                      </svg>
+
+
+
+
+
+                      {/* ── Swimlane Rows ── */}
+                      {viewLevel === 'team' ? (
+                        <div className="flex flex-col gap-0">
+                          <AnimatePresence mode="popLayout">
+                            {TEAM_MEMBERS
+                              .filter(m => !focusedMemberId || m.id === focusedMemberId)
+                              .map((member, laneIndex) => {
+                                const memberDrops = drops.filter(d => d.lane === laneIndex);
+                                const isFocused = focusedMemberId === member.id;
+                                const empData = mockEmployees.find(e => e.name.toLowerCase().includes(member.name.toLowerCase())) || mockEmployees[0];
+
+                                // For Focused Mode, group drops by stream
+                                const dropsByStream: Record<string, DropData[]> = {};
+                                if (isFocused) {
+                                  memberDrops.forEach(d => {
+                                    const sId = d.streamId || 'unassigned';
+                                    if (!dropsByStream[sId]) dropsByStream[sId] = [];
+                                    dropsByStream[sId].push(d);
+                                  });
+                                }
+
+                                return (
                                   <motion.div
-                                    initial={{ height: 0, opacity: 0 }}
-                                    animate={{ height: 'auto', opacity: 1 }}
-                                    exit={{ height: 0, opacity: 0 }}
-                                    className="border-x border-b dark:border-slate-800/30 border-border rounded-b-[40px] bg-slate-50/50 dark:bg-slate-900/20 overflow-visible"
+                                    key={member.id}
+                                    layout
+                                    initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: 10, scale: 0.95, transition: { duration: 0.3 } }}
+                                    className={cn(
+                                      "transition-all duration-700",
+                                      isFocused ? "border-2 border-cyan-500/30 bg-cyan-950/5 dark:shadow-[0_0_40px_rgba(34,211,238,0.1)] p-1" : "border-b border-border",
+                                      highlightHotLanes && (parseInt(member.id) === 3 || parseInt(member.id) === 5) && !isFocused && "bg-amber-50/50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-500/40 dark:shadow-[inset_0_0_50px_rgba(245,158,11,0.05)]"
+                                    )}
+                                    style={{ minWidth: (PROJECT_END_X * zoomScale) + 320 }}
                                   >
-                                    <div className="pl-16 relative py-4">
-                                      {/* Hierarchy Line */}
-                                      <div className="absolute left-10 top-0 bottom-10 w-px border-l border-dashed border-slate-700/50" />
-
-                                      {Object.entries(dropsByStream).map(([streamId, streamDrops]) => {
-                                        const stream = STAGING_STREAM_MAP[streamId];
-                                        const streamColor = stream ? getStreamColor(stream.colorKey).hex : '#475569';
-
-                                        return (
-                                          <div
-                                            key={streamId}
-                                            className="relative flex items-center min-h-[85px] border-t border-slate-800/30 group/sublane"
-                                            style={{ minWidth: (PROJECT_END_X * zoomScale) + 320 - 64 }}
-                                          >
-                                            {/* Sub-Header Horizontal connector */}
-                                            <div className="absolute left-[-24px] top-1/2 w-6 border-t border-dashed border-slate-700/50" />
-
-                                            <div
-                                              className="shrink-0 flex items-center gap-3 px-8 py-4 border-r border-border dark:border-slate-800/30 sticky left-0 z-[55] bg-background/95 dark:bg-slate-950 dark:shadow-[12px_0_35px_rgba(0,0,0,0.6)]"
-                                              style={{ width: 320 - 64 }}
-                                            >
-                                              <div
-                                                className="w-2 h-8 rounded-full"
-                                                style={{ backgroundColor: streamColor }}
-                                              />
-                                              <div className="flex flex-col min-w-0">
-                                                <span className="text-xs font-bold text-foreground truncate group-hover/sublane:text-cyan-600 dark:group-hover/sublane:text-white transition-colors">
-                                                  {stream?.title || 'Unassigned'}
-                                                </span>
-                                                <span className="text-[9px] font-medium text-slate-500 uppercase tracking-tighter">
-                                                  {streamDrops.length} Drops
-                                                </span>
-                                              </div>
-                                            </div>
-
-                                            <div className="flex-1 h-full relative">
-                                              <div className="absolute inset-0 flex items-center">
-                                                {streamDrops.map(drop => {
-                                                  const streamDef = STAGING_STREAM_MAP[drop.streamId || ''];
-                                                  const streamColorHex = streamDef ? getStreamColor(streamDef.colorKey).hex : '#64748b';
-                                                  const isLateCriticalPath = false;
-
-                                                  return (
-                                                    <Drop
-                                                      key={drop.id}
-                                                      {...drop}
-                                                      ownerName={member.name}
-                                                      streamColorHex={streamColorHex}
-                                                      streamName={streamDef?.title}
-                                                      ownerVelocity={memberVelocity[member.id]}
-
-                                                      
-                                                      references={drop.references}
-                                                      onAction={handleDropAction}
-                                                      onDragEnd={handleDragEnd}
-                                                      zoomScale={zoomScale}
-                                                      onHoverStream={setHoveredStreamId}
-                                                      hoveredStreamId={hoveredStreamId}
-                                                      onHoverDrop={handleHoverDrop}
-                                                      selectedDropId={selectedDropId}
-                                                      onSelectDrop={setSelectedDropId}
-                                                      hasDependencies={(drop.dependsOn && drop.dependsOn.length > 0) || drops.some(d => d.dependsOn?.includes(drop.id))}
-                                                      isBlocked={drop.isBlocked}
-                                                      forceDimmed={false}
-                                                      isCriticalPath={false}
-                                                      isLateCriticalPath={false}
-                                                      isReady={drop.isReady}
-                                                      variant="full"
-                                                      enableStreamHover={false}
-                                                    />
-                                                  );
-                                                })}
-                                              </div>
-                                            </div>
-                                          </div>
-                                        );
-                                      })}
-                                    </div>
-                                  </motion.div>
-                                )}
-                              </AnimatePresence>
-                            </motion.div>
-                          );
-                        })}
-                    </AnimatePresence>
-                  </div>
-                ) : (
-                  // ── OVERVIEW (STREAMS) VIEW ──
-                  <div className="flex flex-col gap-0">
-                    <AnimatePresence mode="popLayout">
-                      {[...STAGING_STREAMS]
-                        .filter(s => !focusedStreamId || s.id === focusedStreamId)
-                        .sort((a, b) => {
-                          const minA = Math.min(...drops.filter(d => d.streamId === a.id).map(d => d.xOffset), Infinity);
-                          const minB = Math.min(...drops.filter(d => d.streamId === b.id).map(d => d.xOffset), Infinity);
-                          return minA - minB;
-                        }).map((stream) => {
-                          const stats = streamStats.find(s => s.id === stream.id)!;
-                          const isExpanded = expandedStreamIds.has(stream.id);
-                          const streamDef = STAGING_STREAM_MAP[stream.id];
-                          const streamColor = getStreamColor(streamDef?.colorKey);
-                          const isFocused = focusedStreamId === stream.id;
-
-                          return (
-                            <motion.div
-                              key={stream.id}
-                              layout
-                              initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                              animate={{ opacity: 1, y: 0, scale: 1 }}
-                              exit={{ opacity: 0, y: 10, scale: 0.95, transition: { duration: 0.3 } }}
-                              className={cn(
-                                "transition-all duration-700",
-                                isFocused ? "border-2 border-cyan-500/30 bg-cyan-950/5 dark:shadow-[0_0_40px_rgba(34,211,238,0.1)] p-1" : "border-b border-border"
-                              )}
-                              style={{ minWidth: (PROJECT_END_X * zoomScale) + currentSidebarWidth }}
-                              data-stream-id={stream.id}
-                            >
-                              {/* Stream Header Row */}
-                              <div className="flex items-center relative group">
-                                {/* Stream Sidebar */}
-                                <div
-                                  className={cn(
-                                    "shrink-0 flex items-center gap-4 py-6 px-8 sticky left-0 z-[60] border-r border-border dark:border-slate-900/50 bg-background/95 dark:bg-slate-950 transition-all duration-500",
-                                    isDark ? (isFocused ? "shadow-[30px_0_60px_rgba(0,0,0,0.8)]" : "shadow-[15px_0_40px_rgba(0,0,0,0.7)]") : ""
-                                  )}
-                                  style={{ width: currentSidebarWidth }}
-                                >
-                                  {/* Stream Content Stack */}
-                                  <div className="flex-1 min-w-0 flex flex-col gap-3">
-                                    {/* Top Line: Name and Focus Controls */}
-                                    <div className="flex-1 flex items-center gap-3 group/title">
-                                      <h3 className={cn(
-                                        "flex-1 font-bold transition-all truncate tracking-tight",
-                                        isFocused ? "text-xl text-foreground" : "text-sm text-foreground group-hover/title:text-foreground"
-                                      )}>
-                                        {stream.title}
-                                      </h3>
-
-                                      {!isFocused && (
-                                        <button
-                                          onClick={() => setSelectedStreamDependencyId(selectedStreamDependencyId === stream.id ? null : stream.id)}
-                                          className={cn("p-1 rounded-md opacity-0 group-hover/title:opacity-100 transition-all ml-1",
-                                            selectedStreamDependencyId === stream.id ? "opacity-100 bg-sky-900/40 text-cyan-400" : "text-muted-foreground hover:text-foreground hover:bg-muted")}
-                                        >
-                                          <Link className="w-3.5 h-3.5" />
-                                        </button>
-                                      )}
-
-                                      {stats.hasBlocker && (
-                                        <div className="shrink-0 animate-pulse ml-2">
-                                          <AlertTriangle className="w-4 h-4 text-rose-500 drop-shadow-[0_0_10px_rgba(244,63,94,0.4)]" />
-                                        </div>
-                                      )}
-                                    </div>
-
-                                    {/* Bottom Line: Progress Bar */}
-                                    <div className="flex items-center gap-4">
+                                    <div className="flex items-center relative group">
+                                      {/* Member Sidebar */}
                                       <div
-                                        className="h-7 w-10 shrink-0 rounded-lg flex items-center justify-center font-black text-[10px] shadow-sm border relative"
-                                        style={{
-                                          backgroundColor: `${streamColor.hex}15`,
-                                          borderColor: `${streamColor.hex}40`,
-                                          color: streamColor.hex
-                                        }}
+                                        className={cn(
+                                          "shrink-0 flex items-center gap-4 py-6 px-8 sticky left-0 z-[60] border-r border-border dark:border-slate-900/50 bg-background/95 dark:bg-slate-950 transition-all duration-500 w-80 dark:shadow-[15px_0_40px_rgba(0,0,0,0.7)]",
+                                          isFocused && isDark && "shadow-[30px_0_60px_rgba(0,0,0,0.8)] rounded-l-[38px]"
+                                        )}
                                       >
-                                        {stream.initials}
-                                      </div>
-
-                                      <div className="flex-1 flex items-center gap-3">
-                                        <div className="flex-1 h-1.5 bg-muted dark:bg-slate-900 rounded-full overflow-hidden border border-border dark:border-white/5">
-                                          <motion.div
-                                            initial={{ width: 0 }}
-                                            animate={{ width: `${stats.percent}%` }}
-                                            className="h-full rounded-full"
-                                            style={{ 
-                                              backgroundColor: streamColor.hex, 
-                                              boxShadow: theme === 'dark' ? `0 0 15px ${streamColor.hex}60` : 'none' 
-                                            }}
-                                          />
-                                        </div>
-                                        <span className="text-xs font-black text-muted-foreground tabular-nums">{stats.percent}%</span>
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  {/* Action button on the far right of sidebar */}
-                                    <button
-                                      onClick={() => toggleStreamExpand(stream.id)}
-                                    className={cn(
-                                      'shrink-0 w-8 h-8 rounded-xl border flex items-center justify-center transition-all shadow-sm dark:shadow-none',
-                                      isExpanded 
-                                        ? 'bg-cyan-500 text-white border-cyan-400 hover:bg-cyan-600 shadow-lg dark:shadow-cyan-500/20' 
-                                        : 'border-slate-200/60 dark:border-white/10 text-muted-foreground hover:bg-cyan-50 dark:hover:bg-cyan-950/30 hover:text-cyan-600 dark:hover:text-cyan-400'
-                                    )}
-                                    >
-                                    <ChevronDown className={cn('w-4 h-4 transition-transform duration-300', isExpanded && 'rotate-180')} />
-                                  </button>
-                                </div>
-
-                                {/* Timeline Area (Collapsed View) */}
-                                <div className="flex-1 h-full relative border-l border-border dark:border-slate-800/30 overflow-visible min-h-[100px] flex items-center">
-                                  <div className="absolute inset-0 flex items-center">
-                                    <AnimatePresence>
-                                      {!isExpanded && stats.drops.map(drop => {
-                                        // Calculate Overlap Intensity
-                                        const dropWidth = getDropWidth(drop, zoomScale);
-                                        const dropStart = drop.xOffset;
-                                        const dropEnd = drop.xOffset + (dropWidth / zoomScale);
-
-                                        const intensity = stats.drops.filter(other => {
-                                          if (other.id === drop.id) return false;
-                                          const otherWidth = getDropWidth(other, zoomScale);
-                                          const otherStart = other.xOffset;
-                                          const otherEnd = other.xOffset + (otherWidth / zoomScale);
-                                          // Check overlap
-                                          return dropStart < otherEnd && dropEnd > otherStart;
-                                        }).length + 1;
-
-                                        const owner = TEAM_MEMBERS[drop.lane]?.name || 'Unknown';
-
-                                        return (
-                                          <Drop
-                                            key={`${stream.id}-${drop.id}`}
-                                            {...drop}
-                                            ownerName={owner}
-                                            intensity={intensity}
-                                            streamInitials={stream.initials}
-                                            streamColorHex={streamColor.hex}
-
-                                            
-                                            references={drop.references}
-                                            onAction={handleDropAction}
-                                            onDragEnd={handleDragEnd}
-                                            zoomScale={zoomScale}
-                                            onHoverStream={setHoveredStreamId}
-                                            hoveredStreamId={hoveredStreamId}
-                                            onHoverDrop={handleHoverDrop}
-                                            selectedDropId={selectedDropId}
-                                            onSelectDrop={setSelectedDropId}
-                                            hasDependencies={(drop.dependsOn && drop.dependsOn.length > 0) || drops.some(d => d.dependsOn?.includes(drop.id))}
-                                            isBlocked={drop.isBlocked}
-                                            forceDimmed={false}
-                                            isCriticalPath={false}
-                                            isReady={drop.isReady}
-                                            variant="minimal"
-                                          />
-                                        );
-                                      })}
-                                    </AnimatePresence>
-                                  </div>
-                                </div>
-                              </div>
-
-                              {/* Expandable Sub-Lanes */}
-                              <AnimatePresence>
-                                {isExpanded && (
-                                  <motion.div
-                                    initial={{ height: 0, opacity: 0 }}
-                                    animate={{ height: 'auto', opacity: 1 }}
-                                    exit={{ height: 0, opacity: 0 }}
-                                    className={cn(
-                                      "border-x border-b dark:border-slate-800/30 border-border rounded-b-[40px] transition-all",
-                                      isFocused ? "bg-cyan-50/20 dark:bg-slate-900/20" : "bg-slate-50/50 dark:bg-slate-950/20"
-                                    )}
-                                  >
-                                    <div className="pl-16 relative">
-                                      {/* Hierarchy Line */}
-                                      <div className="absolute left-10 top-0 bottom-10 w-px border-l border-dashed border-slate-700/50" />
-
-                                      {stats.contributors.map(laneIdx => {
-                                        const member = TEAM_MEMBERS[laneIdx];
-                                        const memberDrops = stats.drops.filter(d => d.lane === laneIdx);
-                                        if (memberDrops.length === 0) return null;
-
-                                        return (
-                                          <div
-                                            key={laneIdx}
-                                            className="relative flex items-center min-h-[85px] border-t border-slate-800/30 group/sublane"
-                                            style={{ minWidth: (PROJECT_END_X * zoomScale) + currentSidebarWidth - 64 }}
-                                          >
-                                            {/* Sub-Header Horizontal connector */}
-                                            <div className="absolute left-[-24px] top-1/2 w-6 border-t border-dashed border-slate-700/50" />
-
-                                            <div
-                                              className="shrink-0 flex items-center gap-3 px-8 py-4 border-r border-border dark:border-slate-800/30 sticky left-0 z-[55] bg-background/95 dark:bg-slate-950 dark:shadow-[12px_0_35px_rgba(0,0,0,0.6)]"
-                                              style={{ width: currentSidebarWidth - 64 }}
-                                            >
-                                              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-50 to-cyan-100 dark:from-cyan-950 dark:to-[#0a192f] border border-cyan-200 dark:border-cyan-800/30 flex items-center justify-center text-[10px] font-bold text-cyan-700 dark:text-cyan-200 group-hover/sublane:border-cyan-500/50 transition-all shadow-sm dark:shadow-lg">
-                                                {member.name.charAt(0)}
-                                              </div>
-                                              <span className="text-xs font-semibold text-muted-foreground group-hover/sublane:text-foreground transition-colors whitespace-nowrap">
+                                        <div className="flex-1 min-w-0 flex flex-col gap-4">
+                                          <div className="flex items-center gap-4">
+                                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-50 to-cyan-100 dark:from-cyan-950 dark:to-[#0a192f] border border-cyan-200 dark:border-cyan-800/30 flex items-center justify-center shadow-sm dark:shadow-lg group-hover:border-cyan-400/50 dark:group-hover:shadow-[0_0_15px_rgba(34,211,238,0.2)] transition-all">
+                                              <span className="text-cyan-700 dark:text-cyan-200 font-bold text-lg">{member.name.charAt(0)}</span>
+                                            </div>
+                                            <div className="flex flex-col min-w-0">
+                                              <span className="font-bold text-foreground truncate text-lg tracking-tight hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">
                                                 {member.name}
                                               </span>
+                                              <div className="flex flex-col gap-1.5 mt-1.5">
+                                                <div className={cn(
+                                                  'text-[10px] font-bold px-1.5 py-0.5 rounded transition-all duration-500 w-fit border',
+                                                  (memberVelocity[member.id] || 0) >= 0
+                                                    ? 'bg-green-50 dark:bg-green-950/40 text-green-600 dark:text-green-400 border-green-200 dark:border-green-500/20 dark:shadow-[0_0_8px_rgba(34,197,94,0.1)]'
+                                                    : 'bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-500 border-amber-200 dark:border-amber-500/20 dark:shadow-[0_0_8px_rgba(245,158,11,0.1)]'
+                                                )}>
+                                                  {(memberVelocity[member.id] || 0) >= 0 ? '+' : ''}{memberVelocity[member.id] || 0}%
+                                                </div>
+
+                                                {/* Task 3: Resource Load Metrics */}
+                                                <div className="flex items-center gap-2">
+                                                  <span className={cn(
+                                                    "text-[10px] font-black uppercase tracking-tighter transition-colors duration-500",
+                                                    (parseInt(member.id) === 3 || parseInt(member.id) === 5) ? (highlightHotLanes ? (isDark ? "text-amber-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.8)]" : "text-amber-600") : "text-amber-600 dark:text-amber-500") : "text-emerald-600 dark:text-emerald-400"
+                                                  )}>
+                                                    {(parseInt(member.id) === 3 || parseInt(member.id) === 5) ? "145% Load" : "78% Load"}
+                                                  </span>
+                                                  <span className="text-[9px] text-slate-500 font-bold italic truncate max-w-[80px]">
+                                                    {parseInt(member.id) % 2 === 0 ? "free at 2 p.m." : "out Mon"}
+                                                  </span>
+                                                </div>
+                                              </div>
                                             </div>
+                                          </div>
+                                        </div>
 
-                                            <div className="flex-1 h-full relative">
-                                              <div className="absolute inset-0 flex items-center">
-                                                {memberDrops.map(drop => (
+                                        <button
+                                          onClick={(e) => toggleMemberExpand(member.id, e)}
+                                          className={cn(
+                                            'shrink-0 w-8 h-8 rounded-xl border flex items-center justify-center transition-all shadow-sm dark:shadow-none',
+                                            isFocused
+                                              ? 'bg-cyan-500 text-white border-cyan-400 hover:bg-cyan-600 shadow-lg'
+                                              : 'border-slate-200/60 dark:border-white/10 text-muted-foreground hover:bg-cyan-50 dark:hover:bg-cyan-950/30 hover:text-cyan-600 dark:hover:text-cyan-400'
+                                          )}
+                                        >
+                                          <ChevronDown className={cn('w-4 h-4 transition-transform duration-300', isFocused && 'rotate-180')} />
+                                        </button>
+                                      </div>
+
+                                      {/* Timeline / Macro-Bar */}
+                                      <div className="flex-1 h-full relative border-l border-slate-800/30 min-h-[100px] flex items-center">
+                                        {!isFocused ? (
+                                          /* MACRO-FLATTENED VIEW: Liquid Tube using Drop component */
+                                          <div className="absolute inset-0 flex items-center">
+                                            <AnimatePresence>
+                                              {memberDrops.map(drop => {
+                                                const streamDef = STAGING_STREAM_MAP[drop.streamId || ''];
+                                                const streamColorHex = streamDef ? getStreamColor(streamDef.colorKey).hex : '#64748b';
+                                                const intensity = 1.2; // Consistent intensity for macro view
+                                                return (
                                                   <Drop
-                                                    key={`${stream.id}-${member.id}-${drop.id}`}
+                                                    key={`macro-${member.id}-${drop.id}`}
                                                     {...drop}
-                                                    streamColorHex={streamColor.hex}
-
-                                                    
-                                                    references={drop.references}
-                                                    onAction={handleDropAction}
-                                                    onDragEnd={handleDragEnd}
+                                                    variant="minimal"
+                                                    intensity={intensity}
+                                                    streamColorHex={streamColorHex}
                                                     zoomScale={zoomScale}
                                                     onHoverStream={setHoveredStreamId}
                                                     hoveredStreamId={hoveredStreamId}
                                                     onHoverDrop={handleHoverDrop}
                                                     selectedDropId={selectedDropId}
                                                     onSelectDrop={setSelectedDropId}
+
                                                     hasDependencies={(drop.dependsOn && drop.dependsOn.length > 0) || drops.some(d => d.dependsOn?.includes(drop.id))}
                                                     isBlocked={drop.isBlocked}
-                                                    variant="full"
-                                                    enableStreamHover={false}
+                                                    isReady={drop.isReady}
+                                                    ownerName={member.name}
                                                   />
-                                                ))}
+                                                );
+                                              })}
+                                            </AnimatePresence>
+                                          </div>
+                                        ) : (
+                                          /* FOCUSED VIEW PLACEHOLDER (Actual sub-lanes are rendered below) */
+                                          <div className="flex-1" />
+                                        )}
+                                      </div>
+                                    </div>
+
+                                    {/* Focus Mode Sub-Lanes */}
+                                    <AnimatePresence>
+                                      {isFocused && (
+                                        <motion.div
+                                          initial={{ height: 0, opacity: 0 }}
+                                          animate={{ height: 'auto', opacity: 1 }}
+                                          exit={{ height: 0, opacity: 0 }}
+                                          className="border-x border-b dark:border-slate-800/30 border-border rounded-b-[40px] bg-slate-50/50 dark:bg-slate-900/20 overflow-visible"
+                                        >
+                                          <div className="pl-16 relative py-4">
+                                            {/* Hierarchy Line */}
+                                            <div className="absolute left-10 top-0 bottom-10 w-px border-l border-dashed border-slate-700/50" />
+
+                                            {Object.entries(dropsByStream).map(([streamId, streamDrops]) => {
+                                              const stream = STAGING_STREAM_MAP[streamId];
+                                              const streamColor = stream ? getStreamColor(stream.colorKey).hex : '#475569';
+
+                                              return (
+                                                <div
+                                                  key={streamId}
+                                                  className="relative flex items-center min-h-[85px] border-t border-slate-800/30 group/sublane"
+                                                  style={{ minWidth: (PROJECT_END_X * zoomScale) + 320 - 64 }}
+                                                >
+                                                  {/* Sub-Header Horizontal connector */}
+                                                  <div className="absolute left-[-24px] top-1/2 w-6 border-t border-dashed border-slate-700/50" />
+
+                                                  <div
+                                                    className="shrink-0 flex items-center gap-3 px-8 py-4 border-r border-border dark:border-slate-800/30 sticky left-0 z-[55] bg-background/95 dark:bg-slate-950 dark:shadow-[12px_0_35px_rgba(0,0,0,0.6)]"
+                                                    style={{ width: 320 - 64 }}
+                                                  >
+                                                    <div
+                                                      className="w-2 h-8 rounded-full"
+                                                      style={{ backgroundColor: streamColor }}
+                                                    />
+                                                    <div className="flex flex-col min-w-0">
+                                                      <span className="text-xs font-bold text-foreground truncate group-hover/sublane:text-cyan-600 dark:group-hover/sublane:text-white transition-colors">
+                                                        {stream?.title || 'Unassigned'}
+                                                      </span>
+                                                      <span className="text-[9px] font-medium text-slate-500 uppercase tracking-tighter">
+                                                        {streamDrops.length} Drops
+                                                      </span>
+                                                    </div>
+                                                  </div>
+
+                                                  <div className="flex-1 h-full relative">
+                                                    <div className="absolute inset-0 flex items-center">
+                                                      {streamDrops.map(drop => {
+                                                        const streamDef = STAGING_STREAM_MAP[drop.streamId || ''];
+                                                        const streamColorHex = streamDef ? getStreamColor(streamDef.colorKey).hex : '#64748b';
+                                                        const isLateCriticalPath = false;
+
+                                                        return (
+                                                          <Drop
+                                                            key={drop.id}
+                                                            {...drop}
+                                                            ownerName={member.name}
+                                                            streamColorHex={streamColorHex}
+                                                            streamName={streamDef?.title}
+                                                            ownerVelocity={memberVelocity[member.id]}
+
+
+                                                            references={drop.references}
+                                                            onAction={handleDropAction}
+                                                            onDragEnd={handleDragEnd}
+                                                            zoomScale={zoomScale}
+                                                            onHoverStream={setHoveredStreamId}
+                                                            hoveredStreamId={hoveredStreamId}
+                                                            onHoverDrop={handleHoverDrop}
+                                                            selectedDropId={selectedDropId}
+                                                            onSelectDrop={setSelectedDropId}
+                                                            hasDependencies={(drop.dependsOn && drop.dependsOn.length > 0) || drops.some(d => d.dependsOn?.includes(drop.id))}
+                                                            isBlocked={drop.isBlocked}
+                                                            forceDimmed={false}
+                                                            isCriticalPath={false}
+                                                            isLateCriticalPath={false}
+                                                            isReady={drop.isReady}
+                                                            variant="full"
+                                                            enableStreamHover={false}
+                                                          />
+                                                        );
+                                                      })}
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              );
+                                            })}
+                                          </div>
+                                        </motion.div>
+                                      )}
+                                    </AnimatePresence>
+                                  </motion.div>
+                                );
+                              })}
+                          </AnimatePresence>
+                        </div>
+                      ) : (
+                        // ── OVERVIEW (STREAMS) VIEW ──
+                        <div className="flex flex-col gap-0">
+                          <AnimatePresence mode="popLayout">
+                            {[...STAGING_STREAMS]
+                              .filter(s => !focusedStreamId || s.id === focusedStreamId)
+                              .sort((a, b) => {
+                                const minA = Math.min(...drops.filter(d => d.streamId === a.id).map(d => d.xOffset), Infinity);
+                                const minB = Math.min(...drops.filter(d => d.streamId === b.id).map(d => d.xOffset), Infinity);
+                                return minA - minB;
+                              }).map((stream) => {
+                                const stats = streamStats.find(s => s.id === stream.id)!;
+                                const isExpanded = expandedStreamIds.has(stream.id);
+                                const streamDef = STAGING_STREAM_MAP[stream.id];
+                                const streamColor = getStreamColor(streamDef?.colorKey);
+                                const isFocused = focusedStreamId === stream.id;
+
+                                return (
+                                  <motion.div
+                                    key={stream.id}
+                                    layout
+                                    initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: 10, scale: 0.95, transition: { duration: 0.3 } }}
+                                    className={cn(
+                                      "transition-all duration-700",
+                                      isFocused ? "border-2 border-cyan-500/30 bg-cyan-950/5 dark:shadow-[0_0_40px_rgba(34,211,238,0.1)] p-1" : "border-b border-border"
+                                    )}
+                                    style={{ minWidth: (PROJECT_END_X * zoomScale) + currentSidebarWidth }}
+                                    data-stream-id={stream.id}
+                                  >
+                                    {/* Stream Header Row */}
+                                    <div className="flex items-center relative group">
+                                      {/* Stream Sidebar */}
+                                      <div
+                                        className={cn(
+                                          "shrink-0 flex items-center gap-4 py-6 px-8 sticky left-0 z-[60] border-r border-border dark:border-slate-900/50 bg-background/95 dark:bg-slate-950 transition-all duration-500",
+                                          isDark ? (isFocused ? "shadow-[30px_0_60px_rgba(0,0,0,0.8)]" : "shadow-[15px_0_40px_rgba(0,0,0,0.7)]") : ""
+                                        )}
+                                        style={{ width: currentSidebarWidth }}
+                                      >
+                                        {/* Stream Content Stack */}
+                                        <div className="flex-1 min-w-0 flex flex-col gap-3">
+                                          {/* Top Line: Name and Focus Controls */}
+                                          <div className="flex-1 flex items-center gap-3 group/title">
+                                            <h3 className={cn(
+                                              "flex-1 font-bold transition-all truncate tracking-tight",
+                                              isFocused ? "text-xl text-foreground" : "text-sm text-foreground group-hover/title:text-foreground"
+                                            )}>
+                                              {stream.title}
+                                            </h3>
+
+                                            {!isFocused && (
+                                              <button
+                                                onClick={() => setSelectedStreamDependencyId(selectedStreamDependencyId === stream.id ? null : stream.id)}
+                                                className={cn("p-1 rounded-md opacity-0 group-hover/title:opacity-100 transition-all ml-1",
+                                                  selectedStreamDependencyId === stream.id ? "opacity-100 bg-sky-900/40 text-cyan-400" : "text-muted-foreground hover:text-foreground hover:bg-muted")}
+                                              >
+                                                <Link className="w-3.5 h-3.5" />
+                                              </button>
+                                            )}
+
+                                            {stats.hasBlocker && (
+                                              <div className="shrink-0 animate-pulse ml-2">
+                                                <AlertTriangle className="w-4 h-4 text-rose-500 drop-shadow-[0_0_10px_rgba(244,63,94,0.4)]" />
                                               </div>
+                                            )}
+                                          </div>
+
+                                          {/* Bottom Line: Progress Bar */}
+                                          <div className="flex items-center gap-4">
+                                            <div
+                                              className="h-7 w-10 shrink-0 rounded-lg flex items-center justify-center font-black text-[10px] shadow-sm border relative"
+                                              style={{
+                                                backgroundColor: `${streamColor.hex}15`,
+                                                borderColor: `${streamColor.hex}40`,
+                                                color: streamColor.hex
+                                              }}
+                                            >
+                                              {stream.initials}
+                                            </div>
+
+                                            <div className="flex-1 flex items-center gap-3">
+                                              <div className="flex-1 h-1.5 bg-muted dark:bg-slate-900 rounded-full overflow-hidden border border-border dark:border-white/5">
+                                                <motion.div
+                                                  initial={{ width: 0 }}
+                                                  animate={{ width: `${stats.percent}%` }}
+                                                  className="h-full rounded-full"
+                                                  style={{
+                                                    backgroundColor: streamColor.hex,
+                                                    boxShadow: theme === 'dark' ? `0 0 15px ${streamColor.hex}60` : 'none'
+                                                  }}
+                                                />
+                                              </div>
+                                              <span className="text-xs font-black text-muted-foreground tabular-nums">{stats.percent}%</span>
                                             </div>
                                           </div>
-                                        );
-                                      })}
+                                        </div>
+
+                                        {/* Action button on the far right of sidebar */}
+                                        <button
+                                          onClick={() => toggleStreamExpand(stream.id)}
+                                          className={cn(
+                                            'shrink-0 w-8 h-8 rounded-xl border flex items-center justify-center transition-all shadow-sm dark:shadow-none',
+                                            isExpanded
+                                              ? 'bg-cyan-500 text-white border-cyan-400 hover:bg-cyan-600 shadow-lg dark:shadow-cyan-500/20'
+                                              : 'border-slate-200/60 dark:border-white/10 text-muted-foreground hover:bg-cyan-50 dark:hover:bg-cyan-950/30 hover:text-cyan-600 dark:hover:text-cyan-400'
+                                          )}
+                                        >
+                                          <ChevronDown className={cn('w-4 h-4 transition-transform duration-300', isExpanded && 'rotate-180')} />
+                                        </button>
+                                      </div>
+
+                                      {/* Timeline Area (Collapsed View) */}
+                                      <div className="flex-1 h-full relative border-l border-border dark:border-slate-800/30 overflow-visible min-h-[100px] flex items-center">
+                                        <div className="absolute inset-0 flex items-center">
+                                          <AnimatePresence>
+                                            {!isExpanded && stats.drops.map(drop => {
+                                              // Calculate Overlap Intensity
+                                              const dropWidth = getDropWidth(drop, zoomScale);
+                                              const dropStart = drop.xOffset;
+                                              const dropEnd = drop.xOffset + (dropWidth / zoomScale);
+
+                                              const intensity = stats.drops.filter(other => {
+                                                if (other.id === drop.id) return false;
+                                                const otherWidth = getDropWidth(other, zoomScale);
+                                                const otherStart = other.xOffset;
+                                                const otherEnd = other.xOffset + (otherWidth / zoomScale);
+                                                // Check overlap
+                                                return dropStart < otherEnd && dropEnd > otherStart;
+                                              }).length + 1;
+
+                                              const owner = TEAM_MEMBERS[drop.lane]?.name || 'Unknown';
+
+                                              return (
+                                                <Drop
+                                                  key={`${stream.id}-${drop.id}`}
+                                                  {...drop}
+                                                  ownerName={owner}
+                                                  intensity={intensity}
+                                                  streamInitials={stream.initials}
+                                                  streamColorHex={streamColor.hex}
+
+
+                                                  references={drop.references}
+                                                  onAction={handleDropAction}
+                                                  onDragEnd={handleDragEnd}
+                                                  zoomScale={zoomScale}
+                                                  onHoverStream={setHoveredStreamId}
+                                                  hoveredStreamId={hoveredStreamId}
+                                                  onHoverDrop={handleHoverDrop}
+                                                  selectedDropId={selectedDropId}
+                                                  onSelectDrop={setSelectedDropId}
+                                                  hasDependencies={(drop.dependsOn && drop.dependsOn.length > 0) || drops.some(d => d.dependsOn?.includes(drop.id))}
+                                                  isBlocked={drop.isBlocked}
+                                                  forceDimmed={false}
+                                                  isCriticalPath={false}
+                                                  isReady={drop.isReady}
+                                                  variant="minimal"
+                                                />
+                                              );
+                                            })}
+                                          </AnimatePresence>
+                                        </div>
+                                      </div>
                                     </div>
+
+                                    {/* Expandable Sub-Lanes */}
+                                    <AnimatePresence>
+                                      {isExpanded && (
+                                        <motion.div
+                                          initial={{ height: 0, opacity: 0 }}
+                                          animate={{ height: 'auto', opacity: 1 }}
+                                          exit={{ height: 0, opacity: 0 }}
+                                          className={cn(
+                                            "border-x border-b dark:border-slate-800/30 border-border rounded-b-[40px] transition-all",
+                                            isFocused ? "bg-cyan-50/20 dark:bg-slate-900/20" : "bg-slate-50/50 dark:bg-slate-950/20"
+                                          )}
+                                        >
+                                          <div className="pl-16 relative">
+                                            {/* Hierarchy Line */}
+                                            <div className="absolute left-10 top-0 bottom-10 w-px border-l border-dashed border-slate-700/50" />
+
+                                            {stats.contributors.map(laneIdx => {
+                                              const member = TEAM_MEMBERS[laneIdx];
+                                              const memberDrops = stats.drops.filter(d => d.lane === laneIdx);
+                                              if (memberDrops.length === 0) return null;
+
+                                              return (
+                                                <div
+                                                  key={laneIdx}
+                                                  className="relative flex items-center min-h-[85px] border-t border-slate-800/30 group/sublane"
+                                                  style={{ minWidth: (PROJECT_END_X * zoomScale) + currentSidebarWidth - 64 }}
+                                                >
+                                                  {/* Sub-Header Horizontal connector */}
+                                                  <div className="absolute left-[-24px] top-1/2 w-6 border-t border-dashed border-slate-700/50" />
+
+                                                  <div
+                                                    className="shrink-0 flex items-center gap-3 px-8 py-4 border-r border-border dark:border-slate-800/30 sticky left-0 z-[55] bg-background/95 dark:bg-slate-950 dark:shadow-[12px_0_35px_rgba(0,0,0,0.6)]"
+                                                    style={{ width: currentSidebarWidth - 64 }}
+                                                  >
+                                                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-50 to-cyan-100 dark:from-cyan-950 dark:to-[#0a192f] border border-cyan-200 dark:border-cyan-800/30 flex items-center justify-center text-[10px] font-bold text-cyan-700 dark:text-cyan-200 group-hover/sublane:border-cyan-500/50 transition-all shadow-sm dark:shadow-lg">
+                                                      {member.name.charAt(0)}
+                                                    </div>
+                                                    <span className="text-xs font-semibold text-muted-foreground group-hover/sublane:text-foreground transition-colors whitespace-nowrap">
+                                                      {member.name}
+                                                    </span>
+                                                  </div>
+
+                                                  <div className="flex-1 h-full relative">
+                                                    <div className="absolute inset-0 flex items-center">
+                                                      {memberDrops.map(drop => (
+                                                        <Drop
+                                                          key={`${stream.id}-${member.id}-${drop.id}`}
+                                                          {...drop}
+                                                          streamColorHex={streamColor.hex}
+
+
+                                                          references={drop.references}
+                                                          onAction={handleDropAction}
+                                                          onDragEnd={handleDragEnd}
+                                                          zoomScale={zoomScale}
+                                                          onHoverStream={setHoveredStreamId}
+                                                          hoveredStreamId={hoveredStreamId}
+                                                          onHoverDrop={handleHoverDrop}
+                                                          selectedDropId={selectedDropId}
+                                                          onSelectDrop={setSelectedDropId}
+                                                          hasDependencies={(drop.dependsOn && drop.dependsOn.length > 0) || drops.some(d => d.dependsOn?.includes(drop.id))}
+                                                          isBlocked={drop.isBlocked}
+                                                          variant="full"
+                                                          enableStreamHover={false}
+                                                        />
+                                                      ))}
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              );
+                                            })}
+                                          </div>
+                                        </motion.div>
+                                      )}
+                                    </AnimatePresence>
                                   </motion.div>
-                                )}
-                              </AnimatePresence>
-                            </motion.div>
-                          );
-                        })}
-                    </AnimatePresence>
-                  </div>
+                                );
+                              })}
+                          </AnimatePresence>
+                        </div>
+                      )}
+                    </div>
+                  </motion.div>
                 )}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+              </AnimatePresence>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
 
 
 

@@ -100,7 +100,7 @@ export function DailyBriefing({
               </div>
 
               {/* Project Burndown */}
-              <div 
+              <div
                 onClick={onBurndownClick}
                 className="flex-[1] bg-card border border-border rounded-2xl p-5 flex flex-col justify-center group hover:bg-muted transition-colors relative cursor-pointer gap-1.5 shadow-sm dark:shadow-none"
               >
