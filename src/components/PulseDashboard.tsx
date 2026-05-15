@@ -884,7 +884,7 @@ export function PulseDashboard() {
 
         {/* Header Controls */}
         <div className={cn(
-          "flex items-center justify-between px-8 pt-12 pb-8 z-40 relative transition-all duration-500 bg-transparent"
+          "flex items-center justify-between px-8 pt-8 pb-5 border-b border-border dark:border-white/5 z-40 relative transition-all duration-500 bg-background/80 dark:bg-slate-950/95 dark:backdrop-blur-md"
         )}>
           <div className="flex flex-col">
             {isDeepDive && (
@@ -892,13 +892,13 @@ export function PulseDashboard() {
                 onClick={() => {
                   setIsDeepDive(false);
                 }}
-                className="flex items-center gap-1.5 text-[10px] font-black text-muted-foreground/40 hover:text-foreground uppercase tracking-[0.3em] mb-6 transition-colors w-fit"
+                className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground hover:text-foreground uppercase tracking-wider mb-4 transition-colors w-fit"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 Return to Firm Pulse
               </button>
             )}
-            <h1 className="text-5xl font-serif text-slate-900 dark:text-slate-100 flex items-center gap-4 tracking-tight">
+            <h1 className="text-3xl font-bold font-sans tracking-tight text-slate-900 dark:text-slate-100 flex items-center gap-3">
               {isDeepDive && currentProject ? currentProject.name : "Pulse"}
             </h1>
           </div>
@@ -961,12 +961,12 @@ export function PulseDashboard() {
 
                 {/* Center: View Level Tabs */}
                 <div className="flex justify-center items-center pointer-events-auto">
-                  <div className="flex bg-white/30 dark:bg-slate-900/40 backdrop-blur-md rounded-full p-1 shadow-protux dark:shadow-none relative h-auto">
+                  <div className="flex bg-slate-100 dark:bg-slate-900/60 border border-border dark:border-slate-800/60 rounded-full p-1.5 dark:shadow-inner dark:shadow-black/20 relative h-auto">
                     <button
                       onClick={() => setViewLevel('streams')}
                       className={cn(
-                        'px-8 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-500 outline-none whitespace-nowrap',
-                        viewLevel === 'streams' ? 'bg-white text-cyan-600 shadow-sm dark:bg-cyan-950/80 dark:text-teal-400' : 'text-muted-foreground/60 hover:text-foreground'
+                        'px-6 py-2 rounded-full text-sm font-bold tracking-wide transition-all outline-none whitespace-nowrap',
+                        viewLevel === 'streams' ? 'bg-teal-50 dark:bg-teal-950/80 text-teal-700 dark:text-teal-400 border border-teal-200 dark:border-teal-500/20' : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                       )}
                     >
                       Streams
@@ -979,8 +979,8 @@ export function PulseDashboard() {
                         setHighlightHotLanes(false);
                       }}
                       className={cn(
-                        'px-8 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.3em] transition-all duration-500 outline-none whitespace-nowrap',
-                        viewLevel === 'team' ? 'bg-white text-cyan-600 shadow-sm dark:bg-cyan-950/80 dark:text-teal-400' : 'text-muted-foreground/60 hover:text-foreground'
+                        'px-6 py-2 rounded-full text-sm font-bold tracking-wide transition-all outline-none whitespace-nowrap',
+                        viewLevel === 'team' ? 'bg-teal-50 dark:bg-teal-950/80 text-teal-700 dark:text-teal-400 border border-teal-200 dark:border-teal-500/20' : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                       )}
                     >
                       Team
@@ -1534,8 +1534,8 @@ export function PulseDashboard() {
                                     animate={{ opacity: 1, y: 0, scale: 1 }}
                                     exit={{ opacity: 0, y: 10, scale: 0.95, transition: { duration: 0.3 } }}
                                     className={cn(
-                                      "transition-all duration-700 relative",
-                                      isFocused ? "p-1 z-10" : ""
+                                      "transition-all duration-700",
+                                      isFocused ? "border-2 border-cyan-500/30 bg-cyan-950/5 dark:shadow-[0_0_40px_rgba(34,211,238,0.1)] p-1" : "border-b border-border"
                                     )}
                                     style={{ minWidth: (PROJECT_END_X * zoomScale) + currentSidebarWidth }}
                                     data-stream-id={stream.id}
@@ -1545,8 +1545,8 @@ export function PulseDashboard() {
                                       {/* Stream Sidebar */}
                                       <div
                                         className={cn(
-                                          "shrink-0 flex items-center gap-6 py-10 px-8 sticky left-0 z-[60] bg-transparent backdrop-blur-sm transition-all duration-700",
-                                          isFocused ? "shadow-protux dark:shadow-none" : "group-hover:shadow-protux dark:group-hover:shadow-none"
+                                          "shrink-0 flex items-center gap-4 py-6 px-8 sticky left-0 z-[60] border-r border-border dark:border-slate-900/50 bg-background/95 dark:bg-slate-950 transition-all duration-500",
+                                          isDark ? (isFocused ? "shadow-[30px_0_60px_rgba(0,0,0,0.8)]" : "shadow-[15px_0_40px_rgba(0,0,0,0.7)]") : ""
                                         )}
                                         style={{ width: currentSidebarWidth }}
                                       >
@@ -1555,8 +1555,8 @@ export function PulseDashboard() {
                                           {/* Top Line: Name and Focus Controls */}
                                           <div className="flex-1 flex items-center gap-3 group/title">
                                             <h3 className={cn(
-                                              "flex-1 font-serif transition-all truncate tracking-tight",
-                                              isFocused ? "text-3xl text-slate-900" : "text-lg text-slate-900 dark:text-slate-100 group-hover/title:text-cyan-600"
+                                              "flex-1 font-bold transition-all truncate tracking-tight",
+                                              isFocused ? "text-xl text-foreground" : "text-sm text-foreground group-hover/title:text-foreground"
                                             )}>
                                               {stream.title}
                                             </h3>

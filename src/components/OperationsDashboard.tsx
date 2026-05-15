@@ -30,12 +30,12 @@ export function OperationsDashboard() {
   return (
     <div className="w-full bg-transparent pb-32">
       {/* Header */}
-      <div className="sticky top-0 z-40 bg-transparent px-8 pt-12 pb-8 flex items-center justify-between">
+      <div className="sticky top-0 z-40 bg-background/80 dark:bg-background/95 backdrop-blur-md px-8 pt-8 pb-6 border-b border-border flex items-center justify-between">
         <div>
-          <h1 className="text-5xl font-serif text-slate-900 dark:text-slate-100 flex items-center gap-4 tracking-tight">
+          <h1 className="text-3xl font-bold font-sans tracking-tight text-foreground flex items-center gap-3">
             Operations Center
           </h1>
-          <p className="text-[10px] font-black text-muted-foreground/40 uppercase tracking-[0.4em] mt-3">Infrastructure, Security & Fiscal Health</p>
+          <p className="text-sm text-muted-foreground mt-1">Infrastructure, Security & Fiscal Health</p>
         </div>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full">

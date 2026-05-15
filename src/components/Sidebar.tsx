@@ -64,9 +64,9 @@ export function Sidebar() {
 
   return (
     <>
-      <aside className="fixed top-16 bottom-0 left-0 w-20 flex flex-col items-center py-8 bg-gradient-to-b from-background/50 via-background/20 to-transparent dark:from-slate-900/40 dark:to-slate-950/20 backdrop-blur-sm border-r border-transparent z-[200] transition-all duration-300">
+      <aside className="fixed top-16 bottom-0 left-0 w-20 flex flex-col items-center py-8 bg-background/80 dark:bg-slate-900/40 backdrop-blur-xl border-r border-border dark:border-white/10 z-[200] shadow-sm dark:shadow-none transition-all duration-300">
         
-        <nav className="flex-1 flex flex-col gap-10 w-full items-center mt-6">
+        <nav className="flex-1 flex flex-col gap-8 w-full items-center mt-4">
           <AnimatePresence mode="wait">
             {pillars.map((pillar) => {
               const Icon = pillar.icon;
@@ -83,25 +83,17 @@ export function Sidebar() {
                   <Link 
                     href={pillar.href}
                     className={cn(
-                      "group relative p-3 rounded-full transition-all duration-500 block",
+                      "group relative p-3 rounded-[20px] transition-all duration-300 block",
                       isActive 
-                        ? "bg-cyan-500/[0.03] dark:bg-teal-950/40 text-cyan-600 dark:text-teal-400 shadow-protux dark:shadow-none" 
-                        : "text-muted-foreground/40 hover:text-cyan-600 dark:hover:text-teal-400 border border-transparent"
+                        ? "bg-emerald-50 dark:bg-teal-950/40 text-emerald-700 dark:text-teal-400 border border-emerald-200 dark:border-teal-500/30 shadow-sm dark:shadow-none" 
+                        : "text-muted-foreground hover:text-emerald-700 hover:bg-emerald-50 dark:hover:text-teal-400 dark:hover:bg-teal-950/30 border border-transparent hover:border-emerald-200 dark:hover:border-transparent"
                     )}
                   >
-                    <Icon className={cn("w-6 h-6 stroke-[1.2] transition-all duration-500", isActive ? "scale-110" : "group-hover:scale-110")} />
+                    <Icon className="w-6 h-6 stroke-[1.5]" />
                     <span className="sr-only">{pillar.name}</span>
                     
-                    {/* Glowing Dot for Active State */}
-                    {isActive && (
-                      <motion.div 
-                        layoutId="activeDot"
-                        className="absolute -right-1 top-1/2 -translate-y-1/2 w-1 h-1 bg-cyan-500 dark:bg-teal-400 rounded-full shadow-[0_0_8px_rgba(34,211,238,0.8)]"
-                      />
-                    )}
-
                     {/* Tooltip */}
-                    <div className="absolute left-14 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-white/90 dark:bg-slate-800 text-slate-900 dark:text-slate-200 text-[10px] font-bold uppercase tracking-widest rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-protux dark:shadow-none translate-x-2 group-hover:translate-x-0 whitespace-nowrap pointer-events-none backdrop-blur-md z-50">
+                    <div className="absolute left-14 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-popover dark:bg-slate-800 text-popover-foreground dark:text-slate-200 text-sm rounded-[12px] opacity-0 group-hover:opacity-100 transition-opacity shadow-lg dark:shadow-none whitespace-nowrap pointer-events-none before:content-[''] before:absolute before:-left-1 before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-transparent before:border-r-popover dark:before:border-r-slate-800 backdrop-blur-md z-50">
                       {pillar.name}
                     </div>
                   </Link>
