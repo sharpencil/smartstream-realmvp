@@ -78,12 +78,7 @@ export function DailyBriefing({
   onCapacityClick,
 }: DailyBriefingProps) {
   const { activePersona } = usePersona();
-  const hasAnyException = blockerCount > 0 || forecastSlipHours > 0 || blockerResolutionCount > 0;
-
-  return (
-    <div className="relative z-20 bg-transparent">
-      <div className="pt-5 pb-0 relative">
-        <div className="flex flex-col gap-10">
+  const hasAnyException = blockerCount > 0 || forecastSlipHours > 0 || blockerResolutio        <div className="flex flex-col gap-10">
           <div className="flex gap-8 items-start">
             {/* Task 1: Narrative Oracle Briefing */}
             <div className="flex-[2.5] relative group/briefing">
@@ -162,6 +157,10 @@ export function DailyBriefing({
               </div>
             </div>
           </div>
+        </div>g-none">tight band</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
