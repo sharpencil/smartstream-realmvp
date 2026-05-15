@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+:root {
+  --background: #020617;
+  --foreground: #f8fafc;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes time-pulse {
+  0%, 100% { opacity: 1; filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.8)); }
+  50% { opacity: 0.6; filter: drop-shadow(0 0 2px rgba(34, 211, 238, 0.2)); }
+}
+
+.animate-time-pulse {
+  animation: time-pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Hide all scrollbars globally for a sleek interface */
+::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Beautiful Horizontal Timeline Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  display: block !important;
+  height: 8px !important;
+  width: 8px !important;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.8) !important;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(56, 189, 248, 0.2) !important;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(56, 189, 248, 0.5) !important;
+}
+.custom-scrollbar {
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(56, 189, 248, 0.2) transparent !important;
+}
+
+/* Onboarding Specific Styles */
+.tracking-widest-xl {
+  letter-spacing: 0.4em;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+.animate-ripple {
+  animation: ripple 1s cubic-bezier(0, 0.2, 0.8, 1) forwards;
+}
