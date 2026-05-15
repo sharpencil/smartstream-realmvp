@@ -33,9 +33,8 @@ export function OperationsDashboard() {
       <div className="sticky top-0 z-40 bg-background/80 dark:bg-background/95 backdrop-blur-md px-8 pt-8 pb-6 border-b border-border flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold font-sans tracking-tight text-foreground flex items-center gap-3">
-            Operations Center
+            Operations
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">Infrastructure, Security & Fiscal Health</p>
         </div>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
