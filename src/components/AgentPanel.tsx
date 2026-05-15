@@ -164,7 +164,7 @@ export function AgentPanel() {
 
           </div>
 
-          <div className="mt-auto shrink-0 flex flex-col gap-3">
+          <div className="mt-auto shrink-0 flex flex-col gap-5">
             {/* Quick Actions */}
             <div className="flex flex-wrap gap-2">
               {quickActions.map(action => (
@@ -177,33 +177,35 @@ export function AgentPanel() {
               ))}
             </div>
 
-            <div className={cn(
-              "relative transition-all duration-500",
-              analysisMode === 'timeline' && genesisState === 'idle' && "scale-[1.02]"
-            )}>
+            <div className="flex flex-col gap-2">
               {analysisMode === 'timeline' && (
-                <div className="absolute -top-10 left-4">
-                  <span className="text-[9px] font-black uppercase tracking-widest text-cyan-500/50 animate-pulse">
+                <div className="pl-4">
+                  <span className="text-[9px] font-black uppercase tracking-widest text-cyan-500/50 dark:text-cyan-500/50 animate-pulse">
                     Oracle Command Line
                   </span>
                 </div>
               )}
-              <input
-                type="text"
-                placeholder="Ask Oracle..."
-                className={cn(
-                  "w-full bg-card border rounded-[20px] py-4 pl-4 pr-12 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none transition-all font-mono shadow-xl dark:shadow-2xl",
-                  analysisMode === 'timeline' 
-                    ? "border-cyan-500/50 shadow-sm dark:shadow-[0_0_20px_rgba(34,211,238,0.1)] focus:border-cyan-400" 
-                    : "border-border focus:border-cyan-500/50"
-                )}
-              />
-              <button className={cn(
-                "absolute right-4 top-1/2 -translate-y-1/2 transition-colors",
-                analysisMode === 'timeline' ? "text-cyan-400 hover:text-cyan-300" : "text-slate-500 hover:text-cyan-400"
+              <div className={cn(
+                "relative transition-all duration-500",
+                analysisMode === 'timeline' && genesisState === 'idle' && "scale-[1.02]"
               )}>
-                <Send className="w-5 h-5" />
-              </button>
+                <input
+                  type="text"
+                  placeholder="Ask Oracle..."
+                  className={cn(
+                    "w-full bg-card border rounded-[20px] py-4 pl-4 pr-12 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none transition-all font-mono shadow-xl dark:shadow-2xl",
+                    analysisMode === 'timeline' 
+                      ? "border-cyan-500/50 shadow-sm dark:shadow-[0_0_20px_rgba(34,211,238,0.1)] focus:border-cyan-400" 
+                      : "border-border focus:border-cyan-500/50"
+                  )}
+                />
+                <button className={cn(
+                  "absolute right-4 top-1/2 -translate-y-1/2 transition-colors",
+                  analysisMode === 'timeline' ? "text-cyan-400 hover:text-cyan-300" : "text-slate-500 hover:text-cyan-400"
+                )}>
+                  <Send className="w-5 h-5" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
