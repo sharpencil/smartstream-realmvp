@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { STREAM_COLORS, getStreamColor, PALETTE_KEYS } from '@/lib/streams';
 import { STAGING_STREAMS, StagingStream, StagingDrop } from '@/lib/stagingData';
 import { useState } from 'react';
+import { useTheme } from 'next-themes';
 
 // ── Drop Row ─────────────────────────────────────────────────────────────────
 
@@ -19,10 +20,10 @@ function DropRow({ drop, idx, streamColorHex }: { drop: StagingDrop; idx: number
       className={cn(
         'rounded-2xl border transition-all duration-300 overflow-hidden',
         isCompleted
-          ? 'bg-green-950/10 border-green-500/20'
+          ? 'bg-green-50 dark:bg-green-950/10 border-green-200 dark:border-green-500/20'
           : isNotStarted
-          ? 'bg-slate-900/40 border-white/5'
-          : 'bg-blue-950/20 border-blue-500/20'
+          ? 'bg-slate-50 dark:bg-slate-900/40 border-slate-200 dark:border-white/5'
+          : 'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-500/20'
       )}
     >
       {/* Drop header row */}
@@ -30,7 +31,7 @@ function DropRow({ drop, idx, streamColorHex }: { drop: StagingDrop; idx: number
         onClick={() => setExpanded((p) => !p)}
         className="w-full flex items-center gap-4 px-5 py-3.5 text-left group/drop outline-none hover:bg-white/[0.02] transition-colors"
       >
-        <span className="text-xs font-mono text-slate-600 font-bold w-5 shrink-0">{idx + 1}.</span>
+        <span className="text-xs font-mono text-slate-700 dark:text-slate-500 font-bold w-5 shrink-0">{idx + 1}.</span>
 
         {/* Status icon */}
         {isCompleted ? (
@@ -48,7 +49,7 @@ function DropRow({ drop, idx, streamColorHex }: { drop: StagingDrop; idx: number
           <p
             className={cn(
               'text-sm font-medium leading-snug line-clamp-2',
-              isCompleted ? 'text-green-100' : isNotStarted ? 'text-slate-400' : 'text-blue-100'
+              isCompleted ? 'text-green-700 dark:text-green-100' : isNotStarted ? 'text-slate-600 dark:text-slate-400' : 'text-blue-700 dark:text-blue-100'
             )}
           >
             {drop.title}
@@ -58,22 +59,22 @@ function DropRow({ drop, idx, streamColorHex }: { drop: StagingDrop; idx: number
         {/* Meta badges */}
         <div className="flex items-center gap-2 shrink-0">
           {drop.dependsOn && drop.dependsOn.length > 0 && (
-            <span className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-amber-950/30 text-amber-500 border border-amber-500/30">
+            <span className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/30 text-amber-600 dark:text-amber-500 border border-amber-200 dark:border-amber-500/30">
               <Link2 className="w-2.5 h-2.5" />
               Dep: {drop.dependsOn.length}
             </span>
           )}
-          <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-slate-800/80 border border-slate-700/50"
+          <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/50"
             style={{ color: streamColorHex }}>
             C{drop.complexity}
           </span>
           <span className={cn(
             'text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full border',
             isCompleted
-              ? 'bg-green-950/40 text-green-400 border-green-500/30'
+              ? 'bg-green-100 dark:bg-green-950/40 text-green-700 dark:text-green-400 border-green-200 dark:border-green-500/30'
               : isNotStarted
-              ? 'bg-slate-800/60 text-slate-500 border-slate-700/30'
-              : 'bg-blue-950/40 text-blue-400 border-blue-500/30'
+              ? 'bg-slate-100 dark:bg-slate-800/60 text-slate-500 border-slate-200 dark:border-slate-700/30'
+              : 'bg-blue-100 dark:bg-blue-950/40 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-500/30'
           )}>
             {drop.status}
           </span>
@@ -90,14 +91,14 @@ function DropRow({ drop, idx, streamColorHex }: { drop: StagingDrop; idx: number
 
       {/* Expandable task list */}
       {expanded && drop.tasks.length > 0 && (
-        <div className="px-5 pb-4 pt-1 border-t border-white/5">
-          <p className="text-[9px] font-bold uppercase tracking-widest text-slate-500 mb-2 flex items-center gap-1.5">
+        <div className="px-5 pb-4 pt-1 border-t border-slate-200 dark:border-white/5">
+          <p className="text-[9px] font-bold uppercase tracking-widest text-slate-600 dark:text-slate-500 mb-2 flex items-center gap-1.5">
             <ListChecks className="w-3 h-3" />
             Implementation Tasks ({drop.tasks.length})
           </p>
           <ul className="space-y-2">
             {drop.tasks.map((task, ti) => (
-              <li key={ti} className="flex gap-2.5 text-[11px] text-slate-300 leading-relaxed">
+              <li key={ti} className="flex gap-2.5 text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
                 <span
                   className="shrink-0 w-4 h-4 rounded-full border flex items-center justify-center text-[8px] font-bold mt-0.5"
                   style={{ borderColor: `${streamColorHex}50`, color: streamColorHex }}
@@ -117,6 +118,7 @@ function DropRow({ drop, idx, streamColorHex }: { drop: StagingDrop; idx: number
 // ── Stream Accordion ──────────────────────────────────────────────────────────
 
 export function StreamAccordion({ type = 'drafted', showDrops = true }: { type?: 'drafted' | 'active'; showDrops?: boolean }) {
+  const { theme } = useTheme();
   // Use staging streams for both modes — 'drafted' shows all, 'active' shows ones with completed drops
   // Both modes show the STAGING_STREAMS in this project view
   const streams = STAGING_STREAMS;
@@ -125,7 +127,7 @@ export function StreamAccordion({ type = 'drafted', showDrops = true }: { type?:
     <Accordion.Root
       type="multiple"
       defaultValue={[]}
-      className="w-full flex flex-col gap-4 z-10 max-w-4xl mx-auto"
+      className="w-full flex flex-col gap-4 z-10"
     >
       {streams.map((stream, idx) => {
         const colorKey = PALETTE_KEYS[idx % PALETTE_KEYS.length];
@@ -140,7 +142,7 @@ export function StreamAccordion({ type = 'drafted', showDrops = true }: { type?:
           <Accordion.Item
             key={stream.id}
             value={stream.id}
-            className="border border-white/5 bg-[#0a192f]/60 backdrop-blur-xl rounded-[24px] overflow-hidden shadow-[0_0_20px_rgba(0,0,0,0.3)] transition-all focus-within:border-teal-500/30 group"
+            className="border border-slate-200/60 dark:border-white/5 bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl rounded-[24px] overflow-hidden shadow-arctic dark:shadow-[0_0_20px_rgba(0,0,0,0.3)] transition-all focus-within:border-teal-500/30 group"
           >
             <Accordion.Header className="flex m-0">
               <Accordion.Trigger
@@ -154,7 +156,7 @@ export function StreamAccordion({ type = 'drafted', showDrops = true }: { type?:
                 <div className="flex items-center gap-5 flex-1 min-w-0">
                   {/* Initials badge */}
                   <div
-                    className="flex items-center justify-center w-12 h-12 rounded-xl bg-slate-900 border shrink-0"
+                    className="flex items-center justify-center w-12 h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border shrink-0 shadow-sm dark:shadow-none"
                     style={{ borderColor: `${colorHex}40`, boxShadow: `inset 0 0 12px ${colorHex}15` }}
                   >
                     <span className="font-mono text-xs font-bold leading-none text-center" style={{ color: colorHex }}>
@@ -163,7 +165,7 @@ export function StreamAccordion({ type = 'drafted', showDrops = true }: { type?:
                   </div>
 
                   <div className="flex flex-col items-start gap-1.5 flex-1 min-w-0">
-                    <h3 className="text-base font-semibold text-slate-100 tracking-wide leading-tight">{stream.title}</h3>
+                    <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100 tracking-wide leading-tight">{stream.title}</h3>
 
                     {/* Meta row */}
                     <div className="flex items-center gap-2 flex-wrap">
@@ -171,15 +173,15 @@ export function StreamAccordion({ type = 'drafted', showDrops = true }: { type?:
                         className={cn(
                           'text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-widest border',
                           stream.priority === 'High'
-                            ? 'bg-rose-500/20 text-rose-400 border-rose-500/30'
+                            ? 'bg-rose-50 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-500/30'
                             : stream.priority === 'Medium-High'
-                            ? 'bg-amber-500/20 text-amber-400 border-amber-500/30'
-                            : 'bg-blue-500/20 text-blue-400 border-blue-500/30'
+                            ? 'bg-amber-50 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-500/30'
+                            : 'bg-blue-50 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-500/30'
                         )}
                       >
                         {stream.priority}
                       </span>
-                      <span className="text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-widest border bg-slate-800/60 text-slate-400 border-slate-700/30">
+                      <span className="text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-widest border bg-slate-100 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700/30">
                         Complexity {stream.complexity}/9
                       </span>
                       <span className="text-[9px] text-slate-500 font-bold uppercase tracking-widest">
@@ -188,13 +190,13 @@ export function StreamAccordion({ type = 'drafted', showDrops = true }: { type?:
                     </div>
 
                     {/* Progress bar */}
-                    <div className="w-full max-w-xs h-1 bg-slate-800/80 rounded-full overflow-hidden mt-0.5">
+                    <div className="w-full max-w-xs h-1 bg-slate-200 dark:bg-slate-800/80 rounded-full overflow-hidden mt-0.5">
                       <div
                         className="h-full rounded-full transition-all duration-700"
                         style={{
                           width: `${progressPct}%`,
                           backgroundColor: colorHex,
-                          boxShadow: `0 0 8px ${colorHex}60`,
+                          boxShadow: theme === 'dark' ? `0 0 8px ${colorHex}60` : 'none',
                         }}
                       />
                     </div>
@@ -208,38 +210,38 @@ export function StreamAccordion({ type = 'drafted', showDrops = true }: { type?:
             </Accordion.Header>
 
             {showDrops && (
-              <Accordion.Content className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down border-t border-white/5 bg-[#020617]/50 relative">
+              <Accordion.Content className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down border-t border-slate-200 dark:border-white/5 bg-slate-50/40 dark:bg-[#020617]/50 relative">
                 <div className="p-6 flex flex-col gap-4">
 
                   {/* Stream description */}
                   {stream.description && (
-                    <div className="flex gap-3 bg-slate-900/60 border border-white/5 rounded-2xl p-4">
-                      <Info className="w-4 h-4 text-slate-500 shrink-0 mt-0.5" />
-                      <p className="text-xs text-slate-400 leading-relaxed">{stream.description}</p>
+                    <div className="flex gap-3 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-white/5 rounded-2xl p-4 shadow-sm dark:shadow-none">
+                      <Info className="w-4 h-4 text-slate-400 dark:text-slate-500 shrink-0 mt-0.5" />
+                      <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">{stream.description}</p>
                     </div>
                   )}
 
                   {/* Status summary bar */}
-                  <div className="flex items-center gap-0 bg-slate-900/60 border border-slate-800/50 rounded-xl overflow-hidden">
-                    <div className="flex flex-col flex-1 items-center justify-center py-2.5 border-r border-slate-800/50">
-                      <span className="text-[9px] uppercase font-bold text-slate-500 tracking-widest mb-0.5">Not Started</span>
+                  <div className="flex items-center gap-0 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/50 rounded-xl overflow-hidden shadow-sm dark:shadow-none">
+                    <div className="flex flex-col flex-1 items-center justify-center py-2.5 border-r border-slate-200 dark:border-slate-800/50">
+                      <span className="text-[9px] uppercase font-bold text-muted-foreground dark:text-slate-500 tracking-widest mb-0.5">Not Started</span>
                       <div className="flex items-center gap-1.5">
-                        <CircleDashed className="w-3.5 h-3.5 text-slate-500" />
-                        <span className="text-sm font-bold text-slate-400">{notStarted}</span>
+                        <CircleDashed className="w-3.5 h-3.5 text-slate-500 dark:text-slate-500" />
+                        <span className="text-sm font-bold text-slate-700 dark:text-slate-400">{notStarted}</span>
                       </div>
                     </div>
-                    <div className="flex flex-col flex-1 items-center justify-center py-2.5 border-r border-slate-800/50">
-                      <span className="text-[9px] uppercase font-bold text-slate-500 tracking-widest mb-0.5">In Progress</span>
+                    <div className="flex flex-col flex-1 items-center justify-center py-2.5 border-r border-slate-200 dark:border-slate-800/50">
+                      <span className="text-[9px] uppercase font-bold text-muted-foreground dark:text-slate-500 tracking-widest mb-0.5">In Progress</span>
                       <div className="flex items-center gap-1.5">
-                        <Activity className="w-3.5 h-3.5 text-blue-400" />
-                        <span className="text-sm font-bold text-blue-300">{inProgress}</span>
+                        <Activity className="w-3.5 h-3.5 text-blue-500 dark:text-blue-400" />
+                        <span className="text-sm font-bold text-blue-600 dark:text-blue-300">{inProgress}</span>
                       </div>
                     </div>
                     <div className="flex flex-col flex-1 items-center justify-center py-2.5">
-                      <span className="text-[9px] uppercase font-bold text-slate-500 tracking-widest mb-0.5">Completed</span>
+                      <span className="text-[9px] uppercase font-bold text-muted-foreground dark:text-slate-500 tracking-widest mb-0.5">Completed</span>
                       <div className="flex items-center gap-1.5">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-green-400" />
-                        <span className="text-sm font-bold text-green-300">{completedDrops}</span>
+                        <CheckCircle2 className="w-3.5 h-3.5 text-green-500 dark:text-green-400" />
+                        <span className="text-sm font-bold text-green-600 dark:text-green-300">{completedDrops}</span>
                       </div>
                     </div>
                   </div>

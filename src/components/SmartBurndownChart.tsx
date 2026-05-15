@@ -3,7 +3,7 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { Brain, Target, Compass, Milestone } from 'lucide-react';
+import { Brain, Target, Compass } from 'lucide-react';
 
 interface Point {
   x: number;
@@ -66,12 +66,7 @@ export function SmartBurndownChart() {
                            ${xScale(predictedEndDay - 2)},${yScale(10)} 
                            ${xScale(predictedEndDay)},${yScale(0)}`;
 
-  // Milestones
-  const milestones = [
-    { day: 10, label: 'Phase 1' },
-    { day: 22, label: 'Beta' },
-    { day: 30, label: 'Launch' }
-  ];
+
 
   const handleMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
     if (!svgRef.current) return;
@@ -114,7 +109,7 @@ export function SmartBurndownChart() {
         onMouseLeave={() => setHoveredPoint(null)}
       >
         {/* Background Grid */}
-        <g className="stroke-white/[0.05] stroke-[1]">
+        <g className="stroke-slate-900/[0.05] dark:stroke-white/[0.05] stroke-[1]">
           {[0, 25, 50, 75, 100].map(val => (
             <line key={`h-${val}`} x1={paddingX} y1={yScale(val)} x2={width - paddingX} y2={yScale(val)} />
           ))}
@@ -123,20 +118,7 @@ export function SmartBurndownChart() {
           ))}
         </g>
 
-        {/* Milestones (Vertical lines) */}
-        {milestones.map((m, i) => (
-          <g key={`m-${i}`}>
-            <line 
-              x1={xScale(m.day)} y1={paddingY} 
-              x2={xScale(m.day)} y2={height - paddingY} 
-              className="stroke-white/20 stroke-2"
-              strokeDasharray="4 4"
-            />
-            <text x={xScale(m.day)} y={paddingY - 10} className="fill-slate-400 text-[12px] font-bold text-anchor-middle" textAnchor="middle">
-              {m.label}
-            </text>
-          </g>
-        ))}
+
 
         {/* 1. Total Scope (Amber) */}
         <motion.path
@@ -218,10 +200,10 @@ export function SmartBurndownChart() {
             <line 
               x1={hoveredPoint.x} y1={paddingY} 
               x2={hoveredPoint.x} y2={height - paddingY} 
-              className="stroke-white/30 stroke-[2]"
+              className="stroke-slate-900/20 dark:stroke-white/30 stroke-[2]"
             />
-            <circle cx={hoveredPoint.x} cy={hoveredPoint.y} r="6" className="fill-white" />
-            <circle cx={hoveredPoint.x} cy={hoveredPoint.y} r="12" className="fill-white/20" />
+            <circle cx={hoveredPoint.x} cy={hoveredPoint.y} r="6" className="fill-slate-900 dark:fill-white" />
+            <circle cx={hoveredPoint.x} cy={hoveredPoint.y} r="12" className="fill-slate-900/10 dark:fill-white/20" />
           </g>
         )}
       </svg>
@@ -234,7 +216,7 @@ export function SmartBurndownChart() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.15 }}
-            className="absolute pointer-events-none bg-[#0a192f]/80 backdrop-blur-xl border border-white/10 p-4 rounded-2xl shadow-2xl z-50 flex flex-col min-w-[200px]"
+            className="absolute pointer-events-none bg-white/90 dark:bg-[#0a192f]/80 backdrop-blur-xl border border-slate-200 dark:border-white/10 p-4 rounded-2xl shadow-2xl z-50 flex flex-col min-w-[200px]"
             style={{ 
               left: `${(hoveredPoint.x / width) * 100}%`, 
               top: `${(hoveredPoint.y / height) * 100}%`,
@@ -247,7 +229,7 @@ export function SmartBurndownChart() {
                 {hoveredPoint.label}
               </span>
             </div>
-            <div className="text-3xl font-bold text-white leading-none mb-1">{hoveredPoint.value} <span className="text-sm font-medium text-slate-400">Drops</span></div>
+            <div className="text-3xl font-bold text-slate-900 dark:text-white leading-none mb-1">{hoveredPoint.value} <span className="text-sm font-medium text-slate-500 dark:text-slate-400">Drops</span></div>
             {hoveredPoint.label === 'AI Prediction' && (
               <div className="mt-2 text-xs font-medium text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded w-fit border border-emerald-500/20">
                 Predicted 4 days ahead of schedule

@@ -1,9 +1,8 @@
 'use client';
 
 import { useState, useMemo, useRef, useEffect } from 'react';
-import { Users, Globe, Search, Filter, SlidersHorizontal, Plus, CheckCircle, History } from 'lucide-react';
+import { Users, Globe, Search, Filter, SlidersHorizontal, Plus, CheckCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs';
 import { TalentCard } from '@/components/TalentCard';
 import { AISkillsBanner } from '@/components/AISkillsBanner';
 import { PerformanceModal } from '@/components/PerformanceModal';
@@ -12,12 +11,9 @@ import { usePersona } from '@/context/PersonaContext';
 import { mockEmployees as initialEmployees, Employee } from '@/lib/mockTeam';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
-import { TeamMatchDashboard } from '@/components/TeamMatchDashboard';
 
 export default function TeamPage() {
   const router = useRouter();
-  const [viewMode, setViewMode] = useState<'orchestration' | 'roster'>('orchestration');
-  const [selectedDate, setSelectedDate] = useState('Today');
   
   const [employees, setEmployees] = useState<Employee[]>(initialEmployees);
   const [activeTab, setActiveTab] = useState('crew');
@@ -50,7 +46,7 @@ export default function TeamPage() {
         emp.role.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesSkill = selectedSkill === 'All Skills' || emp.skills.includes(selectedSkill);
       const matchesStatus = selectedStatus === 'All Status' || emp.availability === selectedStatus.toLowerCase();
-      const matchesTab = activeTab === 'crew' ? emp.isAssigned : true;
+      const matchesTab = activeTab === 'crew' ? emp.isAssigned : !emp.isAssigned;
 
       return matchesSearch && matchesSkill && matchesStatus && matchesTab;
     });
@@ -106,7 +102,7 @@ export default function TeamPage() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col p-8 lg:p-12 transition-all duration-500 ease-in-out bg-[#020617] text-slate-50 pb-20 overflow-hidden">
+    <div className="w-full flex flex-col transition-all duration-500 ease-in-out bg-transparent text-foreground pb-20">
       {/* Ripple Effect */}
       {ripplePos && (
         <div 
@@ -140,122 +136,67 @@ export default function TeamPage() {
             className="fixed z-[250] w-64 h-32 bg-cyan-500 shadow-[0_0_40px_rgba(34,211,238,0.6)] flex items-center justify-center pointer-events-none"
           >
             <div className="flex items-center gap-3">
-               <div className="w-10 h-10 rounded-full bg-[#020617] flex items-center justify-center font-bold text-cyan-400">
+               <div className="w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-950 flex items-center justify-center font-bold text-cyan-400">
                  {flyingCard.employee.avatar}
                </div>
-               <span className="text-sm font-bold text-[#020617]">{flyingCard.employee.name}</span>
+               <span className="text-sm font-bold text-white dark:text-slate-950">{flyingCard.employee.name}</span>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Identical Header (Matches Streams/LibraryDashboard) */}
-      <div className="flex items-center justify-between mb-8 pb-6 border-b border-white/5 sticky top-0 bg-[#020617]/90 backdrop-blur-md z-40 relative shrink-0">
-        <h1 className="text-3xl font-bold font-sans tracking-tight text-slate-100 flex items-center gap-3">
+      <div className="flex items-center justify-between px-8 pt-8 pb-6 border-b border-border dark:border-white/5 sticky top-0 bg-background/80 dark:bg-slate-950/95 dark:backdrop-blur-md z-40 shrink-0">
+        <h1 className="text-3xl font-bold font-sans tracking-tight text-foreground dark:text-slate-100 flex items-center gap-3">
           Team
         </h1>
         
-        {/* View Switcher Segmented Control */}
-        <div className="absolute left-1/2 -translate-x-1/2 flex items-center bg-[#0a192f] border border-slate-800 rounded-full p-1 shadow-inner">
-            <button
-              onClick={() => setViewMode('orchestration')}
-              className={cn(
-                "px-6 py-2 rounded-full text-sm font-bold tracking-wide transition-all outline-none",
-                viewMode === 'orchestration' ? "bg-teal-950/80 text-teal-400 shadow-inner shadow-teal-500/20 border border-teal-500/20" : "text-slate-500 hover:text-slate-300"
-              )}
-            >
-              Orchestration
-            </button>
-            <button
-              onClick={() => setViewMode('roster')}
-              className={cn(
-                "px-6 py-2 rounded-full text-sm font-bold tracking-wide transition-all outline-none",
-                viewMode === 'roster' ? "bg-teal-950/80 text-teal-400 shadow-inner shadow-teal-500/20 border border-teal-500/20" : "text-slate-500 hover:text-slate-300"
-              )}
-            >
-              Roster
-            </button>
-          </div>
-
-        {viewMode === 'roster' && (
-          <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 p-1.5 bg-[#0a192f]/60 border border-slate-800/60 rounded-full shadow-inner shadow-black/20">
-            <button
-              onClick={() => setActiveTab('crew')}
-              className={cn(
-                "px-6 py-2 rounded-full text-sm font-bold tracking-wide transition-all outline-none",
-                activeTab === 'crew' ? "bg-teal-950/80 text-teal-400 shadow-inner shadow-teal-500/20 border border-teal-500/20" : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
-              )}
-            >
-              The Crew
-            </button>
-            <button
-              ref={benchTabRef}
-              onClick={() => setActiveTab('bench')}
-              className={cn(
-                "px-6 py-2 rounded-full text-sm font-bold tracking-wide transition-all outline-none",
-                activeTab === 'bench' ? "bg-teal-950/80 text-teal-400 shadow-inner shadow-teal-500/20 border border-teal-500/20" : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
-              )}
-            >
-              The Bench
-            </button>
-          </div>
-        )}
+        {/* Main Tab Switcher: Crew vs Bench */}
+        <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 p-1.5 bg-slate-100 dark:bg-slate-900/60 border border-border dark:border-slate-800/60 rounded-full dark:shadow-inner dark:shadow-black/20">
+          <button
+            onClick={() => setActiveTab('crew')}
+            className={cn(
+              "px-6 py-2 rounded-full text-sm font-bold tracking-wide transition-all outline-none",
+              activeTab === 'crew' ? "bg-teal-50 dark:bg-teal-950/80 text-teal-700 dark:text-teal-400 border border-teal-200 dark:border-teal-500/20" : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-white/5"
+            )}
+          >
+            The Crew
+          </button>
+          <button
+            ref={benchTabRef}
+            onClick={() => setActiveTab('bench')}
+            className={cn(
+              "px-6 py-2 rounded-full text-sm font-bold tracking-wide transition-all outline-none",
+              activeTab === 'bench' ? "bg-teal-50 dark:bg-teal-950/80 text-teal-700 dark:text-teal-400 border border-teal-200 dark:border-teal-500/20" : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-white/5"
+            )}
+          >
+            The Bench
+          </button>
+        </div>
 
         <div className="flex items-center gap-4 pr-4">
-          {viewMode === 'roster' && (
-            <button 
-              onClick={() => setIsOnboardingOpen(true)}
-              className="px-5 py-2.5 rounded-full bg-transparent border border-cyan-500/50 text-cyan-400 text-sm font-bold uppercase tracking-[0.1em] hover:bg-cyan-500 hover:text-[#020617] transition-all flex items-center gap-2 hover:shadow-[0_0_20px_rgba(34,211,238,0.3)] active:scale-95"
-            >
-              <Plus className="w-4 h-4" />
-              ONBOARD
-            </button>
-          )}
+          <button 
+            onClick={() => setIsOnboardingOpen(true)}
+            className="px-5 py-2.5 rounded-full bg-transparent border border-cyan-500/50 text-cyan-600 dark:text-cyan-400 text-sm font-bold uppercase tracking-[0.1em] hover:bg-cyan-500 hover:text-white transition-all flex items-center gap-2 hover:shadow-[0_0_20px_rgba(34,211,238,0.3)] active:scale-95"
+          >
+            <Plus className="w-4 h-4" />
+            ONBOARD
+          </button>
         </div>
       </div>
 
-      {/* Main View Area */}
-      <div className="flex-1 relative min-h-0 flex flex-col">
-        <AnimatePresence mode="wait">
-          {viewMode === 'orchestration' ? (
-            <motion.div
-              key="orchestration"
-              initial={{ opacity: 0, rotateY: -90 }}
-              animate={{ opacity: 1, rotateY: 0 }}
-              exit={{ opacity: 0, rotateY: 90 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="absolute inset-0 flex flex-col"
-              style={{ transformPerspective: 1200, transformOrigin: "center" }}
-            >
-              <TeamMatchDashboard 
-                onTraceDependency={() => router.push('/')} 
-                onOverride={() => {
-                  setViewMode('roster');
-                  setActiveTab('bench');
-                }}
-                selectedDate={selectedDate}
-              />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="roster"
-              initial={{ opacity: 0, rotateY: 90 }}
-              animate={{ opacity: 1, rotateY: 0 }}
-              exit={{ opacity: 0, rotateY: -90 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="absolute inset-0 flex flex-col overflow-y-auto custom-scrollbar pr-4"
-              style={{ transformPerspective: 1200, transformOrigin: "center" }}
-            >
-              {/* Search & Filter Logic (Below the Header) */}
-        <div className="flex flex-col xl:flex-row gap-6 justify-between items-start xl:items-center bg-[#0a192f]/20 backdrop-blur-xl border border-white/5 p-4 rounded-[28px] mb-8">
+      {/* Main View Area (Roster) */}
+      <div className="flex-1 flex flex-col px-8 pt-8">
+        {/* Search & Filter Logic */}
+        <div className="flex flex-col xl:flex-row gap-6 justify-between items-start xl:items-center bg-card dark:bg-slate-900/20 backdrop-blur-xl border border-border dark:border-white/5 p-4 rounded-[28px] mb-8">
           <div className="flex flex-wrap items-center gap-3 w-full xl:w-auto">
             {/* Search */}
             <div className="relative flex-1 min-w-[280px]">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <input
                 type="text"
-                placeholder="Search by name, role, or ID..."
-                className="w-full bg-[#0a192f]/40 border border-white/10 rounded-2xl py-3 pl-11 pr-4 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-cyan-500/50 transition-all font-mono"
+                placeholder="Search talent..."
+                className="w-full bg-muted dark:bg-slate-900/40 border border-border dark:border-white/10 rounded-2xl py-3 pl-11 pr-4 text-sm text-foreground dark:text-white placeholder:text-muted-foreground focus:outline-none focus:border-cyan-500/50 transition-all font-mono"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -263,9 +204,9 @@ export default function TeamPage() {
 
             {/* Skill Filter */}
             <div className="relative">
-              <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500" />
+              <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
               <select
-                className="appearance-none bg-[#0a192f]/40 border border-white/10 rounded-2xl py-3 pl-10 pr-10 text-xs font-bold text-slate-400 focus:outline-none focus:border-cyan-500/50 uppercase tracking-widest cursor-pointer"
+                className="appearance-none bg-muted dark:bg-slate-900/40 border border-border dark:border-white/10 rounded-2xl py-3 pl-10 pr-10 text-xs font-bold text-muted-foreground dark:text-slate-400 focus:outline-none focus:border-cyan-500/50 uppercase tracking-widest cursor-pointer"
                 value={selectedSkill}
                 onChange={(e) => setSelectedSkill(e.target.value)}
               >
@@ -279,7 +220,7 @@ export default function TeamPage() {
             {/* Status Filter */}
             <div className="relative">
               <select
-                className="appearance-none bg-[#0a192f]/40 border border-white/10 rounded-2xl py-3 pl-6 pr-10 text-xs font-bold text-slate-400 focus:outline-none focus:border-cyan-500/50 uppercase tracking-widest cursor-pointer"
+                className="appearance-none bg-muted dark:bg-slate-900/40 border border-border dark:border-white/10 rounded-2xl py-3 pl-6 pr-10 text-xs font-bold text-muted-foreground dark:text-slate-400 focus:outline-none focus:border-cyan-500/50 uppercase tracking-widest cursor-pointer"
                 value={selectedStatus}
                 onChange={(e) => setSelectedStatus(e.target.value)}
               >
@@ -292,48 +233,26 @@ export default function TeamPage() {
             </div>
           </div>
 
-          <div className="hidden xl:flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/5 text-xs font-bold font-mono tracking-wider text-slate-400 uppercase">
-             <span className="text-slate-500 opacity-80">Capacity:</span>
+          <div className="hidden xl:flex items-center gap-2 px-4 py-2 rounded-xl bg-muted dark:bg-white/5 border border-border dark:border-white/5 text-xs font-bold font-mono tracking-wider text-muted-foreground uppercase">
+             <span className="text-muted-foreground dark:text-slate-500 opacity-80">Capacity:</span>
              <span>{filteredEmployees.length} <span className="text-slate-700 mx-1">/</span> {employees.length}</span>
           </div>
         </div>
 
-        <Tabs defaultValue="crew" value={activeTab} onValueChange={setActiveTab}>
-          <TabsContent value="crew" className="mt-0 outline-none">
-            <AISkillsBanner onRecommend={handleRecommend} isRecommending={isRecommending} />
+        <AISkillsBanner onRecommend={handleRecommend} isRecommending={isRecommending} />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <AnimatePresence mode="popLayout">
-                {filteredEmployees.map((emp) => (
-                  <TalentCard
-                    key={emp.id}
-                    employee={emp}
-                    onClick={handleCardClick}
-                    isHighlighted={highlightedIds.includes(emp.id)}
-                  />
-                ))}
-              </AnimatePresence>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="bench" className="mt-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <AnimatePresence mode="popLayout">
-                {filteredEmployees.map((emp) => (
-                  <TalentCard
-                    key={emp.id}
-                    employee={emp}
-                    onClick={handleCardClick}
-                    isHighlighted={highlightedIds.includes(emp.id)}
-                  />
-                ))}
-              </AnimatePresence>
-            </div>
-          </TabsContent>
-        </Tabs>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <AnimatePresence mode="popLayout">
+            {filteredEmployees.map((emp) => (
+              <TalentCard
+                key={emp.id}
+                employee={emp}
+                onClick={handleCardClick}
+                isHighlighted={highlightedIds.includes(emp.id)}
+              />
+            ))}
+          </AnimatePresence>
+        </div>
       </div>
 
       <PerformanceModal
@@ -348,29 +267,6 @@ export default function TeamPage() {
         onAdd={handleOnboardComplete}
       />
 
-      {/* Time Machine Footer */}
-      <div className="fixed bottom-0 left-64 right-0 h-16 bg-[#020617] border-t border-white/5 flex items-center px-8 z-50">
-        <div className="flex items-center gap-3">
-          <History className="w-4 h-4 text-slate-400" />
-          <span className="text-xs font-bold text-slate-300 uppercase tracking-widest">Time Machine:</span>
-        </div>
-        <div className="flex items-center gap-2 ml-6">
-          {['May 5', 'May 6', 'May 7', 'Today'].map((date) => (
-            <button
-              key={date}
-              onClick={() => setSelectedDate(date)}
-              className={cn(
-                "px-4 py-1.5 rounded-full text-xs font-bold transition-all",
-                selectedDate === date 
-                  ? "bg-indigo-500 text-white shadow-[0_0_15px_rgba(99,102,241,0.4)]" 
-                  : "bg-white/5 text-slate-400 hover:bg-white/10 hover:text-slate-200"
-              )}
-            >
-              {date}
-            </button>
-          ))}
-        </div>
-      </div>
     </div>
   );
 }

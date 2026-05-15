@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   Activity, LayoutDashboard, Users, Cpu, 
   GitCommit, BarChart, Map, Brain, Shield, Calendar 
@@ -11,6 +11,8 @@ import { cn } from '@/lib/utils';
 import * as Popover from '@radix-ui/react-popover';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePersona, PersonaType } from '@/context/PersonaContext';
+import { useTheme } from 'next-themes';
+import { Sun, Moon } from 'lucide-react';
 
 const PERSONA_MENUS: Record<PersonaType, Array<{ name: string; icon: any; href: string }>> = {
   'Project Manager': [
@@ -21,16 +23,9 @@ const PERSONA_MENUS: Record<PersonaType, Array<{ name: string; icon: any; href: 
   ],
   'Team Member': [
     { name: 'My Flow', icon: GitCommit, href: '/' },
-    { name: 'Calendar', icon: Calendar, href: '/calendar' },
     { name: 'My Performance', icon: BarChart, href: '/performance' },
     { name: 'Project Map', icon: Map, href: '/map' },
   ],
-  'Org Owner': [
-    { name: 'Firm Pulse', icon: Activity, href: '/' },
-    { name: 'Talent Intelligence', icon: Brain, href: '/talent' },
-    { name: 'Operations', icon: Cpu, href: '/operations' },
-    { name: 'Security', icon: Shield, href: '/security' },
-  ]
 };
 
 export function Sidebar() {
@@ -38,6 +33,12 @@ export function Sidebar() {
   const router = useRouter();
   const { activePersona, setActivePersona, isTransitioning, setIsTransitioning } = usePersona();
   const [popoverOpen, setPopoverOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handlePersonaSwitch = (persona: PersonaType) => {
     if (persona === activePersona) {
@@ -63,7 +64,7 @@ export function Sidebar() {
 
   return (
     <>
-      <aside className="fixed top-16 bottom-0 left-0 w-20 flex flex-col items-center py-8 bg-[#0a192f]/40 backdrop-blur-xl border-r border-white/10 z-[200] transition-all duration-300">
+      <aside className="fixed top-16 bottom-0 left-0 w-20 flex flex-col items-center py-8 bg-background/80 dark:bg-slate-900/40 backdrop-blur-xl border-r border-border dark:border-white/10 z-[200] shadow-sm dark:shadow-none transition-all duration-300">
         
         <nav className="flex-1 flex flex-col gap-8 w-full items-center mt-4">
           <AnimatePresence mode="wait">
@@ -83,14 +84,16 @@ export function Sidebar() {
                     href={pillar.href}
                     className={cn(
                       "group relative p-3 rounded-[20px] transition-all duration-300 block",
-                      isActive ? "bg-teal-950/40 text-teal-400 shadow-[0_0_15px_rgba(13,148,136,0.2)] border border-teal-500/30" : "text-slate-400 hover:text-teal-400 hover:bg-teal-950/30 border border-transparent"
+                      isActive 
+                        ? "bg-emerald-50 dark:bg-teal-950/40 text-emerald-700 dark:text-teal-400 border border-emerald-200 dark:border-teal-500/30 shadow-sm dark:shadow-none" 
+                        : "text-muted-foreground hover:text-emerald-700 hover:bg-emerald-50 dark:hover:text-teal-400 dark:hover:bg-teal-950/30 border border-transparent hover:border-emerald-200 dark:hover:border-transparent"
                     )}
                   >
                     <Icon className="w-6 h-6 stroke-[1.5]" />
                     <span className="sr-only">{pillar.name}</span>
                     
                     {/* Tooltip */}
-                    <div className="absolute left-14 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-slate-800 text-slate-200 text-sm rounded-[12px] opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none before:content-[''] before:absolute before:-left-1 before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-transparent before:border-r-slate-800 backdrop-blur-md z-50">
+                    <div className="absolute left-14 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-popover dark:bg-slate-800 text-popover-foreground dark:text-slate-200 text-sm rounded-[12px] opacity-0 group-hover:opacity-100 transition-opacity shadow-lg dark:shadow-none whitespace-nowrap pointer-events-none before:content-[''] before:absolute before:-left-1 before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-transparent before:border-r-popover dark:before:border-r-slate-800 backdrop-blur-md z-50">
                       {pillar.name}
                     </div>
                   </Link>
@@ -100,11 +103,28 @@ export function Sidebar() {
           </AnimatePresence>
         </nav>
         
-        <div className="mt-auto relative z-50">
+        <div className="mt-auto flex flex-col items-center gap-6 mb-2">
+          {/* Theme Toggle */}
+          <button
+            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            className="p-3 rounded-[20px] bg-muted dark:bg-white/5 border border-border dark:border-white/5 text-muted-foreground hover:text-foreground transition-all duration-300 shadow-sm dark:shadow-none"
+            aria-label="Toggle theme"
+          >
+            {mounted && (theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />)}
+            {!mounted && <div className="w-5 h-5" />}
+          </button>
+
           <Popover.Root open={popoverOpen} onOpenChange={setPopoverOpen}>
             <Popover.Trigger asChild>
-              <div className="w-10 h-10 rounded-[15px] bg-gradient-to-br from-cyan-900/60 to-slate-900 border border-slate-700/50 flex items-center justify-center cursor-pointer hover:border-cyan-500/80 transition-colors shadow-inner shadow-cyan-500/10">
-                <span className="text-cyan-300 font-bold text-sm tracking-widest">U1</span>
+              <div className="relative group cursor-pointer">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500/20 to-secondary dark:to-slate-900 border border-border dark:border-white/10 flex items-center justify-center hover:border-cyan-500/50 transition-all duration-300 overflow-hidden shadow-sm group-hover:shadow-cyan-500/10">
+                  <div className="w-full h-full bg-background dark:bg-slate-800 flex items-center justify-center">
+                    <span className="text-cyan-600 dark:text-cyan-400 font-bold text-xs tracking-tighter">JD</span>
+                  </div>
+                </div>
+                <div className="absolute -top-1 -right-1 w-4 h-4 bg-cyan-500 rounded-full border-2 border-white dark:border-[#0a192f] flex items-center justify-center">
+                  <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+                </div>
               </div>
             </Popover.Trigger>
 
@@ -113,10 +133,23 @@ export function Sidebar() {
                 side="right" 
                 align="end" 
                 sideOffset={16}
-                className="z-[250] w-56 rounded-[16px] bg-[#0a192f]/90 backdrop-blur-2xl border border-white/10 shadow-2xl p-2 outline-none animate-in fade-in zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:zoom-out-95"
+                className="z-[250] w-56 rounded-[16px] bg-popover/90 dark:bg-[#0a192f]/90 backdrop-blur-2xl border border-border dark:border-white/10 shadow-lg dark:shadow-2xl p-2 outline-none animate-in fade-in zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:zoom-out-95"
               >
-                <div className="px-3 py-2 mb-2 border-b border-white/10">
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Switch Persona</p>
+                <div className="px-3 py-3 mb-2 border-b border-border dark:border-white/10">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-8 h-8 rounded-full bg-muted dark:bg-cyan-950 flex items-center justify-center border border-border dark:border-cyan-500/30 shadow-sm dark:shadow-none">
+                      <span className="text-foreground dark:text-cyan-400 text-[10px] font-bold">JD</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <p className="text-xs font-bold text-foreground dark:text-slate-100">John Doe</p>
+                      <p className="text-[10px] text-muted-foreground dark:text-slate-500">john@example.com</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 px-2 py-1 bg-cyan-500/10 border border-cyan-500/20 rounded-md mb-2">
+                    <Shield className="w-3 h-3 text-cyan-400" />
+                    <span className="text-[9px] font-bold text-cyan-400 uppercase tracking-widest">Organization Admin</span>
+                  </div>
+                  <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-3">Identity Context</p>
                 </div>
                 <div className="flex flex-col gap-1">
                   {(Object.keys(PERSONA_MENUS) as PersonaType[]).map((persona) => (
@@ -126,13 +159,13 @@ export function Sidebar() {
                       className={cn(
                         "flex items-center w-full px-3 py-2 text-sm rounded-xl transition-all duration-200",
                         activePersona === persona 
-                          ? "bg-cyan-950/50 text-cyan-400 font-medium" 
-                          : "text-slate-300 hover:bg-white/5 hover:text-white"
+                          ? "bg-muted dark:bg-cyan-950/50 text-foreground dark:text-cyan-400 font-medium border border-border dark:border-cyan-500/30 shadow-sm dark:shadow-none" 
+                          : "text-muted-foreground dark:text-slate-300 hover:bg-muted dark:hover:bg-white/5 hover:text-foreground dark:hover:text-white"
                       )}
                     >
                       {persona}
                       {activePersona === persona && (
-                        <div className="ml-auto w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
+                        <div className="ml-auto w-2 h-2 rounded-full bg-cyan-500 dark:bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
                       )}
                     </button>
                   ))}

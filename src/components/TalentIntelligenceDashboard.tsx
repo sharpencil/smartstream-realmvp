@@ -81,10 +81,10 @@ export function TalentIntelligenceDashboard() {
   }, []);
 
   return (
-    <div className="w-full h-full bg-[#020617] overflow-y-auto pb-32">
+    <div className="w-full h-full bg-transparent overflow-y-auto pb-32">
       {/* Header */}
-      <div className="sticky top-0 z-40 bg-[#020617]/95 backdrop-blur-md px-8 pt-8 pb-6 border-b border-white/5 flex items-center justify-between">
-        <h1 className="text-3xl font-bold font-sans tracking-tight text-slate-100 flex items-center gap-3">
+      <div className="sticky top-0 z-40 bg-background/80 dark:bg-slate-950/95 backdrop-blur-md px-8 pt-8 pb-6 border-b border-border dark:border-white/5 flex items-center justify-between">
+        <h1 className="text-3xl font-bold font-sans tracking-tight text-slate-900 dark:text-slate-100 flex items-center gap-3">
           Talent Intelligence
         </h1>
       </div>
@@ -92,21 +92,18 @@ export function TalentIntelligenceDashboard() {
       <div className="w-full max-w-7xl mx-auto flex flex-col gap-8 px-8 pt-8">
         
         {/* Vitals Bar Row (Moved below unified header) */}
-        <div className="flex flex-col md:flex-row justify-end items-center gap-6 mb-4">
-          
-          <div className="flex gap-4">
-            <div className="bg-[#0a192f]/60 backdrop-blur-md border border-teal-500/20 rounded-2xl p-4 flex flex-col items-center justify-center min-w-[140px]">
-              <div className="text-teal-400 text-sm font-bold uppercase tracking-wider mb-1 flex items-center gap-1.5"><Zap className="w-4 h-4"/> Velocity</div>
-              <div className="text-3xl font-bold text-slate-100">{firmVelocity}<span className="text-slate-500 text-lg ml-1">avg</span></div>
-            </div>
-            <div className="bg-[#0a192f]/60 backdrop-blur-md border border-blue-500/20 rounded-2xl p-4 flex flex-col items-center justify-center min-w-[140px]">
-              <div className="text-blue-400 text-sm font-bold uppercase tracking-wider mb-1 flex items-center gap-1.5"><UserCheck className="w-4 h-4"/> Utilized</div>
-              <div className="text-3xl font-bold text-slate-100">{utilizationRate}%</div>
-            </div>
-            <div className="bg-[#0a192f]/60 backdrop-blur-md border border-emerald-500/20 rounded-2xl p-4 flex flex-col items-center justify-center min-w-[140px]">
-              <div className="text-emerald-400 text-sm font-bold uppercase tracking-wider mb-1 flex items-center gap-1.5"><Trophy className="w-4 h-4"/> Accuracy</div>
-              <div className="text-3xl font-bold text-slate-100">{firmAccuracyScore}%</div>
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full mb-10">
+          <div className="bg-background/80 dark:bg-slate-900/60 backdrop-blur-md border border-teal-200/60 dark:border-teal-500/20 rounded-2xl p-4 flex flex-col items-center justify-center min-w-[140px] shadow-sm dark:shadow-none">
+            <div className="text-teal-600 dark:text-teal-400 text-sm font-bold uppercase tracking-wider mb-1 flex items-center gap-1.5"><Zap className="w-4 h-4"/> Velocity</div>
+            <div className="text-3xl font-bold text-slate-900 dark:text-slate-100">{firmVelocity}<span className="text-slate-500 text-lg ml-1 dark:text-slate-500">avg</span></div>
+          </div>
+          <div className="bg-background/80 dark:bg-slate-900/60 backdrop-blur-md border border-blue-200/60 dark:border-blue-500/20 rounded-2xl p-4 flex flex-col items-center justify-center min-w-[140px] shadow-sm dark:shadow-none">
+            <div className="text-blue-600 dark:text-blue-400 text-sm font-bold uppercase tracking-wider mb-1 flex items-center gap-1.5"><UserCheck className="w-4 h-4"/> Utilized</div>
+            <div className="text-3xl font-bold text-slate-900 dark:text-slate-100">{utilizationRate}%</div>
+          </div>
+          <div className="bg-background/80 dark:bg-slate-900/60 backdrop-blur-md border border-emerald-200/60 dark:border-emerald-500/20 rounded-2xl p-4 flex flex-col items-center justify-center min-w-[140px] shadow-sm dark:shadow-none">
+            <div className="text-emerald-600 dark:text-emerald-400 text-sm font-bold uppercase tracking-wider mb-1 flex items-center gap-1.5"><Trophy className="w-4 h-4"/> Accuracy</div>
+            <div className="text-3xl font-bold text-slate-900 dark:text-slate-100">{firmAccuracyScore}%</div>
           </div>
         </div>
 
@@ -117,17 +114,17 @@ export function TalentIntelligenceDashboard() {
           <div className="lg:col-span-3 flex flex-col gap-6">
             
             {/* View Toggle */}
-            <div className="flex items-center gap-2 bg-[#0a192f]/60 p-1.5 rounded-xl border border-white/5 w-fit">
+            <div className="flex items-center gap-2 p-1.5 bg-background/80 dark:bg-slate-900/60 border border-border dark:border-slate-800/60 rounded-full shadow-sm dark:shadow-inner dark:shadow-black/20 flex-nowrap backdrop-blur-md w-fit">
               <button
                 onClick={() => setViewMode('table')}
-                className={cn("flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all", viewMode === 'table' ? "bg-slate-800 text-slate-100 shadow-md" : "text-slate-500 hover:text-slate-300")}
+                className={cn("flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all", viewMode === 'table' ? "bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-slate-100 shadow-md" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300")}
               >
                 <List className="w-4 h-4" />
                 Leaderboard
               </button>
               <button
                 onClick={() => setViewMode('skills')}
-                className={cn("flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all", viewMode === 'skills' ? "bg-slate-800 text-slate-100 shadow-md" : "text-slate-500 hover:text-slate-300")}
+                className={cn("flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all", viewMode === 'skills' ? "bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-slate-100 shadow-md" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300")}
               >
                 <LayoutGrid className="w-4 h-4" />
                 Skill Aura Map
@@ -143,16 +140,16 @@ export function TalentIntelligenceDashboard() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className="bg-[#0a192f]/60 backdrop-blur-md border border-white/5 rounded-3xl overflow-hidden shadow-xl"
+                  className="bg-card dark:bg-slate-900/60 backdrop-blur-md border border-border dark:border-white/5 rounded-3xl overflow-hidden shadow-sm dark:shadow-xl"
                 >
-                  <div className="px-6 py-5 border-b border-white/5 bg-slate-900/50 flex items-center justify-between">
-                    <h2 className="text-lg font-bold text-slate-100">Efficiency vs. Latency</h2>
+                  <div className="px-6 py-5 border-b border-border dark:border-white/5 bg-muted/50 dark:bg-slate-900/50 flex items-center justify-between">
+                    <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">Efficiency vs. Latency</h2>
                     <span className="text-xs font-semibold text-slate-500 uppercase tracking-widest">Sorted by Best Performers</span>
                   </div>
                   <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                       <thead>
-                        <tr className="border-b border-white/5 bg-slate-900/20 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                        <tr className="border-b border-border dark:border-white/5 bg-muted/20 dark:bg-slate-900/20 text-xs font-bold text-muted-foreground uppercase tracking-wider">
                           <th className="px-6 py-4">Talent</th>
                           <th className="px-6 py-4">Primary Skill</th>
                           <th className="px-6 py-4">Avg Velocity</th>
@@ -166,17 +163,17 @@ export function TalentIntelligenceDashboard() {
                           <tr key={emp.id} className="hover:bg-white/[0.02] transition-colors">
                             <td className="px-6 py-4">
                               <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-xs font-bold text-teal-400 border border-teal-500/20">
+                                <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-xs font-bold text-teal-600 dark:text-teal-400 border border-teal-200 dark:border-teal-500/20">
                                   {emp.avatar}
                                 </div>
                                 <div>
-                                  <div className="font-semibold text-slate-200">{emp.name}</div>
+                                  <div className="font-semibold text-slate-900 dark:text-slate-200">{emp.name}</div>
                                   <div className="text-xs text-slate-500">{emp.role}</div>
                                 </div>
                               </div>
                             </td>
                             <td className="px-6 py-4">
-                              <span className="px-2.5 py-1 rounded bg-slate-800 text-xs font-medium text-slate-300 border border-slate-700 whitespace-nowrap">
+                              <span className="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 whitespace-nowrap">
                                 {emp.primarySkill}
                               </span>
                             </td>
@@ -211,7 +208,7 @@ export function TalentIntelligenceDashboard() {
                   initial={{ opacity: 0, scale: 0.98 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.98 }}
-                  className="bg-[#0a192f]/60 backdrop-blur-md border border-white/5 rounded-3xl overflow-hidden shadow-xl p-8"
+                  className="bg-card dark:bg-slate-900/60 backdrop-blur-md border border-border dark:border-white/5 rounded-3xl overflow-hidden shadow-sm dark:shadow-xl p-8"
                 >
                   <h2 className="text-xl font-bold text-slate-100 mb-6">Global Skill Topology</h2>
                   <div className="flex flex-wrap gap-4">
@@ -231,7 +228,7 @@ export function TalentIntelligenceDashboard() {
                           )}
                         >
                           {skill.skill}
-                          <span className={cn("px-2 py-0.5 rounded-full text-xs font-black", skill.isAtRisk ? "bg-amber-500/20" : "bg-slate-900/50")}>
+                          <span className={cn("px-2 py-0.5 rounded-full text-xs font-black", skill.isAtRisk ? "bg-amber-500/20" : "bg-muted dark:bg-slate-900/50")}>
                             {skill.count}
                           </span>
                           
@@ -255,8 +252,8 @@ export function TalentIntelligenceDashboard() {
             </AnimatePresence>
 
             {/* UTILIZATION HEATMAP */}
-            <div className="bg-[#0a192f]/60 backdrop-blur-md border border-white/5 rounded-3xl overflow-hidden shadow-xl mt-2">
-              <div className="px-6 py-5 border-b border-white/5 bg-slate-900/50">
+            <div className="bg-card dark:bg-slate-900/60 backdrop-blur-md border border-border dark:border-white/5 rounded-3xl overflow-hidden shadow-sm dark:shadow-xl mt-2">
+              <div className="px-6 py-5 border-b border-border dark:border-white/5 bg-muted/50 dark:bg-slate-900/50">
                 <h2 className="text-lg font-bold text-slate-100">Firm-Wide Utilization Heatmap</h2>
                 <p className="text-sm text-slate-400 mt-1">Daily Assigned Flow Hours (Next 14 Days)</p>
               </div>
@@ -281,7 +278,7 @@ export function TalentIntelligenceDashboard() {
                         <div className="flex flex-1 gap-1">
                           {row.days.map((hours, i) => {
                             // Color mapping: 0 = empty, 1-6 = blue, 7-8 = emerald, >8 = amber (burnout)
-                            let bgClass = "bg-slate-800 border-white/5";
+                            let bgClass = "bg-slate-800 border-slate-200 dark:border-white/5";
                             if (hours > 8) bgClass = "bg-amber-500/80 border-amber-400 shadow-[0_0_10px_rgba(245,158,11,0.3)] z-10";
                             else if (hours >= 7) bgClass = "bg-emerald-500/60 border-emerald-400/50";
                             else if (hours > 0) bgClass = "bg-blue-500/40 border-blue-400/30";
@@ -291,7 +288,7 @@ export function TalentIntelligenceDashboard() {
                                 key={i} 
                                 className={cn("flex-1 h-8 rounded border flex items-center justify-center transition-all group relative", bgClass)}
                               >
-                                {hours > 0 && <span className={cn("text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity", hours > 8 ? "text-slate-900" : "text-white")}>{hours}h</span>}
+                                {hours > 0 && <span className={cn("text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity", hours > 8 ? "text-foreground" : "text-muted-foreground dark:text-white")}>{hours}h</span>}
                               </div>
                             );
                           })}
@@ -314,43 +311,43 @@ export function TalentIntelligenceDashboard() {
 
           {/* Right Column: Predictive Talent Gaps (The Oracle Scout) */}
           <div className="lg:col-span-1">
-            <div className="sticky top-8 bg-gradient-to-b from-[#0a192f] to-[#020617] border border-indigo-500/20 rounded-3xl overflow-hidden shadow-2xl relative">
+            <div className="sticky top-8 bg-gradient-to-b from-white to-slate-50 dark:from-slate-900 dark:to-slate-950 border border-indigo-200 dark:border-indigo-500/20 rounded-3xl overflow-hidden shadow-xl dark:shadow-2xl relative">
               {/* Oracle Glow */}
               <div className="absolute top-0 left-0 right-0 h-32 bg-indigo-500/10 blur-[50px] pointer-events-none" />
               
-              <div className="p-6 border-b border-white/5 relative z-10">
-                <div className="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center mb-4 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
-                  <Activity className="w-5 h-5 text-indigo-400" />
+              <div className="p-6 border-b border-slate-200 dark:border-white/5 relative z-10">
+                <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/30 flex items-center justify-center mb-4 shadow-sm dark:shadow-[0_0_15px_rgba(99,102,241,0.2)]">
+                  <Activity className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-100">The Oracle Scout</h3>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100">The Oracle Scout</h3>
                 <p className="text-sm text-slate-400 mt-1">Predictive Talent Gap Analysis</p>
               </div>
 
               <div className="p-6 space-y-6 relative z-10">
-                <div className="bg-slate-900/80 border border-amber-500/30 rounded-2xl p-5 relative overflow-hidden">
+                <div className="bg-muted dark:bg-slate-900/80 border border-amber-200 dark:border-amber-500/30 rounded-2xl p-5 relative overflow-hidden shadow-sm dark:shadow-none">
                   <div className="absolute left-0 top-0 bottom-0 w-1 bg-amber-500" />
-                  <h4 className="text-sm font-bold text-amber-400 flex items-center gap-2 mb-3">
+                  <h4 className="text-sm font-bold text-amber-600 dark:text-amber-400 flex items-center gap-2 mb-3">
                     <AlertTriangle className="w-4 h-4" />
                     Critical Deficit Predicted
                   </h4>
-                  <p className="text-sm text-slate-300 leading-relaxed">
-                    Based on upcoming <strong>DB Consolidation</strong> streams mapped in the reservoir, the firm will face a <span className="text-white font-bold bg-amber-500/20 px-1 rounded">40-hour/week deficit</span> in <strong>PostgreSQL</strong> expertise starting in 14 days.
+                  <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                    Based on upcoming <strong>DB Consolidation</strong> streams mapped in the reservoir, the firm will face a <span className="text-foreground dark:text-white font-bold bg-amber-500/20 px-1 rounded">40-hour/week deficit</span> in <strong>PostgreSQL</strong> expertise starting in 14 days.
                   </p>
-                  <div className="mt-4 pt-4 border-t border-white/5">
+                  <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-200 dark:border-white/5">
                     <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Recommendation</h5>
-                    <button className="w-full py-2.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold text-sm transition-colors shadow-[0_0_15px_rgba(245,158,11,0.3)]">
+                    <button className="w-full py-2.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold text-sm transition-colors shadow-lg dark:shadow-[0_0_15px_rgba(245,158,11,0.3)]">
                       Onboard 1 Senior DB Engineer
                     </button>
                   </div>
                 </div>
 
-                <div className="bg-slate-900/80 border border-indigo-500/30 rounded-2xl p-5 relative overflow-hidden">
+                <div className="bg-muted dark:bg-slate-900/80 border border-indigo-200 dark:border-indigo-500/30 rounded-2xl p-5 relative overflow-hidden shadow-sm dark:shadow-none">
                   <div className="absolute left-0 top-0 bottom-0 w-1 bg-indigo-500" />
-                  <h4 className="text-sm font-bold text-indigo-400 flex items-center gap-2 mb-3">
+                  <h4 className="text-sm font-bold text-indigo-600 dark:text-indigo-400 flex items-center gap-2 mb-3">
                     <Info className="w-4 h-4" />
                     Resource Optimization
                   </h4>
-                  <p className="text-sm text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                     <strong>React</strong> utilization is currently at 45%. You can safely pull forward 3 drops from the <em>Mobile App Refresh</em> stream without risking timeline saturation.
                   </p>
                 </div>

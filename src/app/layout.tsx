@@ -24,6 +24,8 @@ export const metadata: Metadata = {
   description: "AI-Driven Continuous Flow Methodology Project Management",
 };
 
+import { ThemeProvider } from "@/components/ThemeProvider";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -32,23 +34,25 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="h-screen flex flex-col bg-slate-950 text-slate-50 overflow-hidden w-full relative" suppressHydrationWarning>
-        <PersonaProvider>
-          <GenesisProvider>
-            <Sidebar />
-            <GlobalHeader />
-            <GenesisModal />
-            <AgentPanel />
-            <main className="flex-1 min-h-0 ml-20 pt-16 overflow-y-auto w-[calc(100%-5rem)]">
-              <MainLayoutWrapper>
-                {children}
-              </MainLayoutWrapper>
-            </main>
-          </GenesisProvider>
-        </PersonaProvider>
+      <body className="h-screen flex flex-col bg-background text-foreground transition-colors duration-500 overflow-hidden w-full relative" suppressHydrationWarning>
+        <ThemeProvider>
+          <PersonaProvider>
+            <GenesisProvider>
+              <Sidebar />
+              <GlobalHeader />
+              <GenesisModal />
+              <AgentPanel />
+              <main className="flex-1 min-h-0 ml-20 pt-16 overflow-y-auto w-[calc(100%-5rem)]">
+                <MainLayoutWrapper>
+                  {children}
+                </MainLayoutWrapper>
+              </main>
+            </GenesisProvider>
+          </PersonaProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

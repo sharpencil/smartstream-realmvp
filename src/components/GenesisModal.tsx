@@ -46,16 +46,16 @@ export function GenesisModal() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
-          className="fixed inset-0 z-[100] bg-[#020617] flex flex-col overflow-hidden font-sans"
+          className="fixed inset-0 z-[2000] bg-slate-50 dark:bg-slate-950 flex flex-col overflow-hidden font-sans"
         >
           {/* Subtle Background */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(13,148,136,0.03),transparent_70%)] pointer-events-none" />
           
           {/* Header with Centered Stepper */}
-          <div className="relative z-10 px-12 py-8 grid grid-cols-3 items-center border-b border-white/5 bg-[#020617]/40 backdrop-blur-md">
+          <div className="relative z-10 px-12 py-8 grid grid-cols-3 items-center border-b border-border dark:border-white/5 bg-background/80 dark:bg-slate-950/40 backdrop-blur-md">
             {/* Left: Wizard Identity */}
             <div className="flex items-center gap-3">
-               <h1 className="text-2xl font-bold font-sans tracking-tight text-slate-100 whitespace-nowrap">Create New Project</h1>
+               <h1 className="text-2xl font-bold font-sans tracking-tight text-foreground dark:text-slate-100 whitespace-nowrap">Create New Project</h1>
             </div>
 
             {/* Middle: Centered Progress Stepper (4 Phases) */}
@@ -71,12 +71,12 @@ export function GenesisModal() {
                         ? "rgba(20, 184, 166, 1)" // Current: Teal
                         : step > s 
                           ? "rgba(34, 197, 94, 1)"  // Completed: Green
-                          : "rgba(255, 255, 255, 0.1)" // Upcoming
+                          : "rgba(0, 0, 0, 0.1)" // Upcoming (Light mode default)
                     }}
                     className={cn(
                       "h-2 rounded-full transition-all duration-500",
-                      step === s ? "shadow-[0_0_15px_rgba(13,148,136,0.4)]" : 
-                      step > s ? "shadow-[0_0_15px_rgba(34,197,94,0.3)]" : ""
+                      step === s ? "shadow-sm dark:shadow-[0_0_15px_rgba(13,148,136,0.4)]" : 
+                      step > s ? "shadow-sm dark:shadow-[0_0_15px_rgba(34,197,94,0.3)]" : ""
                     )}
                   />
                 ))}
@@ -90,7 +90,7 @@ export function GenesisModal() {
             <div className="flex justify-end">
               <button 
                 onClick={closeGenesis}
-                className="p-2 rounded-full hover:bg-white/5 text-slate-500 hover:text-white transition-all group"
+                className="p-2 rounded-full hover:bg-muted dark:hover:bg-white/5 text-muted-foreground hover:text-foreground dark:hover:text-white transition-all group"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -166,12 +166,12 @@ function Step1ProjectProfile({ onNext }: { onNext: () => void }) {
         <div className="space-y-4">
           <label className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em] ml-1">Organization</label>
           <div className="relative">
-            <select className="w-full bg-slate-900/40 border border-slate-800/60 rounded-2xl px-6 py-5 text-xl text-white focus:outline-none focus:border-cyan-500/30 transition-all font-bold tracking-tight appearance-none cursor-pointer">
+            <select className="w-full bg-card dark:bg-slate-900/40 border border-border dark:border-slate-800/60 rounded-2xl px-6 py-5 text-xl text-foreground dark:text-white focus:outline-none focus:border-cyan-500/30 transition-all font-bold tracking-tight appearance-none cursor-pointer shadow-sm">
               <option>Acme Corp</option>
               <option>Global Logistics</option>
               <option>Project Alpha</option>
             </select>
-            <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-6 h-6 text-slate-600 pointer-events-none" />
+            <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-6 h-6 text-slate-400 dark:text-slate-600 pointer-events-none" />
           </div>
         </div>
 
@@ -183,7 +183,7 @@ function Step1ProjectProfile({ onNext }: { onNext: () => void }) {
             value={projectName}
             onChange={(e) => setProjectName(e.target.value)}
             placeholder="e.g., Project Phoenix"
-            className="w-full bg-slate-900/40 border border-slate-800/60 rounded-2xl px-6 py-5 text-xl text-white placeholder:text-slate-700 focus:outline-none focus:border-cyan-500/50 transition-all font-bold tracking-tight shadow-inner shadow-black/20"
+            className="w-full bg-card dark:bg-slate-900/40 border border-border dark:border-slate-800/60 rounded-2xl px-6 py-5 text-xl text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-slate-700 focus:outline-none focus:border-cyan-500/50 transition-all font-bold tracking-tight shadow-sm"
           />
         </div>
       </div>
@@ -192,10 +192,10 @@ function Step1ProjectProfile({ onNext }: { onNext: () => void }) {
         onClick={onNext}
         disabled={!projectName.trim()}
         className={cn(
-          "mt-20 group relative flex items-center gap-4 px-10 py-5 rounded-full font-bold text-lg transition-all shadow-[0_0_40px_rgba(34,211,238,0.2)] active:scale-95",
+          "mt-20 group relative flex items-center gap-4 px-10 py-5 rounded-full font-bold text-lg transition-all active:scale-95",
           projectName.trim() 
-            ? "bg-cyan-500 text-[#020617] hover:bg-cyan-400 hover:scale-105 shadow-cyan-500/30" 
-            : "bg-slate-900/40 text-slate-500 border border-slate-800/60 cursor-not-allowed opacity-50"
+            ? "bg-cyan-500 text-white hover:bg-cyan-400 hover:scale-105 shadow-sm dark:shadow-[0_0_20px_rgba(34,211,238,0.3)]" 
+            : "bg-slate-200 dark:bg-slate-900/40 text-slate-400 dark:text-slate-500 border border-slate-300 dark:border-slate-800/60 cursor-not-allowed opacity-50"
         )}
       >
         NEXT
@@ -248,20 +248,20 @@ function Step2SynthesisWorkspace({
           onMouseEnter={() => onUpdateFocus('intake')}
           onMouseLeave={() => onUpdateFocus(null)}
           className={cn(
-            "flex-[2] bg-[#0a192f]/40 border border-slate-800/60 rounded-3xl p-8 flex flex-col items-center justify-center min-h-[320px] transition-all relative overflow-hidden",
-            ['idle', 'uploading', 'scanning'].includes(genesisState) ? "border-dashed hover:border-cyan-500/50 hover:bg-cyan-950/10 cursor-pointer group" : "border-solid shadow-inner shadow-cyan-900/10"
+            "flex-[2] bg-card dark:bg-slate-900/40 border border-border dark:border-slate-800/60 rounded-3xl p-8 flex flex-col items-center justify-center min-h-[320px] transition-all relative overflow-hidden shadow-sm dark:shadow-none",
+            ['idle', 'uploading', 'scanning'].includes(genesisState) ? "border-dashed hover:border-cyan-500/50 hover:bg-cyan-50 dark:hover:bg-cyan-950/10 cursor-pointer group" : "border-solid shadow-inner dark:shadow-cyan-900/10"
           )} 
           onClick={handleScan}
         >
            {genesisState === 'idle' && (
              <>
-               <div className="w-16 h-16 rounded-full bg-slate-800/80 border border-slate-700/50 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:border-cyan-500/50 transition-all shadow-lg shadow-black relative">
-                  <FileUp className="w-8 h-8 text-cyan-400 group-hover:text-cyan-300" />
+               <div className="w-16 h-16 rounded-full bg-muted dark:bg-slate-800/80 border border-border dark:border-slate-700/50 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:border-cyan-500/50 transition-all shadow-sm dark:shadow-lg dark:shadow-black relative">
+                  <FileUp className="w-8 h-8 text-cyan-600 dark:text-cyan-400 group-hover:text-cyan-500 dark:group-hover:text-cyan-300" />
                   <div className="absolute -top-1 -right-1">
-                    <Sparkles className="w-4 h-4 text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity animate-pulse" />
+                    <Sparkles className="w-4 h-4 text-indigo-500 dark:text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity animate-pulse" />
                   </div>
                </div>
-               <h3 className="text-lg font-medium text-slate-200">Drag & Drop Requirements</h3>
+               <h3 className="text-lg font-medium text-foreground dark:text-slate-200">Drag & Drop Requirements</h3>
                <p className="text-sm text-slate-500 mt-2 font-light">Support for Jira Epics, PRDs, and FigJam links.</p>
              </>
            )}
@@ -277,9 +277,9 @@ function Step2SynthesisWorkspace({
                  <span>{genesisState === 'scanning' ? 'Neural Indexing Matrix...' : 'Ingesting Context...'}</span>
                  <span className={genesisState === 'scanning' ? "text-teal-400" : "text-cyan-400"}>{progress}%</span>
                </div>
-               <div className="w-full h-1.5 bg-slate-800/80 rounded-full overflow-hidden shadow-inner flex">
+               <div className="w-full h-1.5 bg-slate-200 dark:bg-slate-800/80 rounded-full overflow-hidden shadow-inner flex">
                  <motion.div 
-                   className={cn("h-full transition-colors duration-500", genesisState === 'scanning' ? "bg-teal-400 shadow-[0_0_10px_rgba(45,212,191,0.8)]" : "bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.8)]")}
+                   className={cn("h-full transition-colors duration-500", genesisState === 'scanning' ? "bg-teal-400 shadow-sm dark:shadow-[0_0_10px_rgba(45,212,191,0.8)]" : "bg-cyan-400 shadow-sm dark:shadow-[0_0_10px_rgba(34,211,238,0.8)]")}
                    initial={{ width: 0 }}
                    animate={{ width: `${progress}%` }}
                    transition={{ ease: "linear" }}
@@ -290,13 +290,13 @@ function Step2SynthesisWorkspace({
 
            {['complete', 'generating', 'launched'].includes(genesisState) && (
              <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="flex flex-col items-center z-10 text-center">
-               <div className="w-16 h-16 rounded-full bg-green-950/40 border border-green-500/50 flex items-center justify-center mb-4 shadow-[0_0_20px_rgba(34,197,94,0.2)]">
-                 <Fingerprint className="w-8 h-8 text-green-400 drop-shadow-[0_0_8px_rgba(34,197,94,0.8)]" />
+               <div className="w-16 h-16 rounded-full bg-green-50 dark:bg-green-950/40 border border-green-200 dark:border-green-500/50 flex items-center justify-center mb-4 shadow-sm dark:shadow-[0_0_20px_rgba(34,197,94,0.2)]">
+                 <Fingerprint className="w-8 h-8 text-green-600 dark:text-green-400 drop-shadow-[0_0_8px_rgba(34,197,94,0.8)]" />
                </div>
-               <h3 className="text-xl font-bold text-green-400 drop-shadow-[0_0_8px_rgba(34,197,94,0.4)]">Context Decoded</h3>
+               <h3 className="text-xl font-bold text-green-600 dark:text-green-400 drop-shadow-[0_0_8px_rgba(34,197,94,0.4)]">Context Decoded</h3>
                <div className="flex gap-4 mt-4">
-                  <div className="px-3 py-1 bg-slate-900/60 rounded-lg border border-white/5 text-xs text-slate-300 font-mono tracking-wide"><span className="text-cyan-400 font-bold">3</span> STREAMS</div>
-                  <div className="px-3 py-1 bg-slate-900/60 rounded-lg border border-white/5 text-xs text-slate-300 font-mono tracking-wide"><span className="text-teal-400 font-bold">14</span> DROPS</div>
+                  <div className="px-3 py-1 bg-muted dark:bg-slate-900/60 rounded-lg border border-border dark:border-white/5 text-xs text-muted-foreground dark:text-slate-300 font-mono tracking-wide shadow-sm"><span className="text-cyan-600 dark:text-cyan-400 font-bold">3</span> STREAMS</div>
+                  <div className="px-3 py-1 bg-muted dark:bg-slate-900/60 rounded-lg border border-border dark:border-white/5 text-xs text-muted-foreground dark:text-slate-300 font-mono tracking-wide shadow-sm"><span className="text-teal-600 dark:text-teal-400 font-bold">14</span> DROPS</div>
                </div>
              </motion.div>
            )}
@@ -310,32 +310,33 @@ function Step2SynthesisWorkspace({
         <div 
           onMouseEnter={() => onUpdateFocus('team')}
           onMouseLeave={() => onUpdateFocus(null)}
-          className="flex-1 bg-[#0a192f]/40 border border-slate-800/60 rounded-3xl p-6 flex flex-col relative overflow-hidden group">
-          <div className="flex items-center gap-3 mb-6 border-b border-white/5 pb-4">
-            <UserPlus className="w-5 h-5 text-indigo-400" />
-            <h2 className="text-sm font-semibold text-slate-200">Oracle Team Alignments</h2>
+          className="flex-1 bg-card dark:bg-slate-900/40 border border-border dark:border-slate-800/60 rounded-3xl p-6 flex flex-col relative overflow-hidden group shadow-sm dark:shadow-none">
+          <div className="flex items-center gap-3 mb-6 border-b border-border dark:border-white/5 pb-4">
+            <UserPlus className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+            <h2 className="text-sm font-semibold text-foreground dark:text-slate-200">Oracle Team Alignments</h2>
           </div>
           {['complete', 'generating', 'launched'].includes(genesisState) ? (
             <div className="flex flex-col gap-3 animate-in fade-in slide-in-from-bottom-2 duration-500">
+              {/* Team list */}
               {[
                 { name: 'Sarah', role: 'Authentication', match: 98, color: 'green' },
                 { name: 'Mike', role: 'Database Arch', match: 92, color: 'teal' },
                 { name: 'Alex', role: 'UI / UX', match: 85, color: 'blue' }
               ].map((p, i) => (
-                <div key={p.name} className={cn("flex items-center justify-between p-3 rounded-xl bg-slate-900/60 border shadow-inner transition-all group/card cursor-help", `border-${p.color}-500/20 hover:border-indigo-500/40 shadow-${p.color}-900/10 hover:shadow-indigo-500/5`)}>
+                <div key={p.name} className={cn("flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-transparent shadow-sm dark:shadow-inner transition-all group/card cursor-help", `dark:border-${p.color}-500/20 hover:border-indigo-500/40 dark:shadow-${p.color}-900/10 dark:hover:shadow-indigo-500/5`)}>
                   <div className="flex items-center gap-3">
-                    <div className={cn("w-8 h-8 rounded-full flex items-center justify-center border font-bold text-xs shadow-lg relative", `bg-${p.color}-900/40 border-${p.color}-500/30 text-${p.color}-300`)}>
+                    <div className={cn("w-8 h-8 rounded-full flex items-center justify-center border font-bold text-xs shadow-sm dark:shadow-lg relative", `bg-${p.color}-100 dark:bg-${p.color}-900/40 border-${p.color}-200 dark:border-${p.color}-500/30 text-${p.color}-700 dark:text-${p.color}-300`)}>
                       {p.name.charAt(0)}
-                      <Sparkles className="absolute -top-1 -right-1 w-3 h-3 text-indigo-400 opacity-0 group-hover/card:opacity-100 transition-opacity" />
+                      <Sparkles className="absolute -top-1 -right-1 w-3 h-3 text-indigo-500 dark:text-indigo-400 opacity-0 group-hover/card:opacity-100 transition-opacity" />
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-sm font-medium text-slate-200 group-hover/card:text-indigo-200 transition-colors">{p.name}</span>
+                      <span className="text-sm font-medium text-foreground dark:text-slate-200 group-hover/card:text-indigo-600 dark:group-hover/card:text-indigo-200 transition-colors">{p.name}</span>
                       <span className="text-[10px] text-slate-500 uppercase tracking-widest">
                         {p.role}
                       </span>
                     </div>
                   </div>
-                  <div className={cn("text-xs font-bold font-mono tracking-wide", `text-${p.color}-400 group-hover/card:text-indigo-400`)}>{p.match}% MATCH</div>
+                  <div className={cn("text-xs font-bold font-mono tracking-wide", `text-${p.color}-600 dark:text-${p.color}-400 group-hover/card:text-indigo-600 dark:group-hover/card:text-indigo-400`)}>{p.match}% MATCH</div>
                 </div>
               ))}
               
@@ -366,26 +367,25 @@ function Step2SynthesisWorkspace({
           >
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                <div className="flex flex-col gap-1">
-                  <h2 className="text-2xl font-bold text-slate-100 flex items-center gap-3 tracking-tight">
-                    <Layers className="w-6 h-6 text-indigo-400" />
+                  <h2 className="text-2xl font-bold text-foreground dark:text-slate-100 flex items-center gap-3 tracking-tight">
+                    <Layers className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
                     Drafted Streams
-                    <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-indigo-500/10 border border-indigo-500/20 ml-2">
-                       <Sparkles className="w-3 h-3 text-indigo-400" />
-                       <span className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">AI Synthesis</span>
+                    <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/20 ml-2 shadow-sm dark:shadow-none">
+                       <Sparkles className="w-3 h-3 text-indigo-600 dark:text-indigo-400" />
+                       <span className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">AI Synthesis</span>
                     </div>
                   </h2>
                   <p className="text-sm text-slate-500 font-light">Review the AI-generated streams before activating the project in Pulse.</p>
                </div>
 
-               {/* APPROVE STREAMS button */}
                <motion.button 
                  initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} 
                  onClick={onConfirm}
-                 className="group flex items-center gap-3 px-8 py-3 bg-cyan-500 rounded-full text-[#0a192f] font-bold text-sm tracking-widest shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:shadow-[0_0_40px_rgba(34,211,238,0.6)] hover:scale-105 transition-all outline-none uppercase whitespace-nowrap active:scale-95"
+                 className="group flex items-center gap-3 px-8 py-3 bg-cyan-500 rounded-full text-white font-bold text-sm tracking-widest shadow-sm dark:shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:shadow-md dark:hover:shadow-[0_0_40px_rgba(34,211,238,0.6)] hover:scale-105 transition-all outline-none uppercase whitespace-nowrap active:scale-95"
                >
                  APPROVE STREAMS
-                 <div className="w-6 h-6 rounded-full bg-[#0a192f]/10 flex items-center justify-center group-hover:translate-x-1 transition-transform">
-                   <ChevronDown className="w-4 h-4 text-[#0a192f] -rotate-90" />
+                 <div className="w-6 h-6 rounded-full bg-black/10 dark:bg-slate-900/10 flex items-center justify-center group-hover:translate-x-1 transition-transform">
+                   <ChevronDown className="w-4 h-4 text-white -rotate-90" />
                  </div>
                </motion.button>
             </div>
@@ -400,26 +400,26 @@ function Step2SynthesisWorkspace({
 
 function PersistentGenesisSummary() {
    return (
-    <div className="w-full flex gap-8 mb-10 pb-10 border-b border-white/5 opacity-80 pointer-events-none scale-95 origin-top grayscale-[0.2]">
+    <div className="w-full flex gap-8 mb-10 pb-10 border-b border-border dark:border-white/5 opacity-80 pointer-events-none scale-95 origin-top grayscale-[0.2]">
       {/* Left: Intake Dropzone Summary */}
-      <div className="flex-[2] bg-[#0a192f]/40 border border-slate-800/60 rounded-3xl p-6 flex flex-col items-center justify-center shadow-inner shadow-cyan-900/10">
+      <div className="flex-[2] bg-card dark:bg-slate-900/40 border border-border dark:border-slate-800/60 rounded-3xl p-6 flex flex-col items-center justify-center shadow-sm dark:shadow-inner dark:shadow-cyan-900/10">
          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="flex flex-col items-center z-10 text-center">
-           <div className="w-12 h-12 rounded-full bg-green-950/40 border border-green-500/50 flex items-center justify-center mb-3">
-             <Fingerprint className="w-6 h-6 text-green-400" />
-           </div>
-           <h3 className="text-lg font-bold text-green-400">Context Decoded</h3>
-           <div className="flex gap-4 mt-2">
-              <div className="px-2 py-0.5 bg-slate-900/60 rounded-lg border border-white/5 text-[10px] text-slate-300 font-mono tracking-wide">3 STREAMS</div>
-              <div className="px-2 py-0.5 bg-slate-900/60 rounded-lg border border-white/5 text-[10px] text-slate-300 font-mono tracking-wide">14 DROPS</div>
-           </div>
+            <div className="w-12 h-12 rounded-full bg-green-50 dark:bg-green-950/40 border border-green-200 dark:border-green-500/50 flex items-center justify-center mb-3 shadow-sm dark:shadow-none">
+              <Fingerprint className="w-6 h-6 text-green-600 dark:text-green-400" />
+            </div>
+            <h3 className="text-lg font-bold text-green-600 dark:text-green-400">Context Decoded</h3>
+            <div className="flex gap-4 mt-2">
+               <div className="px-2 py-0.5 bg-muted dark:bg-slate-900/60 rounded-lg border border-border dark:border-white/5 text-[10px] text-muted-foreground dark:text-slate-300 font-mono tracking-wide shadow-sm">3 STREAMS</div>
+               <div className="px-2 py-0.5 bg-muted dark:bg-slate-900/60 rounded-lg border border-border dark:border-white/5 text-[10px] text-muted-foreground dark:text-slate-300 font-mono tracking-wide shadow-sm">14 DROPS</div>
+            </div>
          </motion.div>
       </div>
 
       {/* Right: Team Recommendations Summary */}
-      <div className="flex-1 bg-[#0a192f]/40 border border-slate-800/60 rounded-3xl p-6 flex flex-col relative overflow-hidden group shadow-inner shadow-cyan-900/10">
-        <div className="flex items-center gap-3 mb-4 border-b border-white/5 pb-3">
-          <UserPlus className="w-4 h-4 text-indigo-400" />
-          <h2 className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest text-slate-200">Oracle Alignments</h2>
+      <div className="flex-1 bg-card dark:bg-slate-900/40 border border-border dark:border-slate-800/60 rounded-3xl p-6 flex flex-col relative overflow-hidden group shadow-sm dark:shadow-inner dark:shadow-cyan-900/10">
+        <div className="flex items-center gap-3 mb-4 border-b border-border dark:border-white/5 pb-3">
+          <UserPlus className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+          <h2 className="text-[10px] font-semibold text-foreground dark:text-slate-200 uppercase tracking-widest">Oracle Alignments</h2>
         </div>
         <div className="flex flex-col gap-2">
           {[
@@ -427,12 +427,12 @@ function PersistentGenesisSummary() {
             { name: 'Mike', match: 92, color: 'teal' },
             { name: 'Alex', match: 85, color: 'blue' }
           ].map((p) => (
-            <div key={p.name} className="flex items-center justify-between p-2 rounded-xl bg-slate-900/60 border border-white/5 shadow-inner">
-               <div className={cn("w-6 h-6 rounded-full flex items-center justify-center border font-bold text-[8px] bg-slate-800/40 border-slate-800", `text-${p.color}-300 border-${p.color}-500/30`)}>
+            <div key={p.name} className="flex items-center justify-between p-2 rounded-xl bg-muted/50 dark:bg-slate-900/60 border border-border dark:border-white/5 shadow-sm dark:shadow-inner">
+               <div className={cn("w-6 h-6 rounded-full flex items-center justify-center border font-bold text-[8px] bg-background dark:bg-slate-800/40 border-border dark:border-slate-800 shadow-sm", `text-${p.color}-600 dark:text-${p.color}-300 border-${p.color}-200 dark:border-${p.color}-500/30`)}>
                  {p.name.charAt(0)}
                </div>
-               <div className="text-[10px] font-bold text-slate-400">{p.name}</div>
-               <div className={cn("text-[8px] font-bold font-mono tracking-wide", `text-${p.color}-400`)}>{p.match}%</div>
+               <div className="text-[10px] font-bold text-slate-600 dark:text-slate-400">{p.name}</div>
+               <div className={cn("text-[8px] font-bold font-mono tracking-wide", `text-${p.color}-600 dark:text-${p.color}-400`)}>{p.match}%</div>
             </div>
           ))}
         </div>
@@ -506,12 +506,12 @@ function Step3BacklogGeneration({
       <PersistentGenesisSummary />
 
       <div className="flex flex-col items-center justify-center w-full max-w-4xl text-center">
-        <div className="w-20 h-20 rounded-full bg-cyan-950/20 border border-cyan-500/30 flex items-center justify-center mb-6 relative">
-          <div className="absolute inset-0 rounded-full border-2 border-cyan-500/10 border-t-cyan-400 animate-spin" />
-          <Rocket className={cn("w-8 h-8 text-cyan-400 transition-all duration-1000", genesisState === 'launched' ? "translate-y-[-100px] opacity-0" : "")} />
+        <div className="w-20 h-20 rounded-full bg-cyan-50 dark:bg-cyan-950/20 border border-cyan-200 dark:border-cyan-500/30 flex items-center justify-center mb-6 relative shadow-sm dark:shadow-none">
+          <div className="absolute inset-0 rounded-full border-2 border-cyan-500/10 border-t-cyan-500 dark:border-t-cyan-400 animate-spin" />
+          <Rocket className={cn("w-8 h-8 text-cyan-600 dark:text-cyan-400 transition-all duration-1000", genesisState === 'launched' ? "translate-y-[-100px] opacity-0" : "")} />
         </div>
 
-        <h2 className="text-2xl font-bold text-white mb-2 tracking-tight">
+        <h2 className="text-2xl font-bold text-foreground dark:text-white mb-2 tracking-tight">
           {genesisState === 'launched' ? "Synthesis Complete" : "Generating Backlog"}
         </h2>
         <p className="text-sm text-slate-500 mb-8 max-w-md mx-auto">
@@ -523,20 +523,20 @@ function Step3BacklogGeneration({
             <span>Backlog Synthesis</span>
             <span className="text-cyan-400">{localProgress}%</span>
           </div>
-          <div className="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden border border-white/5 relative">
+          <div className="w-full h-1.5 bg-slate-200 dark:bg-slate-900 rounded-full overflow-hidden border border-slate-300 dark:border-white/5 relative shadow-inner">
             <motion.div 
-              className="h-full bg-cyan-500 shadow-[0_0_20px_rgba(6,182,212,0.6)]"
+              className="h-full bg-cyan-500 shadow-sm dark:shadow-[0_0_20px_rgba(6,182,212,0.6)]"
               initial={{ width: 0 }}
               animate={{ width: `${localProgress}%` }}
             />
           </div>
           
           {/* Terminal Logs */}
-          <div className="mt-8 bg-black/40 border border-white/5 rounded-2xl p-6 font-mono text-left h-40 overflow-hidden relative">
+          <div className="mt-8 bg-muted dark:bg-black/40 border border-border dark:border-white/5 rounded-2xl p-6 font-mono text-left h-40 overflow-hidden relative shadow-sm">
              <div className="flex flex-col gap-2">
                {logs.map((log, i) => (
-                 <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="text-[10px] text-teal-500/60 leading-relaxed flex gap-3">
-                   <span className="text-slate-700 select-none">[{new Date().toLocaleTimeString([], {hour12: false})}]</span>
+                 <motion.div key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="text-[10px] text-teal-400 dark:text-teal-500/60 leading-relaxed flex gap-3">
+                   <span className="text-slate-500 dark:text-slate-700 select-none">[{new Date().toLocaleTimeString([], {hour12: false})}]</span>
                    <span>{log}</span>
                  </motion.div>
                ))}
@@ -560,24 +560,23 @@ function Step4FinalPreview({ onLaunch }: { onLaunch: () => void }) {
          <div className="flex-[2] flex flex-col gap-6">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-white/5 pb-6 mb-2">
                <div className="flex flex-col gap-1">
-                  <h2 className="text-2xl font-bold text-slate-100 flex items-center gap-3 tracking-tight">
-                    <Rocket className="w-6 h-6 text-green-400" />
+                  <h2 className="text-2xl font-bold text-foreground dark:text-slate-100 flex items-center gap-3 tracking-tight">
+                    <Rocket className="w-6 h-6 text-green-600 dark:text-green-400" />
                     Final Backlog Preview
                   </h2>
                   <p className="text-sm text-slate-500 font-light">The synthesis is complete. Review all Drops before launching the project.</p>
                </div>
 
-               {/* LAUNCH PROJECT button */}
                <motion.button 
                  initial={{ opacity: 0, scale: 0.9 }} 
                  animate={{ opacity: 1, scale: 1 }} 
                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
                  onClick={onLaunch}
-                 className="group flex items-center gap-3 px-8 py-4 bg-cyan-500 rounded-full text-[#0a192f] font-bold text-sm tracking-widest shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:shadow-[0_0_40px_rgba(34,211,238,0.6)] hover:scale-105 transition-all outline-none uppercase whitespace-nowrap active:scale-95"
+                 className="group flex items-center gap-3 px-8 py-4 bg-cyan-500 rounded-full text-white font-bold text-sm tracking-widest shadow-sm dark:shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:shadow-md dark:hover:shadow-[0_0_40px_rgba(34,211,238,0.6)] hover:scale-105 transition-all outline-none uppercase whitespace-nowrap active:scale-95"
                >
                  LAUNCH PROJECT
-                 <div className="w-6 h-6 rounded-full bg-[#0a192f]/10 flex items-center justify-center group-hover:translate-x-1 transition-transform">
-                   <ChevronRight className="w-4 h-4 text-[#0a192f]" />
+                 <div className="w-6 h-6 rounded-full bg-black/10 dark:bg-slate-900/10 flex items-center justify-center group-hover:translate-x-1 transition-transform">
+                   <ChevronRight className="w-4 h-4 text-white" />
                  </div>
                </motion.button>
             </div>
@@ -586,29 +585,29 @@ function Step4FinalPreview({ onLaunch }: { onLaunch: () => void }) {
          </div>
 
          {/* Right: Team Alignments (Detailed) */}
-         <div className="flex-1 bg-[#0a192f]/40 border border-slate-800/60 rounded-3xl p-8 flex flex-col relative overflow-hidden shadow-2xl">
-            <div className="flex items-center gap-3 mb-8 border-b border-white/5 pb-6">
-              <UserPlus className="w-6 h-6 text-indigo-400" />
-              <h2 className="text-sm font-semibold text-slate-200">Full Team Matrix</h2>
+         <div className="flex-1 bg-card dark:bg-slate-900/40 border border-border dark:border-slate-800/60 rounded-3xl p-8 flex flex-col relative overflow-hidden shadow-sm dark:shadow-2xl">
+            <div className="flex items-center gap-3 mb-8 border-b border-border dark:border-white/5 pb-6">
+              <UserPlus className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+              <h2 className="text-sm font-semibold text-foreground dark:text-slate-200">Full Team Matrix</h2>
             </div>
 
-            <div className="flex flex-col gap-3">
+             <div className="flex flex-col gap-3">
                {[
                  { name: 'Sarah', role: 'Authentication', match: 98, color: 'green' },
                  { name: 'Mike', role: 'Database Arch', match: 92, color: 'teal' },
                  { name: 'Alex', role: 'UI / UX', match: 85, color: 'blue' }
                ].map((p) => (
-                 <div key={p.name} className={cn("flex items-center justify-between p-3 rounded-xl bg-slate-900/60 border transition-all", `border-${p.color}-500/20 shadow-inner shadow-${p.color}-900/10`)}>
+                 <div key={p.name} className={cn("flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-transparent transition-all shadow-sm dark:shadow-inner dark:shadow-${p.color}-900/10")}>
                    <div className="flex items-center gap-3">
-                     <div className={cn("w-8 h-8 rounded-full flex items-center justify-center border font-bold text-xs shadow-lg", `bg-${p.color}-900/40 border-${p.color}-500/30 text-${p.color}-300`)}>
+                     <div className={cn("w-8 h-8 rounded-full flex items-center justify-center border font-bold text-xs shadow-sm dark:shadow-lg", `bg-${p.color}-100 dark:bg-${p.color}-900/40 border-${p.color}-200 dark:border-${p.color}-500/30 text-${p.color}-700 dark:text-${p.color}-300`)}>
                        {p.name.charAt(0)}
                      </div>
                      <div className="flex flex-col">
-                       <span className="text-sm font-bold text-slate-200 tracking-tight">{p.name}</span>
+                       <span className="text-sm font-bold text-foreground dark:text-slate-200 tracking-tight">{p.name}</span>
                        <span className="text-[10px] text-slate-500 uppercase tracking-widest">{p.role}</span>
                      </div>
                    </div>
-                   <div className={cn("text-xs font-bold font-mono tracking-wide", `text-${p.color}-400`)}>{p.match}% MATCH</div>
+                   <div className={cn("text-xs font-bold font-mono tracking-wide", `text-${p.color}-600 dark:text-${p.color}-400`)}>{p.match}% MATCH</div>
                  </div>
                ))}
             </div>

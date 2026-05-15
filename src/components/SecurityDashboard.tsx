@@ -55,16 +55,16 @@ const SECURITY_PILLARS: SecurityPillar[] = [
 
 export function SecurityDashboard() {
   return (
-    <div className="w-full h-full bg-[#020617] overflow-y-auto pb-32 relative">
+    <div className="w-full h-full bg-transparent overflow-y-auto pb-32 relative">
       {/* Header */}
-      <div className="sticky top-0 z-40 bg-[#020617]/95 backdrop-blur-md px-8 pt-8 pb-6 border-b border-white/5 flex items-center justify-between">
-        <h1 className="text-3xl font-bold font-sans tracking-tight text-slate-100 flex items-center gap-3">
+      <div className="sticky top-0 z-40 bg-background/80 dark:bg-[#020617]/95 backdrop-blur-md px-8 pt-8 pb-6 border-b border-border dark:border-white/5 flex items-center justify-between">
+        <h1 className="text-3xl font-bold font-sans tracking-tight text-foreground dark:text-slate-100 flex items-center gap-3">
           Security & Access Control
         </h1>
       </div>
 
       {/* Ambient background glow */}
-      <div className="absolute top-0 inset-x-0 h-[500px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-[#020617] to-[#020617] pointer-events-none" />
+      <div className="absolute top-0 inset-x-0 h-[500px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-500/10 dark:from-emerald-900/20 via-transparent dark:via-[#020617] to-transparent dark:to-[#020617] pointer-events-none" />
 
       <div className="w-full max-w-6xl mx-auto px-8 pt-8 relative z-10 flex flex-col">
 
@@ -79,10 +79,10 @@ export function SecurityDashboard() {
               <div 
                 key={pillar.id}
                 className={cn(
-                  "relative bg-[#0a192f]/60 backdrop-blur-md rounded-3xl p-8 border flex flex-col gap-6 overflow-hidden transition-all duration-300",
-                  isActive ? "border-emerald-500/20 hover:border-emerald-500/40 shadow-[0_0_40px_rgba(16,185,129,0.03)]" : 
-                  isWarning ? "border-amber-500/30 hover:border-amber-500/50 shadow-[0_0_40px_rgba(245,158,11,0.08)]" : 
-                  "border-slate-700 hover:border-slate-600"
+                  "relative bg-card backdrop-blur-md rounded-3xl p-8 border flex flex-col gap-6 overflow-hidden transition-all duration-300 shadow-sm",
+                  isActive ? "border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.15)]" : 
+                  isWarning ? "border-amber-500/30 shadow-[0_0_30px_rgba(245,158,11,0.15)]" : 
+                  "border-border hover:border-muted-foreground"
                 )}
               >
                 {/* Status Glow overlay */}
@@ -97,15 +97,15 @@ export function SecurityDashboard() {
                   <div className="flex items-center gap-4">
                     <div className={cn(
                       "w-12 h-12 rounded-xl flex items-center justify-center border",
-                      isActive ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.2)]" : 
-                      isWarning ? "bg-amber-500/10 text-amber-400 border-amber-500/30 shadow-[0_0_15px_rgba(245,158,11,0.2)]" : 
-                      "bg-slate-800 text-slate-500 border-slate-700"
+                      isActive ? "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/30 shadow-sm dark:shadow-[0_0_15px_rgba(16,185,129,0.2)]" : 
+                      isWarning ? "bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-500/30 shadow-sm dark:shadow-[0_0_15px_rgba(245,158,11,0.2)]" : 
+                      "bg-muted dark:bg-slate-800 text-muted-foreground border-border dark:border-slate-700"
                     )}>
                       <Icon className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-slate-100">{pillar.name}</h3>
-                      <p className="text-sm font-medium text-slate-500 tracking-wide">{pillar.provider}</p>
+                      <h3 className="text-xl font-bold text-foreground dark:text-slate-100">{pillar.name}</h3>
+                      <p className="text-sm font-medium text-muted-foreground tracking-wide">{pillar.provider}</p>
                     </div>
                   </div>
 
@@ -114,7 +114,7 @@ export function SecurityDashboard() {
                     "flex items-center gap-2 px-4 py-1.5 rounded-full border text-xs font-bold uppercase tracking-wider",
                     isActive ? "bg-emerald-500/10 border-emerald-500/40 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.4)]" :
                     isWarning ? "bg-amber-500/10 border-amber-500/40 text-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.4)] animate-pulse" :
-                    "bg-slate-800/50 border-slate-600 text-slate-500"
+                    "bg-muted dark:bg-slate-800/50 border-border dark:border-slate-600 text-muted-foreground"
                   )}>
                     <div className={cn(
                       "w-2 h-2 rounded-full",
@@ -127,12 +127,12 @@ export function SecurityDashboard() {
                 </div>
 
                 <div className="z-10 mt-2">
-                  <p className="text-slate-300 leading-relaxed">
+                  <p className="text-muted-foreground dark:text-slate-300 leading-relaxed">
                     {pillar.description}
                   </p>
                 </div>
 
-                <div className="z-10 mt-auto pt-4 border-t border-white/5 flex items-center justify-between text-xs text-slate-500 font-medium">
+                <div className="z-10 mt-auto pt-4 border-t border-border dark:border-white/5 flex items-center justify-between text-xs text-muted-foreground font-medium">
                   <div className="flex items-center gap-2">
                     <Lock className="w-3.5 h-3.5" />
                     <span>Policy Enforced</span>

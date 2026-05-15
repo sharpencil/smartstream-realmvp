@@ -12,10 +12,9 @@ import { useMemo } from 'react';
 interface BacklogTrayProps {
   unassignedDrops: DropData[];
   onDragEnd: (id: string, x: number, y: number) => void;
-  isSandboxActive?: boolean;
 }
 
-export function BacklogTray({ unassignedDrops, onDragEnd, isSandboxActive }: BacklogTrayProps) {
+export function BacklogTray({ unassignedDrops, onDragEnd }: BacklogTrayProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const streamColorMap = useMemo(() => {
@@ -34,17 +33,17 @@ export function BacklogTray({ unassignedDrops, onDragEnd, isSandboxActive }: Bac
       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
       className="fixed bottom-0 left-8 right-[400px] z-[150] flex flex-col items-center pointer-events-none"
     >
-      <div className="w-full max-w-4xl bg-[#0b1929]/95 backdrop-blur-xl border border-white/10 rounded-t-2xl shadow-[0_-10px_40px_rgba(0,0,0,0.5)] pointer-events-auto">
+      <div className="w-full max-w-4xl bg-background/80 dark:bg-slate-950/95 backdrop-blur-xl border border-border dark:border-white/10 rounded-t-2xl shadow-arctic pointer-events-auto">
         
         {/* Toggle Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full flex items-center justify-center gap-2 py-3 hover:bg-white/5 transition-colors rounded-t-2xl text-slate-400 hover:text-slate-200"
+          className="w-full flex items-center justify-center gap-2 py-3 hover:bg-muted transition-colors rounded-t-2xl text-muted-foreground hover:text-foreground"
         >
           <ListTodo className="w-4 h-4" />
           <span className="text-xs font-bold uppercase tracking-widest flex items-center gap-2 whitespace-nowrap">
             The Reservoir | Unassigned Drops 
-            <span className="bg-slate-800 text-slate-300 px-2 rounded-full py-0.5">{unassignedDrops.length}</span>
+            <span className="bg-muted border border-border text-foreground px-2 rounded-full py-0.5">{unassignedDrops.length}</span>
           </span>
           {isOpen ? <ChevronDown className="w-4 h-4 ml-2" /> : <ChevronUp className="w-4 h-4 ml-2" />}
         </button>
@@ -64,7 +63,7 @@ export function BacklogTray({ unassignedDrops, onDragEnd, isSandboxActive }: Bac
                     xOffset={0}
                     streamId={drop.streamId}
                     streamColorHex={drop.streamId ? streamColorMap[drop.streamId] : undefined}
-                    isDraft={isSandboxActive}
+                    
                     onDragEnd={onDragEnd}
                     dragTooltip="Adding to Flow..."
                   />
@@ -72,7 +71,7 @@ export function BacklogTray({ unassignedDrops, onDragEnd, isSandboxActive }: Bac
               );
             })}
             {unassignedDrops.length === 0 && (
-              <div className="w-full text-center py-6 text-slate-500 text-sm italic">
+              <div className="w-full text-center py-6 text-muted-foreground text-sm italic">
                 The Reservoir is empty. All drops have been assigned to the flow.
               </div>
             )}

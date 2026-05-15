@@ -19,7 +19,6 @@ export interface DropProps {
   description?: string;
   tasks?: string[];
   isBlocked?: boolean;
-  isMilestoneViolation?: boolean;
   references?: Reference[];
   zoomScale?: number;
   streamId?: string;
@@ -28,7 +27,6 @@ export interface DropProps {
   hoveredStreamId?: string | null;
   onHoverStream?: (streamId: string | null) => void;
   onAction?: (id: string, action: 'complete' | 'block' | 'in-progress' | 'ghost' | 'remove', rationale?: string) => void;
-  isDraft?: boolean;
   onDragEnd?: (id: string, clientX: number, clientY: number) => void;
   dragTooltip?: string;
   hasDependencies?: boolean;
@@ -45,7 +43,6 @@ export interface DropProps {
   isLateCriticalPath?: boolean;
   isReady?: boolean;
   streamName?: string;
-  milestoneContribution?: string;
   ownerVelocity?: number;
   enableStreamHover?: boolean;
 }
@@ -78,7 +75,6 @@ export function Drop({
   description,
   tasks,
 
-  isMilestoneViolation,
   references,
   onAction,
   zoomScale = 1,
@@ -87,7 +83,6 @@ export function Drop({
   streamInitials,
   hoveredStreamId,
   onHoverStream,
-  isDraft,
   onDragEnd,
   dragTooltip,
   hasDependencies,
@@ -104,7 +99,7 @@ export function Drop({
   isLateCriticalPath = false,
   isReady = false,
   streamName,
-  milestoneContribution,
+
   ownerVelocity,
   enableStreamHover = true,
   isBlocked: isBlockedProp,
@@ -137,17 +132,19 @@ export function Drop({
   const getBoxShadow = () => {
     if (isLateCriticalPath) return '0 0 20px rgba(244,63,94,0.6), inset 0 0 12px rgba(244,63,94,0.3)';
     if (variant === 'minimal') return 'none';
-    if (isMilestoneViolation) return '0 0 20px rgba(244,63,94,0.5), inset 0 0 12px rgba(244,63,94,0.1)';
-    if ((isMatchingStream || isSelfHovered || isSelected) && streamColorHex) return `0 0 25px ${streamColorHex}40`;
+
+    if ((isMatchingStream || isSelfHovered || isSelected)) {
+      if (streamColorHex) return `var(--shadow-arctic)`;
+    }
     return 'none';
   };
 
   const getStatusColor = () => {
-    if (isBlocked) return 'bg-red-600';
-    if (isMilestoneViolation) return 'bg-amber-500';
-    if (isCompleted) return 'bg-slate-900';
-    if (isActive) return 'bg-blue-600';
-    return 'bg-slate-800'; // Default for planned
+    if (isBlocked) return 'bg-red-100 dark:bg-red-600 border-2 border-red-300 dark:border-transparent shadow-[0_0_15px_rgba(239,68,68,0.1)]';
+
+    if (isCompleted) return 'bg-slate-100 dark:bg-slate-900';
+    if (isActive) return 'bg-cyan-50/50 dark:bg-blue-600/40';
+    return 'bg-card dark:bg-slate-800'; // Default for planned
   };
 
   return (
@@ -158,15 +155,15 @@ export function Drop({
           <motion.div
             initial={{ opacity: 0, y: 10, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-[130] w-64 p-3 bg-[#030b1a]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] pointer-events-none origin-bottom"
+            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-[130] w-64 p-3 bg-popover/95 dark:bg-[#030b1a]/95 backdrop-blur-xl border border-border dark:border-white/10 rounded-xl shadow-lg dark:shadow-[0_10px_30px_rgba(0,0,0,0.5)] pointer-events-none origin-bottom"
           >
             <div className="flex flex-col gap-1.5">
               <div className="flex items-center justify-between">
                 <span className={cn(
                   'text-[8px] font-black uppercase tracking-[0.2em] px-1.5 py-0.5 rounded-sm',
-                  isCompleted ? 'bg-green-500/20 text-green-400'
-                    : isActive ? 'bg-blue-500/20 text-blue-400'
-                      : 'bg-slate-500/20 text-slate-400'
+                  isCompleted ? 'bg-green-500/10 dark:bg-green-500/20 text-green-600 dark:text-green-400'
+                    : isActive ? 'bg-cyan-500/10 dark:bg-blue-500/20 text-cyan-600 dark:text-blue-400'
+                      : 'bg-slate-500/10 dark:bg-slate-500/20 text-slate-600 dark:text-slate-400'
                 )}>
                   {isCompleted ? 'Completed' : isActive ? 'Active' : 'Planned'} • {effortHours}h
                 </span>
@@ -182,21 +179,14 @@ export function Drop({
                   )}
                 </span>
               </div>
-              <h5 className="text-[11px] font-bold text-slate-100 line-clamp-2 leading-tight">
+              <h5 className="text-[11px] font-bold text-foreground dark:text-slate-100 line-clamp-2 leading-tight">
                 {title}
               </h5>
-              {(streamName || milestoneContribution) && (
+              {streamName && (
                 <div className="flex flex-col gap-0.5 mt-0.5">
-                  {streamName && (
-                    <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
-                      Stream: {streamName}
-                    </div>
-                  )}
-                  {milestoneContribution && (
-                    <div className="text-[9px] font-bold text-cyan-400/80 uppercase tracking-widest">
-                      Req for: {milestoneContribution}
-                    </div>
-                  )}
+                  <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
+                    Stream: {streamName}
+                  </div>
                 </div>
               )}
               {isBlocked && (
@@ -206,7 +196,7 @@ export function Drop({
                 </div>
               )}
             </div>
-            <div className="absolute top-full left-1/2 -translate-x-1/2 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-[#030b1a]/95" />
+            <div className="absolute top-full left-1/2 -translate-x-1/2 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-white dark:border-t-[#030b1a]/95" />
           </motion.div>
         )}
 
@@ -221,14 +211,14 @@ export function Drop({
               scale: (variant === 'full' && (isMatchingStream || isSelfHovered || isSelected)) || isCriticalPath ? 1.05 : 1,
               boxShadow: isCriticalPath ? `0 0 15px 5px ${streamColorHex}40` : getBoxShadow(),
               borderWidth: isSelected ? 2 : 1,
-              borderStyle: (isGhost || isDraft) ? 'dashed' : 'solid',
-              borderColor: isSelected ? streamColorHex : (variant === 'minimal' ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.15)'),
+              borderStyle: isGhost ? 'dashed' : 'solid',
+              borderColor: isSelected ? streamColorHex : (variant === 'minimal' ? 'rgba(0,0,0,0.05)' : 'var(--color-border)'),
               width,
               height: variant === 'minimal' ? Math.min(24, 8 + (intensity * 3)) : 40,
               filter: isCriticalPath
                 ? 'brightness(1.5) saturate(1.5)'
                 : undefined,
-              zIndex: isSelected || isBlocked || isCriticalPath || isMilestoneViolation ? 40 : 20
+              zIndex: isSelected || isBlocked || isCriticalPath ? 40 : 20
             }}
             whileHover={{
               scale: variant === 'minimal' ? 1.2 : (isDimmed ? 0.99 : 1.02),
@@ -249,8 +239,8 @@ export function Drop({
             }}
             transition={{ type: 'spring', stiffness: 300, damping: isMatchingStream ? 15 : 30 }}
             style={{
-              backgroundImage: isBlocked
-                ? (variant === 'minimal' ? undefined : 'repeating-linear-gradient(45deg, rgba(244,63,94,0.15) 0px, rgba(244,63,94,0.15) 4px, transparent 4px, transparent 12px)')
+              backgroundImage: isBlocked && variant !== 'minimal'
+                ? 'repeating-linear-gradient(45deg, rgba(244,63,94,0.15) 0px, rgba(244,63,94,0.15) 4px, transparent 4px, transparent 12px)'
                 : undefined,
 
             }}
@@ -258,8 +248,7 @@ export function Drop({
               'flex items-center cursor-pointer backdrop-blur-xl relative group transition-all duration-300 z-20 outline-none overflow-hidden',
               variant === 'full' ? 'rounded-xl px-4' : 'rounded-sm px-1',
               getStatusColor(),
-              isBlocked && 'animate-pulse shadow-[0_0_20px_rgba(220,38,38,0.4)]',
-              isGhost && 'bg-opacity-20 border-dashed border-white/20'
+              isGhost && 'bg-opacity-20 border-dashed border-border dark:border-white/20'
             )}
           >
             {/* Identity Notch */}
@@ -275,14 +264,14 @@ export function Drop({
               {variant === 'full' && (
                 <div className="flex items-center gap-3 w-full pl-2">
                   {isBlocked ? (
-                    <AlertTriangle className="w-4 h-4 text-white shrink-0" />
+                    <AlertTriangle className="w-4 h-4 text-rose-500 shrink-0" />
                   ) : isCompleted ? (
-                    <Check className="w-3.5 h-3.5 text-white/40 shrink-0" />
+                    <Check className="w-3.5 h-3.5 text-slate-300 shrink-0" />
                   ) : null}
 
                   <span className={cn(
                     "text-[11px] font-bold truncate transition-colors",
-                    isCompleted ? "text-white/40" : "text-white"
+                    isCompleted ? "text-muted-foreground dark:text-white/40" : (isBlocked ? "text-red-700 dark:text-white" : "text-foreground dark:text-white")
                   )}>
                     {title}
                   </span>
@@ -303,7 +292,7 @@ export function Drop({
             </div>
 
             {isDragging && dragTooltip && (
-              <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-cyan-500 text-slate-900 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap shadow-lg pointer-events-none drop-shadow-md z-50">
+              <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-cyan-500 text-white px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap shadow-sm pointer-events-none drop-shadow-md z-50">
                 {dragTooltip}
               </div>
             )}
@@ -318,7 +307,7 @@ export function Drop({
           onMouseEnter={() => setIsMouseOverPopup(true)}
           onMouseLeave={() => setIsMouseOverPopup(false)}
           className={cn(
-            "w-80 bg-[#0a192f]/60 backdrop-blur-3xl border border-white/10 rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.5)] outline-none z-[1000] animate-in fade-in zoom-in-95 duration-200 flex flex-col max-h-[480px] transition-all duration-500",
+            "w-80 bg-popover/95 dark:bg-[#0a192f]/60 backdrop-blur-3xl border border-border dark:border-white/10 shadow-lg outline-none z-[1000] animate-in fade-in zoom-in-95 duration-200 flex flex-col max-h-[480px] transition-all duration-500",
             isSelected && !isHovered && !isMouseOverPopup ? "opacity-10 scale-[0.98] blur-[2px]" : "opacity-100 scale-100 blur-0"
           )}
         >
@@ -329,9 +318,9 @@ export function Drop({
               {isActive && <div className="w-4 h-4 shrink-0 rounded-full border-2 border-blue-400 flex items-center justify-center"><div className="w-2 h-2 rounded-full bg-blue-400" /></div>}
               <span className={cn(
                 'text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full',
-                isCompleted ? 'bg-green-950/60 text-green-400 border border-green-500/30'
-                  : isActive ? 'bg-blue-950/60 text-blue-400 border border-blue-500/30'
-                    : 'bg-slate-800/60 text-slate-400 border border-slate-700/30'
+                isCompleted ? 'bg-green-50 dark:bg-green-950/60 text-green-600 dark:text-green-400 border border-green-200 dark:border-green-500/30'
+                  : isActive ? 'bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/30'
+                    : 'bg-muted dark:bg-slate-800/60 text-muted-foreground dark:text-slate-400 border border-border dark:border-slate-700/30'
               )}>
                 {isCompleted ? 'Completed' : isActive ? 'In Progress' : 'Not Started'}
               </span>
@@ -347,10 +336,8 @@ export function Drop({
                 )}
               </span>
             </div>
-            <h4 className="text-sm font-bold text-cyan-50 leading-snug mt-2 pr-8">{title}</h4>
-            {isMilestoneViolation && (
-              <p className="text-[10px] text-amber-400 font-semibold uppercase tracking-wider mt-1">⚠ Milestone Target Conflict</p>
-            )}
+            <h4 className="text-sm font-bold text-foreground dark:text-cyan-50 leading-snug mt-2 pr-8">{title}</h4>
+
           </div>
 
           {/* Scrollable body */}
@@ -359,7 +346,7 @@ export function Drop({
             {description && (
               <div>
                 <p className="text-[9px] font-bold uppercase tracking-widest text-slate-500 mb-1.5">Objective</p>
-                <p className="text-xs text-slate-300 leading-relaxed">{description}</p>
+                <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">{description}</p>
               </div>
             )}
 
@@ -369,8 +356,8 @@ export function Drop({
                 <p className="text-[9px] font-bold uppercase tracking-widest text-slate-500 mb-1.5">Tasks ({tasks.length})</p>
                 <ul className="space-y-1.5">
                   {tasks.map((task, i) => (
-                    <li key={i} className="flex gap-2 text-xs text-slate-300 leading-relaxed">
-                      <span className="shrink-0 w-4 h-4 rounded-full border border-cyan-500/30 flex items-center justify-center text-[9px] font-bold text-cyan-500/70 mt-0.5">
+                    <li key={i} className="flex gap-2 text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+                      <span className="shrink-0 w-4 h-4 rounded-full border border-cyan-500/30 flex items-center justify-center text-[9px] font-bold text-cyan-600 dark:text-cyan-500/70 mt-0.5">
                         {i + 1}
                       </span>
                       <span>{task}</span>
@@ -388,7 +375,7 @@ export function Drop({
                 <button
                   onClick={() => onAction?.(id, 'complete')}
                   disabled={isCompleted}
-                  className="bg-cyan-600/20 hover:bg-cyan-500 border border-cyan-500/50 text-cyan-400 hover:text-[#020617] text-xs font-bold py-2 rounded-full transition-all shadow-inner disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="bg-cyan-500/10 dark:bg-cyan-600/20 hover:bg-cyan-500 border border-cyan-500/30 dark:border-cyan-500/50 text-cyan-600 dark:text-cyan-400 hover:text-white text-xs font-bold py-2 rounded-full transition-all shadow-sm dark:shadow-inner disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   {isCompleted ? 'Completed' : 'Complete Early'}
                 </button>
@@ -397,14 +384,14 @@ export function Drop({
                 <button
                   onClick={() => onAction?.(id, 'block', rationale)}
                   disabled={isCompleted || isBlocked}
-                  className="bg-slate-900/50 hover:bg-rose-950/30 border border-white/5 hover:border-rose-500/30 text-xs text-rose-400 py-2 rounded-full transition-all shadow-inner hover:shadow-rose-500/10 disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="bg-slate-100 dark:bg-slate-900/50 hover:bg-rose-50 dark:hover:bg-rose-950/30 border border-border dark:border-white/5 hover:border-rose-500/30 text-xs text-rose-600 dark:text-rose-400 py-2 rounded-full transition-all shadow-sm dark:shadow-inner hover:shadow-rose-500/10 disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   {isBlocked ? 'Blocked' : 'Block'}
                 </button>
               </Popover.Close>
             </div>
 
-            <div className="bg-slate-900/40 border border-white/5 rounded-xl p-2.5">
+            <div className="bg-slate-50 dark:bg-slate-900/40 border border-border dark:border-white/5 rounded-xl p-2.5">
               <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest text-center leading-relaxed">
                 Assignment managed by <span className="text-cyan-400">Oracle AI</span> algorithm
               </p>
@@ -425,13 +412,13 @@ export function Drop({
                   value={rationale}
                   onChange={(e) => setRationale(e.target.value)}
                   placeholder="Add rationale... (Why?)"
-                  className="w-full bg-black/30 border border-white/10 rounded-xl py-2 px-3 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-cyan-500/50 transition-all font-mono shadow-inner block mt-1"
+                  className="w-full bg-muted dark:bg-black/30 border border-border dark:border-white/10 rounded-xl py-2 px-3 text-xs text-foreground dark:text-slate-200 placeholder:text-muted-foreground dark:placeholder:text-slate-600 focus:outline-none focus:border-cyan-500/50 transition-all font-mono shadow-inner block mt-1"
                 />
               </div>
             )}
           </div>
 
-          <Popover.Arrow className="fill-[#0a192f] opacity-90 w-4 h-2" />
+          <Popover.Arrow className="fill-white dark:fill-[#0a192f] opacity-90 w-4 h-2" />
         </Popover.Content>
       </Popover.Portal>
     </Popover.Root>

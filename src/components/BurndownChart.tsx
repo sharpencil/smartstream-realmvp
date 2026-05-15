@@ -1,8 +1,9 @@
 'use client';
-
 import React from 'react';
+import { useTheme } from 'next-themes';
 
 export function BurndownChart() {
+  const { theme } = useTheme();
   // Mock data for a "burndown" effect
   // Ideal line: (0, 0) to (100, 20) in this mini coordinate space
   // Actual line: some variation
@@ -12,7 +13,7 @@ export function BurndownChart() {
         {/* Guideline (Ideal) */}
         <line 
           x1="0" y1="5" x2="100" y2="35" 
-          stroke="rgba(255, 255, 255, 0.25)" 
+          stroke={theme === 'dark' ? "rgba(255, 255, 255, 0.25)" : "rgba(15, 23, 42, 0.15)"} 
           strokeWidth="1.5" 
           strokeDasharray="3 3" 
         />

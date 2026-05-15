@@ -210,30 +210,30 @@ export function ProjectMap() {
   };
 
   const getNodeStyle = (column: TimeColumn, isAssignedToMe: boolean) => {
-    const common = "relative group cursor-pointer transition-all duration-500 rounded-3xl border backdrop-blur-xl overflow-hidden";
+    const common = "relative group cursor-pointer transition-all duration-500 rounded-3xl border backdrop-blur-xl overflow-hidden shadow-sm dark:shadow-none";
     
     if (isAssignedToMe) {
-      return cn(common, "bg-cyan-950/20 border-cyan-500/50 shadow-[0_0_30px_rgba(34,211,238,0.2)]");
+      return cn(common, "bg-cyan-50 dark:bg-cyan-950/20 border-cyan-300 dark:border-cyan-500/50 shadow-cyan-500/10 dark:shadow-[0_0_30px_rgba(34,211,238,0.2)]");
     }
 
     switch (column) {
       case 'PAST': 
-        return cn(common, "bg-slate-950/40 border-white/5 opacity-50 hover:opacity-80 shadow-none");
+        return cn(common, "bg-slate-100/40 dark:bg-slate-950/40 border-slate-200 dark:border-white/5 opacity-50 hover:opacity-80");
       case 'CURRENT': 
-        return cn(common, "bg-[#0a192f]/80 border-cyan-500/30 shadow-[0_0_20px_rgba(34,211,238,0.1)]");
+        return cn(common, "bg-white/80 dark:bg-[#0a192f]/80 border-cyan-200 dark:border-cyan-500/30 shadow-lg dark:shadow-[0_0_20px_rgba(34,211,238,0.1)]");
       case 'FUTURE': 
-        return cn(common, "bg-transparent border-dashed border-teal-500/30 opacity-60 hover:opacity-100");
+        return cn(common, "bg-transparent border-dashed border-teal-300 dark:border-teal-500/30 opacity-60 hover:opacity-100");
     }
   };
 
   return (
-    <div className="flex flex-col h-full w-full bg-[#020617] relative overflow-hidden font-sans">
+    <div className="flex flex-col h-full w-full bg-transparent relative overflow-hidden font-sans">
       {/* Bioluminescent Grid Background */}
-      <div className="absolute inset-0 bg-[size:60px_60px] bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#020617]/50 to-[#020617] pointer-events-none" />
+      <div className="absolute inset-0 bg-[size:60px_60px] bg-[linear-gradient(to_right,#0f172a05_1px,transparent_1px),linear-gradient(to_bottom,#0f172a05_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent dark:via-[#020617]/50 to-transparent dark:to-[#020617] pointer-events-none" />
       
       {/* Header & Navigation */}
-      <div className="sticky top-0 z-50 bg-[#020617]/95 backdrop-blur-xl px-10 h-[120px] border-b border-white/5 flex items-center justify-between shrink-0">
+      <div className="sticky top-0 z-50 bg-white/80 dark:bg-[#020617]/95 backdrop-blur-xl px-10 h-[120px] border-b border-slate-200 dark:border-white/5 flex items-center justify-between shrink-0">
         <div className="relative h-full flex flex-col justify-center">
           <div className="flex items-center gap-3">
             {viewMode === 'drop' && (
@@ -242,16 +242,16 @@ export function ProjectMap() {
                   setViewMode('stream');
                   setSelectedStreamId(null);
                 }}
-                className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 transition-all mr-3"
+                className="p-2.5 rounded-xl bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 transition-all mr-3 shadow-sm dark:shadow-none"
               >
                 <ArrowLeft className="w-5 h-5" />
               </button>
             )}
-            <h1 className="text-3xl font-bold tracking-tight text-slate-100">Project Map</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">Project Map</h1>
           </div>
           
           {viewMode === 'drop' && (
-            <div className="absolute top-[96px] left-0 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 whitespace-nowrap">
+            <div className="absolute top-[96px] left-0 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 dark:text-slate-500 whitespace-nowrap">
               <span>Streams</span>
               <ChevronRight className="w-3 h-3" />
               <span className="text-slate-300">
@@ -262,22 +262,22 @@ export function ProjectMap() {
         </div>
         <div className="flex items-center gap-4">
           {/* Filters */}
-          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl px-2 py-1">
+          <div className="flex items-center gap-2 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-2 py-1 shadow-sm dark:shadow-none">
             <select 
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="bg-transparent text-xs font-bold text-slate-400 outline-none px-2 py-1 cursor-pointer hover:text-slate-200"
+              className="bg-transparent text-xs font-bold text-slate-600 dark:text-slate-400 outline-none px-2 py-1 cursor-pointer hover:text-slate-900 dark:hover:text-slate-200"
             >
               <option className="bg-[#0f172a]">All Status</option>
               <option className="bg-[#0f172a]">Past</option>
               <option className="bg-[#0f172a]">Current</option>
-              <option className="bg-[#0f172a]">Future</option>
+              <option className="bg-white dark:bg-[#0f172a] text-slate-900 dark:text-slate-100">Future</option>
             </select>
-            <div className="w-px h-4 bg-white/10" />
+            <div className="w-px h-4 bg-slate-200 dark:bg-white/10" />
             <select 
               value={ownerFilter}
               onChange={(e) => setOwnerFilter(e.target.value)}
-              className="bg-transparent text-xs font-bold text-slate-400 outline-none px-2 py-1 cursor-pointer hover:text-slate-200"
+              className="bg-transparent text-xs font-bold text-slate-600 dark:text-slate-400 outline-none px-2 py-1 cursor-pointer hover:text-slate-900 dark:hover:text-slate-200"
             >
               <option className="bg-[#0f172a]">All Owners</option>
               <option className="bg-[#0f172a]">Me</option>
@@ -285,7 +285,7 @@ export function ProjectMap() {
             </select>
           </div>
 
-          <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 p-1.5 bg-[#0a192f]/60 border border-slate-800/60 rounded-full shadow-inner shadow-black/20">
+          <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 p-1.5 bg-slate-100 dark:bg-[#0a192f]/60 border border-border dark:border-slate-800/60 rounded-full dark:shadow-inner dark:shadow-black/20">
             <button
               onClick={() => {
                 setViewMode('stream');
@@ -294,8 +294,8 @@ export function ProjectMap() {
               className={cn(
                 "px-6 py-2 rounded-full text-sm font-bold tracking-wide transition-all outline-none",
                 viewMode === 'stream' 
-                  ? "bg-emerald-950/80 text-emerald-400 shadow-inner shadow-emerald-500/20 border border-emerald-500/20" 
-                  : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
+                  ? "bg-teal-50 dark:bg-teal-950/80 text-teal-700 dark:text-teal-400 border border-teal-200 dark:border-teal-500/20" 
+                  : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-white/5"
               )}
             >
               Stream Graph
@@ -305,8 +305,8 @@ export function ProjectMap() {
               className={cn(
                 "px-6 py-2 rounded-full text-sm font-bold tracking-wide transition-all outline-none",
                 viewMode === 'drop' 
-                  ? "bg-emerald-950/80 text-emerald-400 shadow-inner shadow-emerald-500/20 border border-emerald-500/20" 
-                  : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
+                  ? "bg-teal-50 dark:bg-teal-950/80 text-teal-700 dark:text-teal-400 border border-teal-200 dark:border-teal-500/20" 
+                  : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-white/5"
               )}
             >
               Drop Graph
@@ -388,7 +388,7 @@ export function ProjectMap() {
                       "w-2 h-2 rounded-full",
                       col === 'PAST' ? "bg-slate-700" : col === 'CURRENT' ? "bg-cyan-500 shadow-[0_0_15px_rgba(34,211,238,0.5)]" : "bg-slate-800 border border-white/5"
                     )} />
-                    <h2 className="text-sm font-black uppercase tracking-[0.2em] text-slate-500">{col}</h2>
+                    <h2 className="text-sm font-black uppercase tracking-[0.2em] text-slate-600 dark:text-slate-400">{col}</h2>
                   </div>
                   <div className="text-[10px] font-bold text-slate-600 bg-white/5 px-2 py-1 rounded">
                     {viewMode === 'stream' ? streamsByColumn[col].length : dropsByColumn[col].length} Nodes
@@ -428,7 +428,7 @@ export function ProjectMap() {
                           <div className="p-6 flex flex-col gap-4">
                             <div className="flex justify-between items-start">
                               <div className="flex flex-col gap-1">
-                                <span className="text-[10px] font-mono font-bold text-slate-500 uppercase">{stream.initials}</span>
+                                <span className="text-[10px] font-mono font-bold text-slate-600 dark:text-slate-500 uppercase">{stream.initials}</span>
                                 {stream.drops.some(d => d.owner_id === MY_USER_ID) && (
                                   <span className="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-[8px] font-black uppercase text-emerald-400">
                                     My Stream
@@ -440,18 +440,18 @@ export function ProjectMap() {
                               <div>
                                 <h3 className={cn(
                                   "text-lg font-bold transition-colors leading-tight",
-                                  col === 'PAST' ? "text-slate-500" : "text-slate-100 group-hover:text-cyan-400"
+                                  col === 'PAST' ? "text-slate-500 dark:text-slate-400" : "text-slate-900 dark:text-slate-100 group-hover:text-cyan-600 dark:group-hover:text-cyan-400"
                                 )}>
                                   {stream.title}
                                 </h3>
-                                <p className="text-xs text-slate-500 mt-2 line-clamp-2 leading-relaxed">
+                                <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 line-clamp-2 leading-relaxed">
                                   {stream.description}
                                 </p>
                               </div>
                               <div className="pt-4 border-t border-white/5 flex items-center justify-between">
                                 <div className="flex items-center gap-2">
                                   <Layers className="w-3 h-3 text-slate-600" />
-                                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                                  <span className="text-[10px] font-bold text-slate-600 dark:text-slate-500 uppercase tracking-wider">
                                     {stream.drops.length} Drops · {col === 'PAST' ? 'Closed' : `${completedCount} Done`}
                                   </span>
                                 </div>
@@ -489,10 +489,13 @@ export function ProjectMap() {
                             <div className="absolute left-0 top-0 bottom-0 w-1" style={{ backgroundColor: color }} />
                             <div className="p-5 flex flex-col gap-3">
                               <div className="flex justify-between items-center">
-                                <span className="text-[10px] font-mono font-bold text-slate-500">{drop.drop_id}</span>
+                                <span className="text-[10px] font-mono font-bold text-slate-600 dark:text-slate-500">{drop.drop_id}</span>
                                 {renderStatusIcon(col)}
                               </div>
-                              <h3 className="text-sm font-bold text-slate-200 group-hover:text-cyan-400 transition-colors leading-snug">
+                              <h3 className={cn(
+                                "text-sm font-bold transition-colors leading-snug",
+                                col === 'PAST' ? "text-slate-500 dark:text-slate-400" : "text-slate-900 dark:text-slate-100 group-hover:text-cyan-600 dark:group-hover:text-cyan-400"
+                              )}>
                                 {drop.title}
                               </h3>
                               <div className="flex items-center justify-between mt-1">
@@ -500,7 +503,7 @@ export function ProjectMap() {
                                   <div className="w-5 h-5 rounded-full bg-slate-800 flex items-center justify-center border border-white/10">
                                     <User className="w-3 h-3 text-slate-400" />
                                   </div>
-                                  <span className="text-[10px] font-bold text-slate-400">{isMe ? 'Me' : 'Owner'}</span>
+                                  <span className="text-[10px] font-bold text-slate-700 dark:text-slate-400">{isMe ? 'Me' : 'Owner'}</span>
                                 </div>
                                 {isMe && col === 'CURRENT' && (
                                   <div className="px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/30 text-[8px] font-black uppercase text-cyan-400 animate-pulse">
@@ -531,16 +534,16 @@ export function ProjectMap() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="absolute right-0 top-0 bottom-0 w-[400px] bg-[#0a192f]/95 backdrop-blur-xl border-l border-white/10 z-[100] shadow-[-20px_0_40px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col"
+            className="absolute right-0 top-0 bottom-0 w-[400px] bg-white/95 dark:bg-[#0a192f]/95 backdrop-blur-xl border-l border-slate-200 dark:border-white/10 z-[100] shadow-2xl dark:shadow-[-20px_0_40px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col"
           >
             {/* Header */}
-            <div className="p-8 border-b border-white/5 flex items-center justify-between">
-              <h2 className="text-xl font-bold text-slate-100">
+            <div className="p-8 border-b border-slate-200 dark:border-white/5 flex items-center justify-between">
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">
                 {hydratedStreams.flatMap(s => s.drops).some(d => d.drop_id === selectedNodeId) ? 'Drop Details' : 'Stream Details'}
               </h2>
               <button 
                 onClick={() => setSelectedNodeId(null)}
-                className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 transition-all"
+                className="p-2 rounded-lg bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 transition-all shadow-sm dark:shadow-none"
               >
                 <ChevronRight className="w-5 h-5" />
               </button>
@@ -557,33 +560,33 @@ export function ProjectMap() {
                   return (
                     <div className="space-y-6">
                       <div className="flex items-center gap-3">
-                        <span className="px-2 py-0.5 rounded bg-black/40 border border-white/10 text-[10px] font-bold" style={{ color: sColor.hex }}>
+                        <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-black/40 border border-slate-200 dark:border-white/10 text-[10px] font-bold" style={{ color: sColor.hex }}>
                           {stream?.initials}
                         </span>
-                        <span className="text-slate-500 font-mono text-xs">{drop.drop_id}</span>
+                        <span className="text-slate-600 dark:text-slate-500 font-mono text-xs">{drop.drop_id}</span>
                       </div>
-                      <h3 className="text-2xl font-bold text-slate-100 leading-tight">{drop.title}</h3>
+                      <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 leading-tight">{drop.title}</h3>
                       
                       <div className="flex flex-wrap gap-4 pt-2">
                         <div className="flex flex-col gap-1">
-                          <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Status</span>
-                          <span className="text-sm font-semibold text-slate-200">{drop.status}</span>
+                          <span className="text-[10px] font-bold text-slate-600 dark:text-slate-500 uppercase tracking-widest">Status</span>
+                          <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">{drop.status}</span>
                         </div>
                         <div className="flex flex-col gap-1">
-                          <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Owner</span>
-                          <span className="text-sm font-semibold text-slate-200">{drop.owner_id === MY_USER_ID ? 'Lena Vane (Me)' : 'Team Member'}</span>
+                          <span className="text-[10px] font-bold text-slate-600 dark:text-slate-500 uppercase tracking-widest">Owner</span>
+                          <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">{drop.owner_id === MY_USER_ID ? 'Lena Vane (Me)' : 'Team Member'}</span>
                         </div>
                       </div>
 
-                      <div className="pt-6 border-t border-white/5">
-                        <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Execution Steps</h4>
+                      <div className="pt-6 border-t border-slate-200 dark:border-white/5">
+                        <h4 className="text-xs font-bold text-slate-600 dark:text-slate-500 uppercase tracking-widest mb-4">Execution Steps</h4>
                         <div className="space-y-3">
                           {drop.tasks.map((task, idx) => (
-                            <div key={idx} className="flex items-start gap-3 p-3 rounded-xl bg-white/5 border border-white/5 group hover:border-white/10 transition-all">
-                              <div className="mt-1 w-4 h-4 rounded border border-slate-700 flex items-center justify-center shrink-0">
-                                {drop.status === 'Completed' && <CheckCircle className="w-3 h-3 text-emerald-400" />}
+                            <div key={idx} className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/5 group hover:border-slate-300 dark:hover:border-white/10 transition-all shadow-sm dark:shadow-none">
+                              <div className="mt-1 w-4 h-4 rounded border border-slate-300 dark:border-slate-700 flex items-center justify-center shrink-0">
+                                {drop.status === 'Completed' && <CheckCircle className="w-3 h-3 text-emerald-500 dark:text-emerald-400" />}
                               </div>
-                              <span className="text-sm text-slate-300 leading-relaxed">{task}</span>
+                              <span className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">{task}</span>
                             </div>
                           ))}
                         </div>
@@ -597,19 +600,19 @@ export function ProjectMap() {
                       <div className="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg" style={{ backgroundColor: `${sColor.hex}20`, color: sColor.hex, border: `1px solid ${sColor.hex}40` }}>
                         {stream.initials}
                       </div>
-                      <h3 className="text-2xl font-bold text-slate-100 leading-tight">{stream.title}</h3>
-                      <p className="text-slate-400 leading-relaxed">{stream.description}</p>
+                      <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 leading-tight">{stream.title}</h3>
+                      <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{stream.description}</p>
                       
-                      <div className="pt-6 border-t border-white/5">
-                        <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Workstream Stats</h4>
+                      <div className="pt-6 border-t border-slate-200 dark:border-white/5">
+                        <h4 className="text-xs font-bold text-slate-600 dark:text-slate-500 uppercase tracking-widest mb-4">Workstream Stats</h4>
                         <div className="grid grid-cols-2 gap-4">
-                          <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
-                            <span className="block text-2xl font-bold text-slate-100">{stream.drops.length}</span>
-                            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Total Drops</span>
+                          <div className="p-4 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/5 shadow-sm dark:shadow-none">
+                            <span className="block text-2xl font-bold text-slate-900 dark:text-slate-100">{stream.drops.length}</span>
+                            <span className="text-[10px] font-bold text-slate-600 dark:text-slate-500 uppercase tracking-widest">Total Drops</span>
                           </div>
-                          <div className="p-4 rounded-2xl bg-white/5 border border-white/5">
-                            <span className="block text-2xl font-bold text-emerald-400">{stream.drops.filter(d => d.status === 'Completed').length}</span>
-                            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Completed</span>
+                          <div className="p-4 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/5 shadow-sm dark:shadow-none">
+                            <span className="block text-2xl font-bold text-emerald-600 dark:text-emerald-400">{stream.drops.filter(d => d.status === 'Completed').length}</span>
+                            <span className="text-[10px] font-bold text-slate-600 dark:text-slate-500 uppercase tracking-widest">Completed</span>
                           </div>
                         </div>
                       </div>

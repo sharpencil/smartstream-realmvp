@@ -77,7 +77,7 @@ export function TeamMatchDashboard({ onTraceDependency, onOverride, selectedDate
   ];
 
   return (
-    <div className="flex flex-col h-full w-full bg-[#020617] text-slate-50">
+    <div className="flex flex-col h-full w-full bg-background text-foreground">
       <div className="flex-1 flex gap-8 overflow-hidden">
         {/* Main Content: Active Matches & Constraints */}
         <div className="flex-1 flex flex-col min-w-0 overflow-y-auto custom-scrollbar pr-2 pb-8">
@@ -92,7 +92,7 @@ export function TeamMatchDashboard({ onTraceDependency, onOverride, selectedDate
           </div>
             <div className="space-y-4">
               {activeMatches.map((match) => (
-                <div key={match.id} className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 p-5 flex items-start gap-6 hover:bg-white/[0.07] transition-colors">
+                <div key={match.id} className="bg-muted/50 dark:bg-white/5 backdrop-blur-md rounded-2xl border border-border dark:border-white/10 p-5 flex items-start gap-6 hover:bg-muted dark:hover:bg-white/[0.07] transition-colors">
                   {/* Score */}
                   <div className="flex flex-col items-center justify-center min-w-[80px]">
                     <span className={cn(
@@ -119,7 +119,7 @@ export function TeamMatchDashboard({ onTraceDependency, onOverride, selectedDate
                           )}>{match.load}%</span>
                           <p className="text-[9px] uppercase font-bold tracking-widest text-slate-500">Current Load</p>
                         </div>
-                        <div className="w-px h-8 bg-white/10" />
+                        <div className="w-px h-8 bg-border dark:bg-white/10" />
                         <div className="text-right min-w-[80px]">
                           <span className={cn(
                             "text-sm font-bold flex items-center justify-end gap-1.5",
@@ -141,7 +141,7 @@ export function TeamMatchDashboard({ onTraceDependency, onOverride, selectedDate
 
                   {/* Actions */}
                   <div className="flex flex-col items-center justify-center shrink-0">
-                    <button className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-xs font-bold text-slate-300 hover:bg-white/10 hover:text-white transition-all flex items-center gap-2">
+                    <button className="px-4 py-2 rounded-lg bg-muted dark:bg-white/5 border border-border dark:border-white/10 text-xs font-bold text-muted-foreground dark:text-slate-300 hover:bg-secondary dark:hover:bg-white/10 hover:text-foreground dark:hover:text-white transition-all flex items-center gap-2">
                       Reassign
                     </button>
                   </div>
@@ -160,14 +160,14 @@ export function TeamMatchDashboard({ onTraceDependency, onOverride, selectedDate
             </div>
             <div className="grid grid-cols-2 gap-4">
               {constraints.map((constraint) => (
-                <div key={constraint.id} className="bg-rose-950/10 border border-rose-500/20 rounded-xl p-4 relative group">
-                  <span className="absolute top-0 right-0 bg-rose-500/10 text-rose-400 text-[9px] font-bold uppercase tracking-widest px-2 py-1 rounded-bl-lg rounded-tr-xl">
+                <div key={constraint.id} className="bg-rose-50 dark:bg-rose-950/10 border border-rose-200 dark:border-rose-500/20 rounded-xl p-4 relative group">
+                  <span className="absolute top-0 right-0 bg-rose-500/10 text-rose-600 dark:text-rose-400 text-[9px] font-bold uppercase tracking-widest px-2 py-1 rounded-bl-lg rounded-tr-xl">
                     {constraint.type}
                   </span>
-                  <p className="text-sm font-medium text-slate-200 mt-2 mb-4">{constraint.title}</p>
+                  <p className="text-sm font-medium text-foreground dark:text-slate-200 mt-2 mb-4">{constraint.title}</p>
                   <button 
                     onClick={onTraceDependency}
-                    className="text-xs font-bold text-rose-400 hover:text-rose-300 flex items-center gap-1.5 transition-colors"
+                    className="text-xs font-bold text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 flex items-center gap-1.5 transition-colors"
                   >
                     Trace Dependency <ArrowRight className="w-3.5 h-3.5" />
                   </button>
@@ -178,7 +178,7 @@ export function TeamMatchDashboard({ onTraceDependency, onOverride, selectedDate
         </div>
 
         {/* Side Panel: Next Moves */}
-        <div className="w-96 shrink-0 bg-[#0a192f]/30 flex flex-col border border-white/5 rounded-[28px] overflow-y-auto custom-scrollbar p-6 h-fit max-h-full">
+        <div className="w-96 shrink-0 bg-muted/30 dark:bg-[#0a192f]/30 flex flex-col border border-border dark:border-white/5 rounded-[28px] overflow-y-auto custom-scrollbar p-6 h-fit max-h-full">
           <div className="mb-6">
             <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
               <Users className="w-4 h-4 text-transparent" /> {/* Spacer for alignment */}
@@ -189,7 +189,7 @@ export function TeamMatchDashboard({ onTraceDependency, onOverride, selectedDate
 
           <div className="space-y-4">
             {nextMoves.map((move) => (
-              <div key={move.id} className="bg-[#020617] rounded-xl border border-white/10 p-4 shadow-lg">
+              <div key={move.id} className="bg-card dark:bg-[#020617] rounded-xl border border-border dark:border-white/10 p-4 shadow-sm dark:shadow-lg">
                 <h3 className="text-sm font-bold text-slate-200 mb-3">{move.title}</h3>
                 
                 <div className="space-y-2 mb-4">
@@ -197,7 +197,7 @@ export function TeamMatchDashboard({ onTraceDependency, onOverride, selectedDate
                     <span className="text-xs font-bold text-cyan-100">1. {move.primary.name}</span>
                     <span className="text-xs font-mono font-bold text-cyan-400">{move.primary.score.toFixed(2)}</span>
                   </div>
-                  <div className="flex items-center justify-between bg-white/5 border border-white/5 rounded-lg p-2 opacity-70">
+                  <div className="flex items-center justify-between bg-muted dark:bg-white/5 border border-border dark:border-white/5 rounded-lg p-2 opacity-70">
                     <span className="text-xs text-slate-300">2. {move.runnerUp.name}</span>
                     <span className="text-xs font-mono font-bold text-slate-400">{move.runnerUp.score.toFixed(2)}</span>
                   </div>
@@ -209,7 +209,7 @@ export function TeamMatchDashboard({ onTraceDependency, onOverride, selectedDate
                   </button>
                   <button 
                     onClick={onOverride}
-                    className="flex-1 bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 py-1.5 rounded-lg text-xs font-bold transition-colors"
+                    className="flex-1 bg-muted dark:bg-white/5 hover:bg-secondary dark:hover:bg-white/10 text-muted-foreground dark:text-slate-300 border border-border dark:border-white/10 py-1.5 rounded-lg text-xs font-bold transition-colors"
                   >
                     Override
                   </button>

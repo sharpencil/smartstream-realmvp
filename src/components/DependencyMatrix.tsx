@@ -106,28 +106,28 @@ export function DependencyMatrix() {
     <motion.div
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="w-full flex-1 flex flex-col relative overflow-hidden bg-[#061124] rounded-3xl border border-slate-800/60 shadow-inner shadow-indigo-900/10 min-h-[600px] mt-4"
+      className="w-full flex-1 flex flex-col relative overflow-hidden bg-background dark:bg-[#061124] rounded-3xl border border-border dark:border-slate-800/60 shadow-inner dark:shadow-indigo-900/10 min-h-[600px] mt-4"
     >
-      <div className="flex items-center justify-between p-6 border-b border-white/5 bg-[#0a192f]/50">
+      <div className="flex items-center justify-between p-6 border-b border-border dark:border-white/5 bg-muted/30 dark:bg-[#0a192f]/50">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-indigo-950/50 rounded-lg border border-indigo-500/20 shadow-[0_0_15px_rgba(129,140,248,0.1)]">
-            <Network className="w-5 h-5 text-indigo-400" />
+          <div className="p-2 bg-indigo-50 dark:bg-indigo-950/50 rounded-lg border border-indigo-200 dark:border-indigo-500/20 shadow-sm dark:shadow-[0_0_15px_rgba(129,140,248,0.1)]">
+            <Network className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
           </div>
           <div className="flex flex-col">
-            <h2 className="text-lg font-bold text-slate-100 tracking-wide">Stream Dependencies</h2>
-            <span className="text-[10px] text-slate-500 uppercase tracking-widest">Dynamic Cross-Stream Pipeline Matrix</span>
+            <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100 tracking-wide">Stream Dependencies</h2>
+            <span className="text-[10px] text-muted-foreground uppercase tracking-widest">Dynamic Cross-Stream Pipeline Matrix</span>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
           <div className="relative">
-            <Search className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
-            <input type="text" placeholder="Find stream..." className="bg-black/30 border border-slate-800 rounded-full py-1.5 pl-9 pr-4 text-xs text-slate-300 focus:outline-none focus:border-cyan-500/50 transition-colors w-48" />
+            <Search className="w-4 h-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
+            <input type="text" placeholder="Find stream..." className="bg-background dark:bg-black/30 border border-border dark:border-slate-800 rounded-full py-1.5 pl-9 pr-4 text-xs text-foreground dark:text-slate-300 focus:outline-none focus:border-cyan-500/50 transition-colors w-48 shadow-sm dark:shadow-none" />
           </div>
         </div>
       </div>
 
-      <div className="flex-1 w-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-slate-900/40 via-[#061124] to-[#061124] relative overflow-auto p-12 custom-scrollbar">
+      <div className="flex-1 w-full bg-background dark:bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] dark:from-slate-900/40 dark:via-[#061124] dark:to-[#061124] relative overflow-auto p-12 custom-scrollbar">
 
         {/* Draw SVG connections */}
         <svg className="absolute inset-0 pointer-events-none w-full h-full" style={{ zIndex: 0 }}>
@@ -195,17 +195,17 @@ export function DependencyMatrix() {
           </g>
         </svg>
 
-        <div className="flex gap-20 h-full w-max min-h-[400px] relative z-10 mx-auto px-10">
+        <div className="flex gap-20 h-full w-max min-h-[400px] relative z-10 px-10">
 
           {pipelineLayers.map((layer, idx) => (
             <div key={layer.id} className="flex flex-col gap-6 w-64 relative">
 
               {/* Layer Header */}
               <div className="flex flex-col items-center mb-4">
-                <div className="bg-slate-900/80 px-3 py-1 rounded-md border border-slate-800 text-[10px] font-bold tracking-widest text-slate-500 uppercase">
+                <div className="bg-slate-100 dark:bg-slate-900/80 px-3 py-1 rounded-md border border-border dark:border-slate-800 text-[10px] font-bold tracking-widest text-slate-600 dark:text-slate-500 uppercase">
                   Stage 0{idx + 1}
                 </div>
-                <h3 className="text-sm font-semibold text-slate-300 mt-2">{layer.title}</h3>
+                <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mt-2">{layer.title}</h3>
               </div>
 
               {/* Streams */}
@@ -220,22 +220,22 @@ export function DependencyMatrix() {
                     <motion.div
                       key={stream.id}
                       onClick={() => setSelectedStreamId(prev => prev === stream.id ? null : stream.id)}
-                      className="w-full bg-[#0a192f] border border-slate-700/60 rounded-2xl p-5 shadow-xl shadow-black/40 relative group cursor-pointer"
+                      className="w-full bg-card dark:bg-[#0a192f] border border-border dark:border-slate-700/60 rounded-2xl p-5 shadow-sm dark:shadow-xl dark:shadow-black/40 relative group cursor-pointer"
                       style={{ boxShadow: `inset 0 0 20px ${colorHex}15` }}
                     >
                       <div className="absolute top-0 left-0 bottom-0 w-1.5 rounded-l-2xl opacity-80" style={{ backgroundColor: colorHex }} />
 
                       <div className="flex items-center justify-between mb-3 pl-2">
-                        <div className="w-10 h-8 rounded-lg bg-slate-900 border flex items-center justify-center font-bold text-[10px]" style={{ borderColor: `${colorHex}40`, color: colorHex }}>
+                        <div className="w-10 h-8 rounded-lg bg-white dark:bg-slate-900 border border-border flex items-center justify-center font-bold text-[10px] shadow-sm dark:shadow-none" style={{ borderColor: `${colorHex}40`, color: colorHex }}>
                           {stream.initials}
                         </div>
-                        <div className="flex items-center gap-1 bg-slate-900/60 px-2 py-0.5 rounded border border-slate-800">
-                          <Blocks className="w-3 h-3 text-slate-500" />
-                          <span className="text-[10px] font-bold text-slate-400">ACTIVE</span>
+                        <div className="flex items-center gap-1 bg-muted/50 dark:bg-slate-900/60 px-2 py-0.5 rounded border border-border dark:border-slate-800">
+                          <Blocks className="w-3 h-3 text-slate-600 dark:text-slate-500" />
+                          <span className="text-[10px] font-bold text-slate-700 dark:text-slate-400">ACTIVE</span>
                         </div>
                       </div>
 
-                      <h4 className="text-sm font-semibold text-slate-200 pl-2 leading-tight">{stream.title}</h4>
+                      <h4 className="text-sm font-semibold text-slate-800 dark:text-slate-200 pl-2 leading-tight">{stream.title}</h4>
 
                       <AnimatePresence>
                         {selectedStreamId === stream.id && (
@@ -246,7 +246,7 @@ export function DependencyMatrix() {
                             className="overflow-hidden pl-2"
                           >
                             <div className="pt-3 border-t border-slate-700/50">
-                              <span className="text-[10px] font-bold tracking-widest text-slate-500 uppercase mb-2 block">Critical Bridges</span>
+                              <span className="text-[10px] font-bold tracking-widest text-slate-600 dark:text-slate-500 uppercase mb-2 block">Critical Bridges</span>
                               {CRITICAL_BRIDGES[stream.id] ? (
                                 <div className="flex flex-col gap-3">
                                   {CRITICAL_BRIDGES[stream.id].map((bridge, bIdx) => {
@@ -254,17 +254,17 @@ export function DependencyMatrix() {
                                     const tStreamColor = tStream ? streamColors[tStream.id] : null;
                                     const tColorHex = tStreamColor ? tStreamColor.hex : '#475569';
                                     return (
-                                      <div key={bIdx} className="flex flex-col gap-1.5 p-2 bg-black/20 rounded-xl border border-white/5">
+                                      <div key={bIdx} className="flex flex-col gap-1.5 p-2 bg-muted/50 dark:bg-black/20 rounded-xl border border-border dark:border-white/5">
                                         <div className="flex items-center gap-1.5">
                                           <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: colorHex }} />
-                                          <span className="text-[10px] font-semibold text-slate-300 line-clamp-1">{bridge.sourceDrop}</span>
+                                          <span className="text-[10px] font-semibold text-slate-700 dark:text-slate-300 line-clamp-1">{bridge.sourceDrop}</span>
                                         </div>
                                         <div className="flex items-center gap-1.5 pl-1.5">
-                                          <div className="w-px h-3 bg-slate-700 ml-[2px]" />
+                                          <div className="w-px h-3 bg-border dark:bg-slate-700 ml-[2px]" />
                                         </div>
                                         <div className="flex items-center gap-1.5">
                                           <div className="w-1.5 h-1.5 rounded-sm" style={{ backgroundColor: tColorHex }} />
-                                          <span className="text-[10px] font-semibold text-slate-400 line-clamp-1">
+                                          <span className="text-[10px] font-semibold text-muted-foreground dark:text-slate-400 line-clamp-1">
                                             {tStream?.initials}: {bridge.targetDrop}
                                           </span>
                                         </div>
@@ -273,7 +273,7 @@ export function DependencyMatrix() {
                                   })}
                                 </div>
                               ) : (
-                                <div className="text-[10px] text-slate-500 italic py-2">No cross-stream drops.</div>
+                                <div className="text-[10px] text-muted-foreground italic py-2">No cross-stream drops.</div>
                               )}
                             </div>
                           </motion.div>

@@ -208,7 +208,7 @@ export function OnboardingModal({ isOpen, onClose, onAdd }: OnboardingModalProps
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-[#020617]/40 backdrop-blur-[100px]"
+          className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-slate-50/50 dark:bg-[#020617]/40 backdrop-blur-[100px]"
         >
           {/* Liquid-fill background effect */}
           <motion.div 
@@ -222,17 +222,17 @@ export function OnboardingModal({ isOpen, onClose, onAdd }: OnboardingModalProps
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="relative w-full max-w-4xl bg-[#0a192f]/60 border border-white/10 rounded-[40px] shadow-2xl overflow-hidden"
+            className="relative w-full max-w-4xl bg-background/80 dark:bg-[#0a192f]/60 border border-border/60 dark:border-white/10 rounded-[40px] shadow-sm overflow-hidden"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-8 border-b border-white/5 bg-white/5 backdrop-blur-md">
+            <div className="flex items-center justify-between p-8 border-b border-border/60 dark:border-white/5 bg-background/80 dark:bg-white/5 backdrop-blur-md">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center">
-                  <UserPlus className="w-6 h-6 text-teal-400" />
+                <div className="w-12 h-12 rounded-2xl bg-teal-50 dark:bg-teal-500/10 border border-teal-200 dark:border-teal-500/20 flex items-center justify-center">
+                  <UserPlus className="w-6 h-6 text-teal-600 dark:text-teal-400" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold text-white tracking-tight">Onboard Talent</h2>
-                  <p className="text-sm text-slate-400 font-medium">Add a new resource to the Bench</p>
+                  <h2 className="text-2xl font-bold text-foreground dark:text-white tracking-tight">Onboard Talent</h2>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Add a new resource to the Bench</p>
                 </div>
               </div>
               <button 
@@ -256,32 +256,32 @@ export function OnboardingModal({ isOpen, onClose, onAdd }: OnboardingModalProps
                   >
                     <button 
                       onClick={() => setStep('manual')}
-                      className="group p-8 rounded-[32px] bg-slate-900/40 border border-white/5 hover:border-indigo-500/30 transition-all text-left flex flex-col gap-6"
+                      className="group p-8 rounded-[32px] bg-card/80 dark:bg-slate-900/40 border border-border/60 dark:border-white/5 hover:border-indigo-500/30 transition-all text-left flex flex-col gap-6 shadow-sm dark:shadow-none"
                     >
-                      <div className="w-14 h-14 rounded-2xl bg-slate-800 flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <User className="w-7 h-7 text-slate-400 group-hover:text-indigo-400" />
+                      <div className="w-14 h-14 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <User className="w-7 h-7 text-slate-500 dark:text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400" />
                       </div>
                       <div>
-                        <h3 className="text-xl font-bold text-white mb-2">Manual Entry</h3>
-                        <p className="text-sm text-slate-500 leading-relaxed">Directly input name, email, and role to create a base profile.</p>
+                        <h3 className="text-xl font-bold text-foreground dark:text-white mb-2">Manual Entry</h3>
+                        <p className="text-sm text-slate-600 dark:text-slate-500 leading-relaxed">Directly input name, email, and role to create a base profile.</p>
                       </div>
                     </button>
 
                     <button 
                       onClick={() => setStep('ai-dropzone')}
-                      className="group p-8 rounded-[32px] bg-indigo-950/20 border border-indigo-500/20 hover:border-cyan-500/50 transition-all text-left flex flex-col gap-6 relative overflow-hidden"
+                      className="group p-8 rounded-[32px] bg-indigo-50/50 dark:bg-indigo-950/20 border border-indigo-200/60 dark:border-indigo-500/20 hover:border-cyan-500/50 transition-all text-left flex flex-col gap-6 relative overflow-hidden shadow-arctic dark:shadow-none"
                     >
                       <div className="absolute top-0 right-0 p-4">
-                        <div className="px-2 py-1 bg-indigo-500/20 rounded-md border border-indigo-500/30 text-[10px] font-black text-indigo-400 uppercase tracking-widest">Oracle Feature</div>
+                        <div className="px-2 py-1 bg-indigo-100 dark:bg-indigo-500/20 rounded-md border border-indigo-200 dark:border-indigo-500/30 text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Oracle Feature</div>
                       </div>
-                      <div className="w-14 h-14 rounded-2xl bg-indigo-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <FileSearch className="w-7 h-7 text-indigo-400 group-hover:text-cyan-400" />
+                      <div className="w-14 h-14 rounded-2xl bg-indigo-100 dark:bg-indigo-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <FileSearch className="w-7 h-7 text-indigo-600 dark:text-indigo-400 group-hover:text-cyan-600 dark:group-hover:text-cyan-400" />
                       </div>
                       <div>
-                        <h3 className="text-xl font-bold text-white mb-2">AI Resume Scout</h3>
-                        <p className="text-sm text-slate-400 leading-relaxed">Drop a PDF or Docx. Oracle will synthesize a complete skill matrix and velocity projection.</p>
+                        <h3 className="text-xl font-bold text-foreground dark:text-white mb-2">AI Resume Scout</h3>
+                        <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Drop a PDF or Docx. Oracle will synthesize a complete skill matrix and velocity projection.</p>
                       </div>
-                      <div className="mt-auto pt-4 flex items-center gap-2 text-cyan-400 font-bold text-sm tracking-widest uppercase">
+                      <div className="mt-auto pt-4 flex items-center gap-2 text-cyan-600 dark:text-cyan-400 font-bold text-sm tracking-widest uppercase">
                         Open Scout <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </div>
                     </button>
@@ -299,22 +299,22 @@ export function OnboardingModal({ isOpen, onClose, onAdd }: OnboardingModalProps
                   >
                     <div 
                       onClick={handleAIScan}
-                      className="w-full bg-[#0a192f]/40 border-2 border-dashed border-slate-800/60 rounded-[32px] p-16 flex flex-col items-center justify-center gap-6 hover:border-cyan-500/50 hover:bg-cyan-500/5 transition-all cursor-pointer group"
+                      className="w-full bg-card/80 dark:bg-[#0a192f]/40 border-2 border-dashed border-border/60 dark:border-slate-800/60 rounded-[32px] p-16 flex flex-col items-center justify-center gap-6 hover:border-cyan-500/50 hover:bg-cyan-50 dark:hover:bg-cyan-500/5 transition-all cursor-pointer group shadow-sm dark:shadow-none"
                     >
-                      <div className="w-20 h-20 rounded-full bg-slate-800/80 border border-slate-700/50 flex items-center justify-center group-hover:scale-110 group-hover:border-cyan-500/50 transition-all shadow-xl relative">
-                        <Upload className="w-10 h-10 text-cyan-400 group-hover:text-cyan-300" />
+                      <div className="w-20 h-20 rounded-full bg-muted dark:bg-slate-800/80 border border-border dark:border-slate-700/50 flex items-center justify-center group-hover:scale-110 group-hover:border-cyan-500/50 transition-all shadow-sm dark:shadow-xl relative">
+                        <Upload className="w-10 h-10 text-cyan-600 dark:text-cyan-400 group-hover:text-cyan-500 dark:group-hover:text-cyan-300" />
                         <div className="absolute -top-1 -right-1">
-                          <Sparkles className="w-5 h-5 text-indigo-400 animate-pulse" />
+                          <Sparkles className="w-5 h-5 text-indigo-500 dark:text-indigo-400 animate-pulse" />
                         </div>
                       </div>
                       <div className="text-center">
-                        <h3 className="text-xl font-bold text-white mb-2">Drop Resume to Analyze</h3>
+                        <h3 className="text-xl font-bold text-foreground dark:text-white mb-2">Drop Resume to Analyze</h3>
                         <p className="text-sm text-slate-500 font-medium">Oracle supports PDF, Docx, and LinkedIn exports.</p>
                       </div>
                     </div>
                     <button 
                       onClick={() => setStep('mode')}
-                      className="mt-8 text-[10px] font-bold text-slate-500 hover:text-slate-300 uppercase tracking-widest-xl transition-colors"
+                      className="mt-8 text-[10px] font-bold text-slate-500 hover:text-slate-900 dark:hover:text-slate-300 uppercase tracking-widest-xl transition-colors"
                     >
                       Go Back
                     </button>
@@ -346,7 +346,7 @@ export function OnboardingModal({ isOpen, onClose, onAdd }: OnboardingModalProps
                               placeholder="Member Name"
                               value={manualData.name}
                               onChange={e => setManualData({...manualData, name: e.target.value})}
-                              className="w-full bg-[#0a192f]/40 border border-white/10 rounded-2xl py-4 px-6 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 transition-all"
+                              className="w-full bg-white/80 dark:bg-[#0a192f]/40 border border-slate-200/60 dark:border-white/10 rounded-2xl py-4 px-6 text-sm text-slate-900 dark:text-white placeholder:text-slate-500 focus:outline-none focus:border-indigo-500/50 transition-all"
                             />
                           </div>
 
@@ -357,7 +357,7 @@ export function OnboardingModal({ isOpen, onClose, onAdd }: OnboardingModalProps
                               placeholder="Member Email"
                               value={manualData.email}
                               onChange={e => setManualData({...manualData, email: e.target.value})}
-                              className="w-full bg-[#0a192f]/40 border border-white/10 rounded-2xl py-4 px-6 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 transition-all"
+                              className="w-full bg-white/80 dark:bg-[#0a192f]/40 border border-slate-200/60 dark:border-white/10 rounded-2xl py-4 px-6 text-sm text-slate-900 dark:text-white placeholder:text-slate-500 focus:outline-none focus:border-indigo-500/50 transition-all"
                             />
                           </div>
 
@@ -367,12 +367,12 @@ export function OnboardingModal({ isOpen, onClose, onAdd }: OnboardingModalProps
                                 required
                                 value={manualData.role}
                                 onChange={e => setManualData({...manualData, role: e.target.value})}
-                                className="w-full bg-[#0a192f]/40 border border-white/10 rounded-2xl py-4 px-6 text-sm text-white focus:outline-none focus:border-indigo-500/50 transition-all appearance-none cursor-pointer"
+                                className="w-full bg-white/80 dark:bg-[#0a192f]/40 border border-slate-200/60 dark:border-white/10 rounded-2xl py-4 px-6 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500/50 transition-all appearance-none cursor-pointer"
                               >
-                                <option value="" disabled className="bg-[#0a192f]">Member Role</option>
-                                <option value="User" className="bg-[#0a192f]">User</option>
-                                <option value="Manager" className="bg-[#0a192f]">Manager</option>
-                                <option value="Admin" className="bg-[#0a192f]">Admin</option>
+                                <option value="" disabled className="bg-white dark:bg-[#0a192f]">Member Role</option>
+                                <option value="User" className="bg-white dark:bg-[#0a192f]">User</option>
+                                <option value="Manager" className="bg-white dark:bg-[#0a192f]">Manager</option>
+                                <option value="Admin" className="bg-white dark:bg-[#0a192f]">Admin</option>
                               </select>
                             </div>
                             <div className="group relative">
@@ -381,7 +381,7 @@ export function OnboardingModal({ isOpen, onClose, onAdd }: OnboardingModalProps
                                 placeholder="Years of Exp"
                                 value={manualData.experienceYears || ''}
                                 onChange={e => setManualData({...manualData, experienceYears: parseInt(e.target.value) || 0})}
-                                className="w-full bg-[#0a192f]/40 border border-white/10 rounded-2xl py-4 px-6 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 transition-all"
+                                className="w-full bg-white/80 dark:bg-[#0a192f]/40 border border-slate-200/60 dark:border-white/10 rounded-2xl py-4 px-6 text-sm text-slate-900 dark:text-white placeholder:text-slate-500 focus:outline-none focus:border-indigo-500/50 transition-all"
                               />
                             </div>
                           </div>
@@ -390,11 +390,11 @@ export function OnboardingModal({ isOpen, onClose, onAdd }: OnboardingModalProps
                             <select 
                               value={manualData.availability}
                               onChange={e => setManualData({...manualData, availability: e.target.value as Employee['availability']})}
-                              className="w-full bg-[#0a192f]/40 border border-white/10 rounded-2xl py-4 px-6 text-sm text-white focus:outline-none focus:border-indigo-500/50 transition-all appearance-none cursor-pointer"
+                              className="w-full bg-white/80 dark:bg-[#0a192f]/40 border border-slate-200/60 dark:border-white/10 rounded-2xl py-4 px-6 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500/50 transition-all appearance-none cursor-pointer"
                             >
-                              <option value="available" className="bg-[#0a192f]">Full Time (Available)</option>
-                              <option value="saturated" className="bg-[#0a192f]">Part Time (Saturated)</option>
-                              <option value="blocked" className="bg-[#0a192f]">Blocked</option>
+                              <option value="available" className="bg-white dark:bg-[#0a192f]">Full Time (Available)</option>
+                              <option value="saturated" className="bg-white dark:bg-[#0a192f]">Part Time (Saturated)</option>
+                              <option value="blocked" className="bg-white dark:bg-[#0a192f]">Blocked</option>
                             </select>
                           </div>
                         </div>
@@ -412,12 +412,12 @@ export function OnboardingModal({ isOpen, onClose, onAdd }: OnboardingModalProps
                               value={tempSkill}
                               onChange={e => setTempSkill(e.target.value)}
                               onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), handleManualAddSkill())}
-                              className="flex-1 bg-[#0a192f]/40 border border-white/10 rounded-xl py-2 px-4 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50 transition-all"
+                              className="flex-1 bg-white/80 dark:bg-[#0a192f]/40 border border-slate-200/60 dark:border-white/10 rounded-xl py-2 px-4 text-xs text-slate-900 dark:text-white placeholder:text-slate-500 focus:outline-none focus:border-teal-500/50 transition-all"
                             />
                             <button 
                               type="button"
                               onClick={handleManualAddSkill}
-                              className="px-4 py-2 bg-slate-800 rounded-xl text-teal-400 hover:bg-slate-700 transition-all"
+                              className="px-4 py-2 bg-slate-100 dark:bg-slate-800 rounded-xl text-cyan-600 dark:text-cyan-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all border border-slate-200 dark:border-transparent"
                             >
                               <Plus className="w-4 h-4" />
                             </button>
@@ -449,7 +449,7 @@ export function OnboardingModal({ isOpen, onClose, onAdd }: OnboardingModalProps
                               placeholder="Member Phone Number"
                               value={manualData.phoneNumber}
                               onChange={e => setManualData({...manualData, phoneNumber: e.target.value})}
-                              className="w-full bg-[#0a192f]/40 border border-white/10 rounded-2xl py-4 px-6 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 transition-all"
+                              className="w-full bg-white/80 dark:bg-[#0a192f]/40 border border-slate-200/60 dark:border-white/10 rounded-2xl py-4 px-6 text-sm text-slate-900 dark:text-white placeholder:text-slate-500 focus:outline-none focus:border-indigo-500/50 transition-all"
                             />
                           </div>
 
@@ -460,7 +460,7 @@ export function OnboardingModal({ isOpen, onClose, onAdd }: OnboardingModalProps
                                 placeholder="Messaging Platform"
                                 value={manualData.messagingPlatform}
                                 onChange={e => setManualData({...manualData, messagingPlatform: e.target.value})}
-                                className="w-full bg-[#0a192f]/40 border border-white/10 rounded-2xl py-4 px-6 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 transition-all"
+                                className="w-full bg-white/80 dark:bg-[#0a192f]/40 border border-slate-200/60 dark:border-white/10 rounded-2xl py-4 px-6 text-sm text-slate-900 dark:text-white placeholder:text-slate-500 focus:outline-none focus:border-indigo-500/50 transition-all"
                               />
                             </div>
                             <div className="group relative">
@@ -469,7 +469,7 @@ export function OnboardingModal({ isOpen, onClose, onAdd }: OnboardingModalProps
                                 placeholder="Platform ID"
                                 value={manualData.messagingPlatformId}
                                 onChange={e => setManualData({...manualData, messagingPlatformId: e.target.value})}
-                                className="w-full bg-[#0a192f]/40 border border-white/10 rounded-2xl py-4 px-6 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 transition-all"
+                                className="w-full bg-white/80 dark:bg-[#0a192f]/40 border border-slate-200/60 dark:border-white/10 rounded-2xl py-4 px-6 text-sm text-slate-900 dark:text-white placeholder:text-slate-500 focus:outline-none focus:border-indigo-500/50 transition-all"
                               />
                             </div>
                           </div>
@@ -488,12 +488,12 @@ export function OnboardingModal({ isOpen, onClose, onAdd }: OnboardingModalProps
                               value={tempCert}
                               onChange={e => setTempCert(e.target.value)}
                               onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), handleAddCert())}
-                              className="flex-1 bg-[#0a192f]/40 border border-white/10 rounded-xl py-2 px-4 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 transition-all"
+                              className="flex-1 bg-white/80 dark:bg-[#0a192f]/40 border border-slate-200/60 dark:border-white/10 rounded-xl py-2 px-4 text-xs text-slate-900 dark:text-white placeholder:text-slate-500 focus:outline-none focus:border-indigo-500/50 transition-all"
                             />
                             <button 
                               type="button"
                               onClick={handleAddCert}
-                              className="px-4 py-2 bg-slate-800 rounded-xl text-indigo-400 hover:bg-slate-700 transition-all"
+                              className="px-4 py-2 bg-slate-100 dark:bg-slate-800 rounded-xl text-cyan-600 dark:text-cyan-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all border border-slate-200 dark:border-transparent"
                             >
                               <Plus className="w-4 h-4" />
                             </button>
@@ -520,7 +520,7 @@ export function OnboardingModal({ isOpen, onClose, onAdd }: OnboardingModalProps
                             placeholder="Member Adaptability Notes"
                             value={manualData.adaptabilityNote}
                             onChange={e => setManualData({...manualData, adaptabilityNote: e.target.value})}
-                            className="w-full bg-[#0a192f]/40 border border-white/10 rounded-2xl py-4 px-6 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 transition-all min-h-[80px] resize-none"
+                            className="w-full bg-white/80 dark:bg-[#0a192f]/40 border border-slate-200/60 dark:border-white/10 rounded-2xl py-4 px-6 text-sm text-slate-900 dark:text-white placeholder:text-slate-500 focus:outline-none focus:border-indigo-500/50 transition-all min-h-[80px] resize-none"
                           />
                         </div>
                       </div>
@@ -529,17 +529,17 @@ export function OnboardingModal({ isOpen, onClose, onAdd }: OnboardingModalProps
                         <button 
                           type="button"
                           onClick={() => setStep('mode')}
-                          className="px-8 py-4 rounded-full border border-white/10 text-slate-400 font-bold text-xs uppercase tracking-widest hover:bg-white/5 transition-all"
+                          className="px-8 py-4 rounded-full border border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-widest hover:bg-slate-50 dark:hover:bg-white/5 transition-all"
                         >
                           Cancel
                         </button>
                         <button 
                           type="submit"
-                          className="group px-10 py-4 bg-cyan-500 rounded-full text-[#0a192f] font-bold text-sm tracking-widest shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:shadow-[0_0_40px_rgba(34,211,238,0.6)] hover:scale-105 transition-all outline-none uppercase whitespace-nowrap active:scale-95 flex items-center justify-center gap-3"
+                          className="group px-10 py-4 bg-cyan-500 rounded-full text-white font-bold text-sm tracking-widest shadow-sm dark:shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:shadow-md dark:hover:shadow-[0_0_40px_rgba(34,211,238,0.6)] hover:scale-105 transition-all outline-none uppercase whitespace-nowrap active:scale-95 flex items-center justify-center gap-3"
                         >
                           Generate Profile
-                          <div className="w-6 h-6 rounded-full bg-[#0a192f]/10 flex items-center justify-center group-hover:translate-x-1 transition-transform">
-                            <ChevronRight className="w-4 h-4 text-[#0a192f]" />
+                          <div className="w-6 h-6 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center group-hover:translate-x-1 transition-transform">
+                            <ChevronRight className="w-4 h-4 text-white" />
                           </div>
                         </button>
                       </div>
@@ -633,12 +633,12 @@ export function OnboardingModal({ isOpen, onClose, onAdd }: OnboardingModalProps
                       {/* Left: Identity & Skills */}
                       <div className="flex-[2] flex flex-col gap-8">
                         <div className="flex items-center gap-6">
-                          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-teal-950 to-[#0a192f] border border-teal-800/30 flex items-center justify-center text-3xl font-bold text-teal-200 shadow-xl">
+                          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-950 dark:to-[#0a192f] border border-teal-200 dark:border-teal-800/30 flex items-center justify-center text-3xl font-bold text-teal-700 dark:text-teal-200 shadow-sm">
                             {draftProfile.avatar}
                           </div>
                           <div>
-                            <h3 className="text-3xl font-bold text-white tracking-tight">{draftProfile.name}</h3>
-                            <p className="text-lg text-slate-400 font-medium">{draftProfile.role}</p>
+                            <h3 className="text-3xl font-bold text-foreground dark:text-white tracking-tight">{draftProfile.name}</h3>
+                            <p className="text-lg text-slate-600 dark:text-slate-400 font-medium">{draftProfile.role}</p>
                           </div>
                         </div>
 
@@ -650,7 +650,7 @@ export function OnboardingModal({ isOpen, onClose, onAdd }: OnboardingModalProps
                             </label>
                             <button 
                               onClick={handleReviewAddSkill}
-                              className="text-[10px] font-bold text-cyan-400 hover:text-cyan-300 uppercase tracking-widest transition-colors flex items-center gap-1"
+                              className="text-[10px] font-bold text-cyan-600 dark:text-cyan-400 hover:text-cyan-500 dark:hover:text-cyan-300 uppercase tracking-widest transition-colors flex items-center gap-1"
                             >
                               <Plus className="w-3 h-3" /> Add Skill
                             </button>
@@ -673,24 +673,24 @@ export function OnboardingModal({ isOpen, onClose, onAdd }: OnboardingModalProps
                           </div>
                         </div>
 
-                        <div className="p-6 bg-slate-900/40 border border-white/5 rounded-3xl">
+                        <div className="p-6 bg-slate-50 dark:bg-slate-900/40 border border-slate-200/60 dark:border-white/5 rounded-3xl shadow-sm dark:shadow-none">
                           <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest-xl flex items-center gap-2 mb-4">
-                            <Target className="w-3 h-3 text-teal-400" />
+                            <Target className="w-3 h-3 text-teal-600 dark:text-teal-400" />
                             Predicted Project Fit
                           </label>
-                          <p className="text-sm text-slate-300 leading-relaxed font-light">
-                            Excellent fit for the <span className="text-teal-400 font-bold">'Cloud Migration'</span> Stream or <span className="text-teal-400 font-bold">'Frontend UI'</span> Drops. Predicted high synergy with Lead Architect <span className="text-slate-100 font-medium">Lena Vane</span>.
+                          <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-light">
+                            Excellent fit for the <span className="text-teal-700 dark:text-teal-400 font-bold">'Cloud Migration'</span> Stream or <span className="text-teal-700 dark:text-teal-400 font-bold">'Frontend UI'</span> Drops. Predicted high synergy with Lead Architect <span className="text-slate-900 dark:text-slate-100 font-medium">Lena Vane</span>.
                           </p>
                         </div>
                       </div>
 
                       {/* Right: Velocity Gauge */}
-                      <div className="flex-1 flex flex-col gap-8 p-8 bg-[#0a192f]/40 border border-white/10 rounded-[32px] shadow-inner shadow-black/20">
+                      <div className="flex-1 flex flex-col gap-8 p-8 bg-card/80 dark:bg-[#0a192f]/40 border border-border/60 dark:border-white/10 rounded-[32px] shadow-sm dark:shadow-inner dark:shadow-black/20">
                         <div className="flex flex-col items-center text-center gap-4">
                           <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest-xl">Predicted Speed</label>
                           <div className="relative w-32 h-32 flex items-center justify-center">
                             <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
-                              <circle cx="50" cy="50" r="45" fill="transparent" stroke="rgba(255,255,255,0.05)" strokeWidth="8" />
+                              <circle cx="50" cy="50" r="45" fill="transparent" stroke="rgba(0,0,0,0.05)" strokeWidth="8" />
                               <motion.circle 
                                 cx="50" cy="50" r="45" fill="transparent" stroke="#14b8a6" strokeWidth="8" 
                                 strokeDasharray="283"
@@ -701,7 +701,7 @@ export function OnboardingModal({ isOpen, onClose, onAdd }: OnboardingModalProps
                               />
                             </svg>
                             <div className="absolute inset-0 flex flex-col items-center justify-center">
-                              <span className="text-3xl font-black text-white">{draftProfile.velocity}</span>
+                              <span className="text-3xl font-black text-foreground dark:text-white">{draftProfile.velocity}</span>
                               <span className="text-[10px] font-bold text-slate-500 uppercase">PTS/Day</span>
                             </div>
                           </div>
@@ -714,11 +714,11 @@ export function OnboardingModal({ isOpen, onClose, onAdd }: OnboardingModalProps
                           animate={{ opacity: 1, scale: 1 }} 
                           transition={{ type: "spring", stiffness: 300, damping: 25 }}
                           onClick={handleFinalize}
-                          className="group w-full py-4 bg-cyan-500 rounded-full text-[#0a192f] font-bold text-sm tracking-widest shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:shadow-[0_0_40px_rgba(34,211,238,0.6)] hover:scale-105 transition-all outline-none uppercase whitespace-nowrap active:scale-95 flex items-center justify-center gap-3"
+                          className="group w-full py-4 bg-cyan-500 rounded-full text-white font-bold text-sm tracking-widest shadow-sm dark:shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:shadow-md dark:hover:shadow-[0_0_40px_rgba(34,211,238,0.6)] hover:scale-105 transition-all outline-none uppercase whitespace-nowrap active:scale-95 flex items-center justify-center gap-3"
                         >
                           ADD TO TEAM
-                          <div className="w-6 h-6 rounded-full bg-[#0a192f]/10 flex items-center justify-center group-hover:translate-x-1 transition-transform">
-                            <ChevronRight className="w-4 h-4 text-[#0a192f]" />
+                          <div className="w-6 h-6 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center group-hover:translate-x-1 transition-transform">
+                            <ChevronRight className="w-4 h-4 text-white" />
                           </div>
                         </motion.button>
                       </div>

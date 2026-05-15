@@ -27,7 +27,7 @@ export function AnalysisChartOverlay({ title, subtitle, icon: Icon, onClose, chi
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-[1000] bg-[#020617]/95 backdrop-blur-3xl flex flex-col p-12"
+      className="fixed inset-0 z-[1000] bg-slate-50 dark:bg-slate-950/95 backdrop-blur-3xl flex flex-col p-12"
     >
       {/* Header */}
       <div className="flex justify-between items-center mb-12">

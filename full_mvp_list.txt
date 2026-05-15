@@ -1,0 +1,14 @@
+<USER_REQUEST>
+Here is the list of MVP features. I want to strip down features not in this list. Can you investigate what we have and remove or add features strictly following this list? Requirements Ingestion	Consume Supported File Formats (Text Based Documents, Images)	
+Requirements Ingestion	Process Documents	
+Requirements Ingestion	Elicitation (new) (Oracle)	Simple elicitation with the project manager to form a project chater or idea of what the project needs to do.
+Requirements Ingestion	Project Wizard (finalize)	
+		
+Team Definition	Profile (Name, Email, other identification)	
+Team Definition	Skills	
+		
+Stream/Drop Generation	Decomposition of Requirements into Streams/Drops (include non-functional requirements)	
+Stream/Drop Generation	Dependencies (at the Stream and Drop level)	
+Stream/Drop Generation	Team Recommendation Engine (new)	A "first pass" at what the team should look like based on the Streams/Drops generated
+		
+<truncated 4563 bytes>

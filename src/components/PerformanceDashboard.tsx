@@ -53,6 +53,10 @@ export function PerformanceDashboard() {
   const personalVelocity = 1.2; // Mocked Drops/Day
   const lateScore = totalEst > 0 ? Math.round((totalAct / totalEst) * 100) : 100;
   
+  const avgTime = totalCompleted > 0 ? (totalAct / totalCompleted).toFixed(1) : '0';
+  const minTime = totalCompleted > 0 ? Math.min(...myCompletedDrops.map(d => d.completion_time)).toFixed(1) : '0';
+  const maxTime = totalCompleted > 0 ? Math.max(...myCompletedDrops.map(d => d.completion_time)).toFixed(1) : '0';
+  
   const recentDrops = [...myCompletedDrops].slice(-5);
   while(recentDrops.length < 5) {
     recentDrops.unshift(null as any);
@@ -77,29 +81,29 @@ export function PerformanceDashboard() {
   }).join(' ');
 
   return (
-    <div className="w-full h-full bg-[#020617] overflow-y-auto pb-32">
+    <div className="w-full h-full bg-transparent overflow-y-auto pb-32">
       {/* Header */}
-      <div className="sticky top-0 z-40 bg-[#020617]/95 backdrop-blur-md px-8 pt-8 pb-6 border-b border-white/5 flex items-center justify-between">
-        <h1 className="text-3xl font-bold font-sans tracking-tight text-slate-100 flex items-center gap-3">
+      <div className="sticky top-0 z-40 bg-background/80 dark:bg-slate-950/95 backdrop-blur-md px-8 pt-8 pb-6 border-b border-border dark:border-white/5 flex items-center justify-between">
+        <h1 className="text-3xl font-bold font-sans tracking-tight text-foreground dark:text-slate-100 flex items-center gap-3">
           My Performance
         </h1>
       </div>
 
-      <div className="w-full max-w-5xl mx-auto flex flex-col px-8 pt-8">
+      <div className="w-full max-w-[1400px] mx-auto flex flex-col px-8 pt-8">
         {/* Top Metrics Row - Unified Scorecard */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full mb-10">
           {/* Personal Velocity */}
-          <div className="bg-[#0a192f]/60 backdrop-blur-md border border-white/5 rounded-[24px] p-8 flex flex-col items-center justify-center text-center relative overflow-hidden group min-h-[200px]">
+          <div className="bg-card dark:bg-slate-900/60 backdrop-blur-md border border-border dark:border-white/5 rounded-[24px] p-8 flex flex-col items-center justify-center text-center relative overflow-hidden group min-h-[200px] shadow-sm dark:shadow-none">
             <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
               <Zap className="w-16 h-16 text-cyan-400" />
             </div>
             <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-6">Personal Velocity</p>
-            <h2 className="text-4xl font-bold text-slate-100 font-mono">{personalVelocity}</h2>
+            <h2 className="text-4xl font-bold text-foreground dark:text-slate-100 font-mono">{personalVelocity}</h2>
             <p className="text-[10px] font-bold text-cyan-400 mt-6 uppercase tracking-widest">Drops / Day</p>
           </div>
 
           {/* Delivery Accuracy (% Late Score) */}
-          <div className="bg-[#0a192f]/60 backdrop-blur-md border border-white/5 rounded-[24px] p-8 flex flex-col items-center justify-center text-center relative overflow-hidden group min-h-[200px]">
+          <div className="bg-card dark:bg-slate-900/60 backdrop-blur-md border border-border dark:border-white/5 rounded-[24px] p-8 flex flex-col items-center justify-center text-center relative overflow-hidden group min-h-[200px] shadow-sm dark:shadow-none">
             <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
               <Target className="w-16 h-16 text-teal-400" />
             </div>
@@ -113,11 +117,11 @@ export function PerformanceDashboard() {
           </div>
 
           {/* Consistency Streak (Liquid Pulse) */}
-          <div className="bg-[#0a192f]/60 backdrop-blur-md border border-white/5 rounded-[24px] p-8 flex flex-col items-center justify-center text-center relative overflow-hidden group min-h-[200px]">
+          <div className="bg-card dark:bg-slate-900/60 backdrop-blur-md border border-border dark:border-white/5 rounded-[24px] p-8 flex flex-col items-center justify-center text-center relative overflow-hidden group min-h-[200px] shadow-sm dark:shadow-none">
             <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-6">Consistency Streak</p>
             <div className="flex items-center gap-1.5 w-full mt-2 px-2">
               {recentDrops.map((drop, idx) => {
-                if (!drop) return <div key={idx} className="flex-1 h-8 rounded-md bg-white/[0.03]" />;
+                if (!drop) return <div key={idx} className="flex-1 h-8 rounded-md bg-muted dark:bg-white/[0.03]" />;
                 const isOnTime = drop.completion_time <= drop.estimated_time;
                 return (
                   <div 
@@ -132,17 +136,36 @@ export function PerformanceDashboard() {
             </div>
             <p className="text-[10px] font-bold text-slate-500 mt-6 uppercase tracking-widest">Liquid Pulse Status</p>
           </div>
+
+          {/* Completion Stats */}
+          <div className="bg-card dark:bg-slate-900/60 backdrop-blur-md border border-border dark:border-white/5 rounded-[24px] p-8 flex flex-col items-center justify-center text-center relative overflow-hidden group min-h-[200px] shadow-sm dark:shadow-none">
+            <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+              <Clock className="w-16 h-16 text-indigo-400" />
+            </div>
+            <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">Completion Stats</p>
+            <div className="flex flex-col gap-2 w-full">
+              <div className="flex justify-between items-baseline border-b border-slate-200 dark:border-slate-200 dark:border-white/5 pb-2">
+                <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">AVG Time</span>
+                <span className="text-xl font-bold text-foreground dark:text-slate-100 font-mono">{avgTime}h</span>
+              </div>
+              <div className="flex justify-between items-baseline pt-1">
+                <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">MIN / MAX</span>
+                <span className="text-sm font-bold text-slate-300 font-mono">{minTime}h / {maxTime}h</span>
+              </div>
+            </div>
+            <p className="text-[10px] font-bold text-indigo-500/70 mt-6 uppercase tracking-widest italic">Temporal Efficiency</p>
+          </div>
         </div>
 
         {/* Task 3: Integrated Trend Analysis */}
-        <div className="w-full bg-[#0a192f]/40 backdrop-blur-md border border-white/5 rounded-[32px] p-8 pb-12 mb-10 overflow-hidden relative group">
+        <div className="w-full bg-card dark:bg-slate-900/40 backdrop-blur-md border border-border dark:border-white/5 rounded-[32px] p-8 pb-12 mb-10 overflow-hidden relative group shadow-sm dark:shadow-none">
            <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
               <History className="w-32 h-32 text-slate-400" />
            </div>
            <div className="flex justify-between items-end mb-8">
               <div>
-                <h3 className="text-xl font-bold text-slate-100">Historical Velocity</h3>
-                <p className="text-sm text-slate-400 mt-1">6-month delivery throughput</p>
+                <h3 className="text-xl font-bold text-foreground dark:text-slate-100">Historical Velocity</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">6-month delivery throughput</p>
               </div>
               <span className="text-[10px] font-bold text-slate-500 font-mono tracking-widest uppercase">Unit: Drops / Day</span>
            </div>
@@ -172,7 +195,7 @@ export function PerformanceDashboard() {
                   const y = chartHeight - (h.velocity / 2) * (chartHeight - padding * 2) - padding;
                   return (
                     <g key={i} className="group/point">
-                      <circle cx={x} cy={y} r="4" fill="#0a192f" stroke="#22d3ee" strokeWidth="2" className="group-hover/point:r-6 transition-all" />
+                      <circle cx={x} cy={y} r="4" fill="currentColor" className="text-background dark:text-slate-900 group-hover/point:r-6 transition-all" stroke="#22d3ee" strokeWidth="2" />
                       <text 
                         x={x} 
                         y={y - 14} 
@@ -195,9 +218,9 @@ export function PerformanceDashboard() {
         </div>
 
         {/* Task 2: The 'Table Farm' */}
-        <div className="w-full bg-[#0a192f]/60 backdrop-blur-md border border-white/5 rounded-[32px] overflow-hidden shadow-2xl">
-          <div className="px-8 py-6 border-b border-white/5 bg-white/5 flex items-center justify-between">
-            <h3 className="text-lg font-bold text-slate-100 flex items-center gap-2">
+        <div className="w-full bg-card dark:bg-slate-900/60 backdrop-blur-md border border-border dark:border-white/5 rounded-[32px] overflow-hidden shadow-sm dark:shadow-2xl">
+          <div className="px-8 py-6 border-b border-border dark:border-white/5 bg-muted/50 dark:bg-white/5 flex items-center justify-between">
+            <h3 className="text-lg font-bold text-foreground dark:text-slate-100 flex items-center gap-2">
               <History className="w-5 h-5 text-slate-400" />
               Performance History (Table Farm)
             </h3>
@@ -206,7 +229,7 @@ export function PerformanceDashboard() {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm text-slate-400 border-collapse">
               <thead>
-                <tr className="bg-slate-900/50 text-[10px] uppercase font-black text-slate-500 tracking-[0.15em] border-b border-white/5">
+                <tr className="bg-slate-900/50 text-[10px] uppercase font-black text-slate-500 tracking-[0.15em] border-b border-slate-200 dark:border-white/5">
                   <th className="px-8 py-4 align-middle whitespace-nowrap">Stream</th>
                   <th className="px-8 py-4 align-middle whitespace-nowrap">Drop Title</th>
                   <th className="px-8 py-4 align-middle text-center whitespace-nowrap">Complexity</th>
@@ -224,19 +247,19 @@ export function PerformanceDashboard() {
                   const rowSpan = streamRowSpans[idx];
 
                   return (
-                    <tr key={drop.drop_id} className="hover:bg-white/[0.03] transition-colors group relative">
+                    <tr key={drop.drop_id} className="hover:bg-muted dark:hover:bg-white/[0.03] transition-colors group relative">
                       {rowSpan && (
-                        <td rowSpan={rowSpan} className="px-8 py-4 align-top relative border-r border-white/5 bg-white/[0.01]">
+                        <td rowSpan={rowSpan} className="px-8 py-4 align-top relative border-r border-border dark:border-white/5 bg-muted/30 dark:bg-white/[0.01]">
                           {/* Identity Notch */}
                           <div className="absolute left-0 top-0 bottom-0 w-1 pointer-events-none" style={{ backgroundColor: sColor.hex }} />
-                          <span className="text-[12px] font-bold text-slate-300 sticky top-4">
+                          <span className="text-[12px] font-bold text-foreground dark:text-slate-300 sticky top-4">
                              {sInfo ? sInfo.title.charAt(0).toUpperCase() + sInfo.title.slice(1).toLowerCase() : 'Unknown'}
                           </span>
                         </td>
                       )}
                       <td className="px-8 py-4 align-middle">
                         <div className="flex flex-col">
-                          <span className="font-bold text-slate-200 group-hover:text-cyan-400 transition-colors cursor-pointer">{drop.title}</span>
+                          <span className="font-bold text-foreground dark:text-slate-200 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors cursor-pointer">{drop.title}</span>
                           <span className="text-[10px] font-mono text-slate-500 mt-0.5 uppercase tracking-tighter">{drop.drop_id}</span>
                         </div>
                       </td>
@@ -246,7 +269,7 @@ export function PerformanceDashboard() {
                           C{drop.complexity}
                         </span>
                       </td>
-                      <td className="px-8 py-4 align-middle text-right tabular-nums font-mono font-bold text-slate-300">
+                      <td className="px-8 py-4 align-middle text-right tabular-nums font-mono font-bold text-slate-700 dark:text-slate-300">
                         {drop.estimated_time}h <span className="text-slate-600 mx-1">/</span> {drop.completion_time.toFixed(1)}h
                       </td>
                       <td className={cn("px-8 py-4 align-middle text-center font-mono font-bold", latency > 0 ? "text-amber-400" : "text-teal-400")}>
@@ -276,7 +299,7 @@ export function PerformanceDashboard() {
           </div>
 
           {/* Task 4: Oracle Audit AI Narrative */}
-          <div className="p-8 bg-indigo-500/5 border-t border-white/5 relative overflow-hidden group">
+          <div className="p-8 bg-indigo-500/5 border-t border-slate-200 dark:border-white/5 relative overflow-hidden group">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
               <Info className="w-12 h-12 text-indigo-400" />
             </div>
@@ -286,8 +309,8 @@ export function PerformanceDashboard() {
                </div>
                <span className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em]">Oracle Audit Narrative</span>
             </div>
-            <p className="text-sm text-slate-300 leading-relaxed max-w-3xl italic font-medium">
-              "Sarah is <span className="text-teal-400">15% faster</span> on API-related drops but has a <span className="text-amber-400">110% latency score</span> on Frontend tasks. Recommendation: Re-level technical focus to Backend-heavy streams to maximize firm velocity."
+            <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed max-w-3xl italic font-medium">
+              "Sarah is <span className="text-teal-600 dark:text-teal-400">15% faster</span> on API-related drops but has a <span className="text-amber-600 dark:text-amber-400">110% latency score</span> on Frontend tasks. Recommendation: Re-level technical focus to Backend-heavy streams to maximize firm velocity."
             </p>
           </div>
         </div>
