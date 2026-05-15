@@ -245,19 +245,22 @@ export function Drop({
 
             }}
             className={cn(
-              'flex items-center cursor-pointer backdrop-blur-xl relative group transition-all duration-300 z-20 outline-none overflow-hidden',
-              variant === 'full' ? 'rounded-xl px-4' : 'rounded-sm px-1',
-              getStatusColor(),
+              'flex items-center cursor-pointer backdrop-blur-lg relative group transition-all duration-500 z-20 outline-none overflow-hidden',
+              variant === 'full' ? 'rounded-2xl px-4' : 'rounded-sm px-1',
+              'bg-white/40 dark:bg-white/5 border border-white/30 dark:border-white/5 shadow-protux',
               isGhost && 'bg-opacity-20 border-dashed border-border dark:border-white/20'
             )}
           >
-            {/* Identity Notch */}
+            {/* Identity Notch with Watercolor Glow */}
             <div
               className={cn(
-                "absolute left-0 top-0 bottom-0 w-[4px] z-50",
+                "absolute left-0 top-0 bottom-0 w-[5px] z-50",
                 isCompleted && "opacity-40"
               )}
-              style={{ backgroundColor: streamColorHex || '#64748b' }}
+              style={{ 
+                backgroundColor: streamColorHex || '#64748b',
+                boxShadow: `2px 0 15px ${streamColorHex}60`
+              }}
             />
 
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -266,12 +269,12 @@ export function Drop({
                   {isBlocked ? (
                     <AlertTriangle className="w-4 h-4 text-rose-500 shrink-0" />
                   ) : isCompleted ? (
-                    <Check className="w-3.5 h-3.5 text-slate-300 shrink-0" />
+                    <Check className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                   ) : null}
 
                   <span className={cn(
-                    "text-[11px] font-bold truncate transition-colors",
-                    isCompleted ? "text-muted-foreground dark:text-white/40" : (isBlocked ? "text-red-700 dark:text-white" : "text-foreground dark:text-white")
+                    "text-[11px] font-bold truncate transition-colors tracking-tight",
+                    isCompleted ? "text-slate-400 dark:text-white/40" : (isBlocked ? "text-rose-900 dark:text-rose-200" : "text-slate-800 dark:text-white")
                   )}>
                     {title}
                   </span>

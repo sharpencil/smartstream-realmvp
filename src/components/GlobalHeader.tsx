@@ -30,7 +30,7 @@ export function GlobalHeader() {
   const [selectedProject, setSelectedProject] = useState(projects[0]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 h-16 bg-background/80 dark:bg-slate-900/60 backdrop-blur-2xl border-b border-border dark:border-white/15 z-[300] px-6 flex items-center justify-between shadow-sm dark:shadow-none transition-all duration-500">
+    <header className="fixed top-0 left-0 right-0 h-16 bg-transparent z-[300] px-8 flex items-center justify-between transition-all duration-500">
       <div className="flex items-center gap-12">
         {/* Logo */}
         <div className="h-12 min-w-[48px] flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
@@ -110,11 +110,11 @@ export function GlobalHeader() {
 
         {/* Search */}
         <div className="relative group">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 group-focus-within:text-cyan-600 dark:group-focus-within:text-cyan-400 transition-colors" />
+          <Search className="w-4 h-4 text-slate-300 absolute left-4 top-1/2 -translate-y-1/2 group-focus-within:text-cyan-600 dark:group-focus-within:text-cyan-400 transition-all duration-500" />
           <input
             type="text"
-            placeholder="Search drops, team..."
-            className="w-64 bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800/80 rounded-[16px] py-1.5 pl-9 pr-4 text-sm text-slate-900 dark:text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all"
+            placeholder="Search workspace..."
+            className="w-72 bg-white/40 dark:bg-slate-900/50 backdrop-blur-md border border-white/20 dark:border-slate-800/80 rounded-full py-2 pl-10 pr-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-900 dark:text-slate-200 placeholder:text-slate-400 focus:outline-none shadow-protux transition-all duration-500"
           />
         </div>
 
