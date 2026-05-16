@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { Button } from './ui/Button';
 import { Check, AlertTriangle, ChevronDown, Clock } from 'lucide-react';
 import * as Popover from '@radix-ui/react-popover';
 import { useState } from 'react';
@@ -372,22 +373,25 @@ export function Drop({
           <div className="p-4 pt-3 border-t border-white/10 flex-shrink-0 space-y-2">
             <div className="grid grid-cols-2 gap-2">
               <Popover.Close asChild>
-                <button
+                <Button
+                  variant="primary"
                   onClick={() => onAction?.(id, 'complete')}
                   disabled={isCompleted}
-                  className="bg-cyan-500/10 dark:bg-cyan-600/20 hover:bg-cyan-500 border border-cyan-500/30 dark:border-cyan-500/50 text-cyan-600 dark:text-cyan-400 hover:text-white text-xs font-bold py-2 rounded-full transition-all shadow-sm dark:shadow-inner disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="py-2 text-xs"
                 >
                   {isCompleted ? 'Completed' : 'Complete Early'}
-                </button>
+                </Button>
               </Popover.Close>
               <Popover.Close asChild>
-                <button
+                <Button
+                  variant="secondary"
                   onClick={() => onAction?.(id, 'block', rationale)}
                   disabled={isCompleted || isBlocked}
-                  className="bg-slate-100 dark:bg-slate-900/50 hover:bg-rose-50 dark:hover:bg-rose-950/30 border border-border dark:border-white/5 hover:border-rose-500/30 text-xs text-rose-600 dark:text-rose-400 py-2 rounded-full transition-all shadow-sm dark:shadow-inner hover:shadow-rose-500/10 disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="py-2 text-xs"
+                  auraColor="rose-500"
                 >
                   {isBlocked ? 'Blocked' : 'Block'}
-                </button>
+                </Button>
               </Popover.Close>
             </div>
 

@@ -6,6 +6,7 @@ import { useGenesis } from '@/context/GenesisContext';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
 import { cn } from '@/lib/utils';
 import { usePersona } from '@/context/PersonaContext';
+import { Button } from './ui/Button';
 
 const organizations = [
   "Acme Corp",
@@ -99,13 +100,14 @@ export function GlobalHeader() {
       <div className="flex items-center gap-4">
         {/* New Project Action (Hidden for Team Members) */}
         {activePersona !== 'Team Member' && (
-          <button
+          <Button
+            variant="secondary"
             onClick={openGenesis}
-            className="h-[34px] flex items-center gap-2 px-4 rounded-full bg-transparent border border-cyan-500/50 text-cyan-600 dark:text-cyan-400 text-[10px] font-black uppercase tracking-[0.1em] hover:bg-cyan-500 hover:text-white transition-all hover:shadow-[0_0_20px_rgba(6,182,212,0.3)] active:scale-95 whitespace-nowrap"
+            className="h-[34px] px-4 text-[10px] gap-2"
           >
             <Plus className="w-4 h-4" />
             New Project
-          </button>
+          </Button>
         )}
 
         {/* Search */}

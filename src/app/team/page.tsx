@@ -11,6 +11,7 @@ import { usePersona } from '@/context/PersonaContext';
 import { mockEmployees as initialEmployees, Employee } from '@/lib/mockTeam';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/Button';
 
 export default function TeamPage() {
   const router = useRouter();
@@ -175,13 +176,14 @@ export default function TeamPage() {
         </div>
 
         <div className="flex items-center gap-4 pr-4">
-          <button 
+          <Button 
+            variant="primary"
             onClick={() => setIsOnboardingOpen(true)}
-            className="px-5 py-2.5 rounded-full bg-transparent border border-cyan-500/50 text-cyan-600 dark:text-cyan-400 text-sm font-bold uppercase tracking-[0.1em] hover:bg-cyan-500 hover:text-white transition-all flex items-center gap-2 hover:shadow-[0_0_20px_rgba(34,211,238,0.3)] active:scale-95"
+            className="px-5 py-2.5 text-sm gap-2"
           >
             <Plus className="w-4 h-4" />
             ONBOARD
-          </button>
+          </Button>
         </div>
       </div>
 

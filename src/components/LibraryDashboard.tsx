@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { StreamAccordion } from './StreamAccordion';
 import { DependencyMatrix } from './DependencyMatrix';
+import { Button } from './ui/Button';
 
 
 export function LibraryDashboard() {
@@ -221,38 +222,44 @@ export function LibraryDashboard() {
 
                   {(genesisState === 'complete' || genesisState === 'approving' || genesisState === 'synthesizing') ? (
                     <div className="flex flex-col gap-3 animate-in fade-in slide-in-from-bottom-4 duration-700">
-                      <div className="flex items-center justify-between p-3 rounded-xl bg-muted/50 dark:bg-slate-900/60 border border-border dark:border-green-500/20 shadow-sm dark:shadow-inner dark:shadow-green-900/10">
-                        <div className="flex items-center gap-3">
-                           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900 dark:to-slate-900 flex items-center justify-center border border-green-200 dark:border-green-500/30 text-green-700 dark:text-green-300 font-bold text-xs">S</div>
-                           <div className="flex flex-col">
-                             <span className="text-sm font-medium text-slate-900 dark:text-slate-200">Sarah</span>
-                             <span className="text-[10px] text-muted-foreground uppercase tracking-widest">Authentication</span>
-                           </div>
-                        </div>
-                        <div className="text-green-400 text-xs font-bold font-mono tracking-wide">98% MATCH</div>
-                      </div>
+                      {[
+                        { name: 'Sarah', role: 'Authentication', match: 98, color: 'green' },
+                        { name: 'Mike', role: 'Database Arch', match: 92, color: 'teal' },
+                        { name: 'Alex', role: 'UI / UX', match: 85, color: 'blue' }
+                      ].map((p) => {
+                        const styles = {
+                          green: {
+                            container: "dark:border-green-500/20 dark:shadow-green-900/10",
+                            badge: "bg-green-100 dark:bg-green-900/40 border-green-200 dark:border-green-500/30 text-green-700 dark:text-green-300",
+                            percentage: "text-green-400"
+                          },
+                          teal: {
+                            container: "dark:border-teal-500/20 dark:shadow-teal-900/10",
+                            badge: "bg-teal-100 dark:bg-teal-900/40 border-teal-200 dark:border-teal-500/30 text-teal-700 dark:text-teal-300",
+                            percentage: "text-teal-400"
+                          },
+                          blue: {
+                            container: "dark:border-blue-500/20 dark:shadow-blue-900/10",
+                            badge: "bg-blue-100 dark:bg-blue-900/40 border-blue-200 dark:border-blue-500/30 text-blue-700 dark:text-blue-300",
+                            percentage: "text-blue-400"
+                          }
+                        }[p.color as 'green' | 'teal' | 'blue'];
 
-                      <div className="flex items-center justify-between p-3 rounded-xl bg-muted/50 dark:bg-slate-900/60 border border-border dark:border-teal-500/20 shadow-sm dark:shadow-inner dark:shadow-teal-900/10">
-                        <div className="flex items-center gap-3">
-                           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-900 dark:to-slate-900 flex items-center justify-center border border-teal-200 dark:border-teal-500/30 text-teal-700 dark:text-teal-300 font-bold text-xs">M</div>
-                           <div className="flex flex-col">
-                             <span className="text-sm font-medium text-slate-900 dark:text-slate-200">Mike</span>
-                             <span className="text-[10px] text-muted-foreground uppercase tracking-widest">Database Arch</span>
-                           </div>
-                        </div>
-                        <div className="text-teal-400 text-xs font-bold font-mono tracking-wide">92% MATCH</div>
-                      </div>
-
-                      <div className="flex items-center justify-between p-3 rounded-xl bg-muted/50 dark:bg-slate-900/60 border border-border dark:border-blue-500/20 shadow-sm dark:shadow-inner dark:shadow-blue-900/10">
-                        <div className="flex items-center gap-3">
-                           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900 dark:to-slate-900 flex items-center justify-center border border-blue-200 dark:border-blue-500/30 text-blue-700 dark:text-blue-300 font-bold text-xs">A</div>
-                           <div className="flex flex-col">
-                             <span className="text-sm font-medium text-slate-900 dark:text-slate-200">Alex</span>
-                             <span className="text-[10px] text-muted-foreground uppercase tracking-widest">UI / UX</span>
-                           </div>
-                        </div>
-                        <div className="text-blue-400 text-xs font-bold font-mono tracking-wide">85% MATCH</div>
-                      </div>
+                        return (
+                          <div key={p.name} className={cn("flex items-center justify-between p-3 rounded-xl bg-muted/50 dark:bg-slate-900/60 border border-border transition-all shadow-sm dark:shadow-inner", styles.container)}>
+                            <div className="flex items-center gap-3">
+                              <div className={cn("w-8 h-8 rounded-full flex items-center justify-center border font-bold text-xs shadow-sm dark:shadow-lg", styles.badge)}>
+                                {p.name.charAt(0)}
+                              </div>
+                              <div className="flex flex-col">
+                                <span className="text-sm font-medium text-slate-900 dark:text-slate-200">{p.name}</span>
+                                <span className="text-[10px] text-muted-foreground uppercase tracking-widest">{p.role}</span>
+                              </div>
+                            </div>
+                            <div className={cn("text-xs font-bold font-mono tracking-wide", styles.percentage)}>{p.match}% MATCH</div>
+                          </div>
+                        );
+                      })}
 
                       <div className="mt-4 p-4 rounded-2xl bg-cyan-50 dark:bg-cyan-900/10 border border-cyan-200 dark:border-cyan-500/20 flex items-center gap-3">
                          <div className="w-2 h-2 rounded-full bg-cyan-500 dark:bg-cyan-400 animate-pulse" />
@@ -296,13 +303,16 @@ export function LibraryDashboard() {
                           <p className="text-sm text-muted-foreground">Review the AI-generated streams before activating the project in Pulse.</p>
                         </div>
                         
-                        <motion.button 
-                          whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                        <Button 
+                          variant="primary"
                           onClick={handleApproveStreams}
-                          className="group flex items-center gap-3 px-8 py-3 bg-cyan-500 rounded-full text-white font-bold text-sm tracking-widest shadow-[0_0_20px_rgba(6,182,212,0.4)]"
+                          className="px-8 py-3 text-sm tracking-widest gap-3"
                         >
                           APPROVE STREAMS
-                        </motion.button>
+                          <div className="w-6 h-6 rounded-full bg-black/10 dark:bg-slate-900/10 flex items-center justify-center group-hover:translate-x-1 transition-transform">
+                            <ChevronDown className="w-4 h-4 -rotate-90" />
+                          </div>
+                        </Button>
                      </div>
                      <StreamAccordion type="drafted" showDrops={false} />
                    </div>
@@ -350,14 +360,16 @@ export function LibraryDashboard() {
                              <p className="text-sm text-muted-foreground font-light">The synthesis is complete. Review all Drops before launching the project.</p>
                           </div>
 
-                          <motion.button 
-                            whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                          <Button 
+                            variant="primary"
                             onClick={() => window.location.href = '/'}
-                            className="group flex items-center gap-3 px-8 py-3 bg-cyan-500 rounded-full text-white font-bold text-sm tracking-widest shadow-[0_0_20px_rgba(34,211,238,0.4)] uppercase"
+                            className="px-8 py-3 text-sm tracking-widest gap-3"
                           >
                             SEND TO PULSE
-                            <ChevronRight className="w-4 h-4" />
-                          </motion.button>
+                            <div className="w-6 h-6 rounded-full bg-black/10 dark:bg-slate-900/10 flex items-center justify-center group-hover:translate-x-1 transition-transform">
+                              <ChevronRight className="w-4 h-4" />
+                            </div>
+                          </Button>
                        </div>
                        
                        <StreamAccordion type="drafted" showDrops={true} />
@@ -371,24 +383,44 @@ export function LibraryDashboard() {
                         </div>
 
                         <div className="flex flex-col gap-3">
-                           {[
-                             { name: 'Sarah', role: 'Authentication', match: 98, color: 'green' },
-                             { name: 'Mike', role: 'Database Arch', match: 92, color: 'teal' },
-                             { name: 'Alex', role: 'UI / UX', match: 85, color: 'blue' }
-                           ].map((p) => (
-                             <div key={p.name} className={cn("flex items-center justify-between p-3 rounded-xl bg-muted/50 dark:bg-slate-900/60 border border-border dark:border-transparent transition-all", `dark:border-${p.color}-500/20 shadow-sm dark:shadow-inner dark:shadow-${p.color}-900/10`)}>
-                               <div className="flex items-center gap-3">
-                                 <div className={cn("w-8 h-8 rounded-full flex items-center justify-center border font-bold text-xs shadow-sm dark:shadow-lg", `bg-${p.color}-100 dark:bg-${p.color}-900/40 border-${p.color}-200 dark:border-${p.color}-500/30 text-${p.color}-700 dark:text-${p.color}-300`)}>
-                                   {p.name.charAt(0)}
-                                 </div>
-                                 <div className="flex flex-col">
-                                   <span className="text-sm font-bold text-slate-900 dark:text-slate-200 tracking-tight">{p.name}</span>
-                                   <span className="text-[10px] text-muted-foreground uppercase tracking-widest">{p.role}</span>
-                                 </div>
-                               </div>
-                               <div className={cn("text-xs font-bold font-mono tracking-wide", `text-${p.color}-400`)}>{p.match}% MATCH</div>
-                             </div>
-                           ))}
+                          {([
+                            { name: 'Sarah', role: 'Authentication', match: 98, color: 'green' },
+                            { name: 'Mike', role: 'Database Arch', match: 92, color: 'teal' },
+                            { name: 'Alex', role: 'UI / UX', match: 85, color: 'blue' }
+                          ] as const).map((p) => {
+                            const styles = {
+                              green: {
+                                container: "dark:shadow-green-900/10",
+                                badge: "bg-green-100 dark:bg-green-900/40 border-green-200 dark:border-green-500/30 text-green-700 dark:text-green-300",
+                                percentage: "text-green-400"
+                              },
+                              teal: {
+                                container: "dark:shadow-teal-900/10",
+                                badge: "bg-teal-100 dark:bg-teal-900/40 border-teal-200 dark:border-teal-500/30 text-teal-700 dark:text-teal-300",
+                                percentage: "text-teal-400"
+                              },
+                              blue: {
+                                container: "dark:shadow-blue-900/10",
+                                badge: "bg-blue-100 dark:bg-blue-900/40 border-blue-200 dark:border-blue-500/30 text-blue-700 dark:text-blue-300",
+                                percentage: "text-blue-400"
+                              }
+                            }[p.color];
+
+                            return (
+                              <div key={p.name} className={cn("flex items-center justify-between p-3 rounded-xl bg-muted/50 dark:bg-slate-900/60 border border-border dark:border-transparent transition-all shadow-sm dark:shadow-inner", styles.container)}>
+                                <div className="flex items-center gap-3">
+                                  <div className={cn("w-8 h-8 rounded-full flex items-center justify-center border font-bold text-xs shadow-sm dark:shadow-lg", styles.badge)}>
+                                    {p.name.charAt(0)}
+                                  </div>
+                                  <div className="flex flex-col">
+                                    <span className="text-sm font-bold text-slate-900 dark:text-slate-200 tracking-tight">{p.name}</span>
+                                    <span className="text-[10px] text-muted-foreground uppercase tracking-widest">{p.role}</span>
+                                  </div>
+                                </div>
+                                <div className={cn("text-xs font-bold font-mono tracking-wide", styles.percentage)}>{p.match}% MATCH</div>
+                              </div>
+                            );
+                          })}
                         </div>
                      </div>
                    </div>

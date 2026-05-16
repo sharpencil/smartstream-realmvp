@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Zap, Trophy, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Employee } from '@/lib/mockTeam';
+import { Button } from './ui/Button';
 
 interface TalentCardProps {
   employee: Employee;
@@ -110,16 +111,17 @@ export function TalentCard({ employee, onClick, isHighlighted }: TalentCardProps
         </div>
       </div>
 
-      <button 
-        onClick={(e) => {
+      <Button 
+        variant="secondary"
+        onClick={(e: React.MouseEvent) => {
           e.stopPropagation();
           onClick(employee);
         }}
-        className="mt-2 w-full py-3 rounded-full bg-transparent border border-cyan-500/50 text-cyan-600 dark:text-cyan-400 text-xs font-medium uppercase tracking-[0.1em] hover:bg-cyan-500 hover:text-white transition-all flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)] active:scale-95 translate-y-0 hover:-translate-y-0.5"
+        className="mt-2 w-full py-3 text-xs gap-2"
       >
         View Performance History
         <ChevronRight className="w-4 h-4" />
-      </button>
+      </Button>
     </motion.div>
   );
 }

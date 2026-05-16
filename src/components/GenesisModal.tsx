@@ -9,6 +9,7 @@ import {
   Activity, Target, Briefcase, Sparkles
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Button } from './ui/Button';
 import { useGenesis } from '@/context/GenesisContext';
 import { useRouter } from 'next/navigation';
 import { StreamAccordion } from './StreamAccordion';
@@ -188,19 +189,17 @@ function Step1ProjectProfile({ onNext }: { onNext: () => void }) {
         </div>
       </div>
 
-      <button 
+      <Button 
+        variant="primary"
         onClick={onNext}
         disabled={!projectName.trim()}
-        className={cn(
-          "mt-20 group relative flex items-center gap-4 px-10 py-5 rounded-full font-bold text-lg transition-all active:scale-95",
-          projectName.trim() 
-            ? "bg-cyan-500 text-white hover:bg-cyan-400 hover:scale-105 shadow-sm dark:shadow-[0_0_20px_rgba(34,211,238,0.3)]" 
-            : "bg-slate-200 dark:bg-slate-900/40 text-slate-400 dark:text-slate-500 border border-slate-300 dark:border-slate-800/60 cursor-not-allowed opacity-50"
-        )}
+        className="mt-20 px-10 py-5 text-lg gap-4"
       >
         NEXT
-        <ChevronRight className={cn("w-6 h-6 transition-transform", projectName.trim() && "group-hover:translate-x-1")} />
-      </button>
+        <div className="w-8 h-8 rounded-full bg-black/10 dark:bg-slate-900/10 flex items-center justify-center group-hover:translate-x-1 transition-transform">
+          <ChevronRight className="w-5 h-5" />
+        </div>
+      </Button>
     </motion.div>
   );
 }
@@ -318,27 +317,35 @@ function Step2SynthesisWorkspace({
           {['complete', 'generating', 'launched'].includes(genesisState) ? (
             <div className="flex flex-col gap-3 animate-in fade-in slide-in-from-bottom-2 duration-500">
               {/* Team list */}
-              {[
+              {([
                 { name: 'Sarah', role: 'Authentication', match: 98, color: 'green' },
                 { name: 'Mike', role: 'Database Arch', match: 92, color: 'teal' },
                 { name: 'Alex', role: 'UI / UX', match: 85, color: 'blue' }
-              ].map((p, i) => (
-                <div key={p.name} className={cn("flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-transparent shadow-sm dark:shadow-inner transition-all group/card cursor-help", `dark:border-${p.color}-500/20 hover:border-indigo-500/40 dark:shadow-${p.color}-900/10 dark:hover:shadow-indigo-500/5`)}>
-                  <div className="flex items-center gap-3">
-                    <div className={cn("w-8 h-8 rounded-full flex items-center justify-center border font-bold text-xs shadow-sm dark:shadow-lg relative", `bg-${p.color}-100 dark:bg-${p.color}-900/40 border-${p.color}-200 dark:border-${p.color}-500/30 text-${p.color}-700 dark:text-${p.color}-300`)}>
-                      {p.name.charAt(0)}
-                      <Sparkles className="absolute -top-1 -right-1 w-3 h-3 text-indigo-500 dark:text-indigo-400 opacity-0 group-hover/card:opacity-100 transition-opacity" />
+              ] as const).map((p) => {
+                const styles = {
+                  green: "bg-green-100 dark:bg-green-900/40 border-green-200 dark:border-green-500/30 text-green-700 dark:text-green-300 dark:shadow-green-900/10",
+                  teal: "bg-teal-100 dark:bg-teal-900/40 border-teal-200 dark:border-teal-500/30 text-teal-700 dark:text-teal-300 dark:shadow-teal-900/10",
+                  blue: "bg-blue-100 dark:bg-blue-900/40 border-blue-200 dark:border-blue-500/30 text-blue-700 dark:text-blue-300 dark:shadow-blue-900/10"
+                }[p.color];
+                
+                return (
+                  <div key={p.name} className={cn("flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-transparent transition-all shadow-sm dark:shadow-inner group/card cursor-help hover:border-indigo-500/40 dark:hover:shadow-indigo-500/5", styles.split(' ').pop())}>
+                    <div className="flex items-center gap-3">
+                      <div className={cn("w-8 h-8 rounded-full flex items-center justify-center border font-bold text-xs shadow-sm dark:shadow-lg relative", styles.split(' ').slice(0, 4).join(' '))}>
+                        {p.name.charAt(0)}
+                        <Sparkles className="absolute -top-1 -right-1 w-3 h-3 text-indigo-500 dark:text-indigo-400 opacity-0 group-hover/card:opacity-100 transition-opacity" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-sm font-medium text-foreground dark:text-slate-200 group-hover/card:text-indigo-600 dark:group-hover/card:text-indigo-200 transition-colors">{p.name}</span>
+                        <span className="text-[10px] text-slate-500 uppercase tracking-widest">
+                          {p.role}
+                        </span>
+                      </div>
                     </div>
-                    <div className="flex flex-col">
-                      <span className="text-sm font-medium text-foreground dark:text-slate-200 group-hover/card:text-indigo-600 dark:group-hover/card:text-indigo-200 transition-colors">{p.name}</span>
-                      <span className="text-[10px] text-slate-500 uppercase tracking-widest">
-                        {p.role}
-                      </span>
-                    </div>
+                    <div className={cn("text-xs font-bold font-mono tracking-wide", p.color === 'green' ? 'text-green-600 dark:text-green-400' : p.color === 'teal' ? 'text-teal-600 dark:text-teal-400' : 'text-blue-600 dark:text-blue-400')}>{p.match}% MATCH</div>
                   </div>
-                  <div className={cn("text-xs font-bold font-mono tracking-wide", `text-${p.color}-600 dark:text-${p.color}-400 group-hover/card:text-indigo-600 dark:group-hover/card:text-indigo-400`)}>{p.match}% MATCH</div>
-                </div>
-              ))}
+                );
+              })}
               
               <div className="mt-4 p-4 rounded-2xl bg-cyan-900/10 border border-cyan-500/20 flex items-center gap-3">
                  <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
@@ -378,16 +385,16 @@ function Step2SynthesisWorkspace({
                   <p className="text-sm text-slate-500 font-light">Review the AI-generated streams before activating the project in Pulse.</p>
                </div>
 
-               <motion.button 
-                 initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} 
+               <Button 
+                 variant="primary"
                  onClick={onConfirm}
-                 className="group flex items-center gap-3 px-8 py-3 bg-cyan-500 rounded-full text-white font-bold text-sm tracking-widest shadow-sm dark:shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:shadow-md dark:hover:shadow-[0_0_40px_rgba(34,211,238,0.6)] hover:scale-105 transition-all outline-none uppercase whitespace-nowrap active:scale-95"
+                 className="px-8 py-3 text-sm tracking-widest gap-3 uppercase"
                >
                  APPROVE STREAMS
                  <div className="w-6 h-6 rounded-full bg-black/10 dark:bg-slate-900/10 flex items-center justify-center group-hover:translate-x-1 transition-transform">
-                   <ChevronDown className="w-4 h-4 text-white -rotate-90" />
+                   <ChevronDown className="w-4 h-4 -rotate-90" />
                  </div>
-               </motion.button>
+               </Button>
             </div>
             
             <StreamAccordion type="drafted" showDrops={false} />
@@ -422,19 +429,27 @@ function PersistentGenesisSummary() {
           <h2 className="text-[10px] font-semibold text-foreground dark:text-slate-200 uppercase tracking-widest">Oracle Alignments</h2>
         </div>
         <div className="flex flex-col gap-2">
-          {[
+          {([
             { name: 'Sarah', match: 98, color: 'green' },
             { name: 'Mike', match: 92, color: 'teal' },
             { name: 'Alex', match: 85, color: 'blue' }
-          ].map((p) => (
-            <div key={p.name} className="flex items-center justify-between p-2 rounded-xl bg-muted/50 dark:bg-slate-900/60 border border-border dark:border-white/5 shadow-sm dark:shadow-inner">
-               <div className={cn("w-6 h-6 rounded-full flex items-center justify-center border font-bold text-[8px] bg-background dark:bg-slate-800/40 border-border dark:border-slate-800 shadow-sm", `text-${p.color}-600 dark:text-${p.color}-300 border-${p.color}-200 dark:border-${p.color}-500/30`)}>
-                 {p.name.charAt(0)}
-               </div>
-               <div className="text-[10px] font-bold text-slate-600 dark:text-slate-400">{p.name}</div>
-               <div className={cn("text-[8px] font-bold font-mono tracking-wide", `text-${p.color}-600 dark:text-${p.color}-400`)}>{p.match}%</div>
-            </div>
-          ))}
+          ] as const).map((p) => {
+            const styles = {
+              green: "text-green-600 dark:text-green-300 border-green-200 dark:border-green-500/30",
+              teal: "text-teal-600 dark:text-teal-300 border-teal-200 dark:border-teal-500/30",
+              blue: "text-blue-600 dark:text-blue-300 border-blue-200 dark:border-blue-500/30"
+            }[p.color];
+
+            return (
+              <div key={p.name} className="flex items-center justify-between p-2 rounded-xl bg-muted/50 dark:bg-slate-900/60 border border-border dark:border-white/5 shadow-sm dark:shadow-inner">
+                <div className={cn("w-6 h-6 rounded-full flex items-center justify-center border font-bold text-[8px] bg-background dark:bg-slate-800/40 shadow-sm", styles)}>
+                  {p.name.charAt(0)}
+                </div>
+                <div className="text-[10px] font-bold text-slate-600 dark:text-slate-400">{p.name}</div>
+                <div className={cn("text-[8px] font-bold font-mono tracking-wide", p.color === 'green' ? 'text-green-600 dark:text-green-400' : p.color === 'teal' ? 'text-teal-600 dark:text-teal-400' : 'text-blue-600 dark:text-blue-400')}>{p.match}%</div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -567,18 +582,16 @@ function Step4FinalPreview({ onLaunch }: { onLaunch: () => void }) {
                   <p className="text-sm text-slate-500 font-light">The synthesis is complete. Review all Drops before launching the project.</p>
                </div>
 
-               <motion.button 
-                 initial={{ opacity: 0, scale: 0.9 }} 
-                 animate={{ opacity: 1, scale: 1 }} 
-                 transition={{ type: "spring", stiffness: 300, damping: 25 }}
+               <Button 
+                 variant="primary"
                  onClick={onLaunch}
-                 className="group flex items-center gap-3 px-8 py-4 bg-cyan-500 rounded-full text-white font-bold text-sm tracking-widest shadow-sm dark:shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:shadow-md dark:hover:shadow-[0_0_40px_rgba(34,211,238,0.6)] hover:scale-105 transition-all outline-none uppercase whitespace-nowrap active:scale-95"
+                 className="px-8 py-4 text-sm tracking-widest gap-3 uppercase"
                >
                  LAUNCH PROJECT
                  <div className="w-6 h-6 rounded-full bg-black/10 dark:bg-slate-900/10 flex items-center justify-center group-hover:translate-x-1 transition-transform">
-                   <ChevronRight className="w-4 h-4 text-white" />
+                    <ChevronRight className="w-4 h-4" />
                  </div>
-               </motion.button>
+               </Button>
             </div>
             
             <StreamAccordion type="drafted" showDrops={true} />
@@ -592,25 +605,45 @@ function Step4FinalPreview({ onLaunch }: { onLaunch: () => void }) {
             </div>
 
              <div className="flex flex-col gap-3">
-               {[
+               {([
                  { name: 'Sarah', role: 'Authentication', match: 98, color: 'green' },
                  { name: 'Mike', role: 'Database Arch', match: 92, color: 'teal' },
                  { name: 'Alex', role: 'UI / UX', match: 85, color: 'blue' }
-               ].map((p) => (
-                 <div key={p.name} className={cn("flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-transparent transition-all shadow-sm dark:shadow-inner dark:shadow-${p.color}-900/10")}>
-                   <div className="flex items-center gap-3">
-                     <div className={cn("w-8 h-8 rounded-full flex items-center justify-center border font-bold text-xs shadow-sm dark:shadow-lg", `bg-${p.color}-100 dark:bg-${p.color}-900/40 border-${p.color}-200 dark:border-${p.color}-500/30 text-${p.color}-700 dark:text-${p.color}-300`)}>
-                       {p.name.charAt(0)}
+               ] as const).map((p) => {
+                 const styles = {
+                   green: {
+                     container: "dark:shadow-green-900/10",
+                     badge: "bg-green-100 dark:bg-green-900/40 border-green-200 dark:border-green-500/30 text-green-700 dark:text-green-300",
+                     percentage: "text-green-600 dark:text-green-400"
+                   },
+                   teal: {
+                     container: "dark:shadow-teal-900/10",
+                     badge: "bg-teal-100 dark:bg-teal-900/40 border-teal-200 dark:border-teal-500/30 text-teal-700 dark:text-teal-300",
+                     percentage: "text-teal-600 dark:text-teal-400"
+                   },
+                   blue: {
+                     container: "dark:shadow-blue-900/10",
+                     badge: "bg-blue-100 dark:bg-blue-900/40 border-blue-200 dark:border-blue-500/30 text-blue-700 dark:text-blue-300",
+                     percentage: "text-blue-600 dark:text-blue-400"
+                   }
+                 }[p.color];
+
+                 return (
+                   <div key={p.name} className={cn("flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-transparent transition-all shadow-sm dark:shadow-inner", styles.container)}>
+                     <div className="flex items-center gap-3">
+                       <div className={cn("w-8 h-8 rounded-full flex items-center justify-center border font-bold text-xs shadow-sm dark:shadow-lg relative", styles.badge)}>
+                         {p.name.charAt(0)}
+                       </div>
+                       <div className="flex flex-col">
+                         <span className="text-sm font-bold text-foreground dark:text-slate-200 tracking-tight">{p.name}</span>
+                         <span className="text-[10px] text-slate-500 uppercase tracking-widest">{p.role}</span>
+                       </div>
                      </div>
-                     <div className="flex flex-col">
-                       <span className="text-sm font-bold text-foreground dark:text-slate-200 tracking-tight">{p.name}</span>
-                       <span className="text-[10px] text-slate-500 uppercase tracking-widest">{p.role}</span>
-                     </div>
+                     <div className={cn("text-xs font-bold font-mono tracking-wide", styles.percentage)}>{p.match}% MATCH</div>
                    </div>
-                   <div className={cn("text-xs font-bold font-mono tracking-wide", `text-${p.color}-600 dark:text-${p.color}-400`)}>{p.match}% MATCH</div>
-                 </div>
-               ))}
-            </div>
+                 );
+               })}
+             </div>
          </div>
        </div>
     </motion.div>

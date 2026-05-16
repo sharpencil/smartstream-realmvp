@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Employee } from '@/lib/mockTeam';
+import { Button } from './ui/Button';
 
 interface OnboardingModalProps {
   isOpen: boolean;
@@ -526,22 +527,24 @@ export function OnboardingModal({ isOpen, onClose, onAdd }: OnboardingModalProps
                       </div>
 
                       <div className="md:col-span-2 flex justify-end gap-4 mt-8">
-                        <button 
+                        <Button 
                           type="button"
+                          variant="secondary"
                           onClick={() => setStep('mode')}
-                          className="px-8 py-4 rounded-full border border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 font-bold text-xs uppercase tracking-widest hover:bg-slate-50 dark:hover:bg-white/5 transition-all"
+                          className="px-8 py-4 text-xs uppercase tracking-widest"
                         >
                           Cancel
-                        </button>
-                        <button 
+                        </Button>
+                        <Button 
                           type="submit"
-                          className="group px-10 py-4 bg-cyan-500 rounded-full text-white font-bold text-sm tracking-widest shadow-sm dark:shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:shadow-md dark:hover:shadow-[0_0_40px_rgba(34,211,238,0.6)] hover:scale-105 transition-all outline-none uppercase whitespace-nowrap active:scale-95 flex items-center justify-center gap-3"
+                          variant="primary"
+                          className="px-10 py-4 text-sm tracking-widest uppercase gap-3"
                         >
                           Generate Profile
                           <div className="w-6 h-6 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center group-hover:translate-x-1 transition-transform">
-                            <ChevronRight className="w-4 h-4 text-white" />
+                            <ChevronRight className="w-4 h-4" />
                           </div>
-                        </button>
+                        </Button>
                       </div>
                     </form>
                   </motion.div>
@@ -708,19 +711,17 @@ export function OnboardingModal({ isOpen, onClose, onAdd }: OnboardingModalProps
                           <p className="text-[10px] text-slate-500 font-medium px-4">Based on historical project complexity in resume data.</p>
                         </div>
 
-                        <motion.button 
+                        <Button 
                           ref={addBtnRef}
-                          initial={{ opacity: 0, scale: 0.9 }} 
-                          animate={{ opacity: 1, scale: 1 }} 
-                          transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                          variant="primary"
                           onClick={handleFinalize}
-                          className="group w-full py-4 bg-cyan-500 rounded-full text-white font-bold text-sm tracking-widest shadow-sm dark:shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:shadow-md dark:hover:shadow-[0_0_40px_rgba(34,211,238,0.6)] hover:scale-105 transition-all outline-none uppercase whitespace-nowrap active:scale-95 flex items-center justify-center gap-3"
+                          className="w-full py-4 text-sm tracking-widest uppercase gap-3"
                         >
                           ADD TO TEAM
                           <div className="w-6 h-6 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center group-hover:translate-x-1 transition-transform">
-                            <ChevronRight className="w-4 h-4 text-white" />
+                            <ChevronRight className="w-4 h-4" />
                           </div>
-                        </motion.button>
+                        </Button>
                       </div>
                     </div>
                   </motion.div>

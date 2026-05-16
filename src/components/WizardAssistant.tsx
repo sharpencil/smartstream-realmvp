@@ -21,15 +21,15 @@ export function WizardAssistant({ focus, genesisState, isOpen }: WizardAssistant
       animate={{ x: 0, opacity: 1 }}
       exit={{ x: 400, opacity: 0 }}
       transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-      className="w-[320px] bg-[#0a192f]/60 backdrop-blur-2xl border-l border-white/10 flex flex-col h-full z-40 relative"
+      className="w-[320px] bg-white/80 dark:bg-[#0a192f]/60 backdrop-blur-2xl border-l border-slate-200/60 dark:border-white/10 flex flex-col h-full z-40 relative"
     >
       {/* Header */}
-      <div className="p-6 border-b border-white/5 flex items-center gap-3">
-        <div className="w-8 h-8 rounded-full bg-indigo-950/50 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+      <div className="p-6 border-b border-slate-200/60 dark:border-white/5 flex items-center gap-3">
+        <div className="w-8 h-8 rounded-full bg-indigo-50 dark:bg-indigo-950/50 border border-indigo-200 dark:border-indigo-500/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
           <Bot className="w-4 h-4" />
         </div>
         <div>
-          <h2 className="text-sm font-bold text-slate-100 uppercase tracking-wider">Oracle Layer</h2>
+          <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wider">Oracle Layer</h2>
           <p className="text-xs text-slate-500 uppercase tracking-widest font-bold">Project Genesis</p>
         </div>
       </div>
@@ -47,8 +47,8 @@ export function WizardAssistant({ focus, genesisState, isOpen }: WizardAssistant
               className="flex flex-col gap-4"
             >
               <div className="flex items-center gap-2 mb-2">
-                <Database className="w-4 h-4 text-cyan-400" />
-                <span className="text-[10px] font-black text-cyan-400 uppercase tracking-widest">Requirements Advisor</span>
+                <Database className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+                <span className="text-[10px] font-black text-cyan-600 dark:text-cyan-400 uppercase tracking-widest">Requirements Advisor</span>
               </div>
 
               {genesisState === 'idle' && (
@@ -59,8 +59,8 @@ export function WizardAssistant({ focus, genesisState, isOpen }: WizardAssistant
               )}
 
               {genesisState === 'scanning' && (
-                <div className="p-4 rounded-2xl bg-cyan-950/20 border border-cyan-500/20 animate-pulse">
-                   <p className="text-sm text-cyan-200 font-medium leading-relaxed">
+                <div className="p-4 rounded-2xl bg-cyan-50 dark:bg-cyan-950/20 border border-cyan-200 dark:border-cyan-500/20 animate-pulse">
+                   <p className="text-sm text-cyan-700 dark:text-cyan-200 font-medium leading-relaxed">
                      Deconstructing natural language requirements into technical abstractions...
                    </p>
                 </div>
@@ -94,8 +94,8 @@ export function WizardAssistant({ focus, genesisState, isOpen }: WizardAssistant
               className="flex flex-col gap-4"
             >
               <div className="flex items-center gap-2 mb-2">
-                <UserPlus className="w-4 h-4 text-indigo-400" />
-                <span className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Talent Alignment Logic</span>
+                <UserPlus className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                <span className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Talent Alignment Logic</span>
               </div>
               <AdviceCard
                 icon={<Sparkles className="w-4 h-4 text-indigo-400" />}
@@ -118,16 +118,16 @@ export function WizardAssistant({ focus, genesisState, isOpen }: WizardAssistant
               className="flex flex-col gap-4"
             >
               <div className="flex items-center gap-2 mb-2">
-                <Layers className="w-4 h-4 text-indigo-400" />
-                <span className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Synthesis Blueprint</span>
+                <Layers className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                <span className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Synthesis Blueprint</span>
               </div>
               <AdviceCard
                 icon={<Info className="w-4 h-4 text-teal-400" />}
                 text="I've optimized the stream sequence to resolve Auth dependencies first. This prevents potential bottlenecks in the API and UX streams."
               />
-              <div className="p-4 rounded-2xl bg-indigo-950/20 border border-indigo-500/20">
-                <p className="text-sm text-indigo-200 font-medium leading-relaxed">
-                  Streams are weighted by effort density. Current forecast: <span className="text-cyan-400 font-bold">120 Hours</span> total synthesis cost.
+              <div className="p-4 rounded-2xl bg-indigo-50 dark:bg-indigo-950/20 border border-indigo-200 dark:border-indigo-500/20">
+                <p className="text-sm text-indigo-700 dark:text-indigo-200 font-medium leading-relaxed">
+                  Streams are weighted by effort density. Current forecast: <span className="text-cyan-600 dark:text-cyan-400 font-bold">120 Hours</span> total synthesis cost.
                 </p>
               </div>
             </motion.div>
@@ -136,10 +136,10 @@ export function WizardAssistant({ focus, genesisState, isOpen }: WizardAssistant
       </div>
 
       {/* Footer Info */}
-      <div className="p-6 border-t border-white/5 bg-black/20">
+      <div className="p-6 border-t border-slate-200/60 dark:border-white/5 bg-slate-50/50 dark:bg-black/20">
          <div className="flex items-center gap-2 opacity-40">
-           <Sparkles className="w-3 h-3 text-cyan-400" />
-           <span className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em]">Oracle Guidance Active</span>
+           <Sparkles className="w-3 h-3 text-cyan-500 dark:text-cyan-400" />
+           <span className="text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-[0.2em]">Oracle Guidance Active</span>
          </div>
       </div>
     </motion.aside>
@@ -150,10 +150,10 @@ function AdviceCard({ icon, text, type = 'default' }: { icon: React.ReactNode, t
   return (
     <div className={cn(
       "p-4 rounded-2xl border flex gap-3 animate-in fade-in slide-in-from-right-2",
-      type === 'success' ? "bg-green-950/10 border-green-500/20 shadow-inner shadow-green-900/10" : "bg-slate-900/40 border-white/5"
+      type === 'success' ? "bg-green-50 dark:bg-green-950/10 border-green-200 dark:border-green-500/20 shadow-inner" : "bg-white/40 dark:bg-slate-900/40 border-slate-200/60 dark:border-white/5"
     )}>
       <div className="shrink-0 mt-0.5">{icon}</div>
-      <p className="text-sm text-slate-300 leading-relaxed font-light">
+      <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-light">
         {text}
       </p>
     </div>

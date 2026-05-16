@@ -16,6 +16,7 @@ import { useGenesis } from '@/context/GenesisContext';
 import { BurndownOverlay } from './BurndownOverlay';
 import * as Popover from '@radix-ui/react-popover';
 import { useTheme } from 'next-themes';
+import { Button } from './ui/Button';
 
 export interface DropData {
   id: string;
@@ -1073,15 +1074,19 @@ export function PulseDashboard() {
                                   <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-tight">Impact: {decision.impact}</span>
                                 </div>
                                 <div className="flex gap-1.5 ml-2">
-                                  <button
+                                  <Button
+                                    variant="primary"
                                     onClick={() => handleApproveDecision(decision)}
-                                    className="px-3 py-1 rounded-lg bg-cyan-500 text-white text-[10px] font-black uppercase tracking-widest hover:bg-cyan-400 transition-colors"
+                                    className="px-3 py-1 text-[10px]"
                                   >
                                     Approve
-                                  </button>
-                                  <button className="px-3 py-1 rounded-lg bg-white/5 text-slate-400 text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-colors">
+                                  </Button>
+                                  <Button 
+                                    variant="secondary"
+                                    className="px-3 py-1 text-[10px]"
+                                  >
                                     Modify
-                                  </button>
+                                  </Button>
                                 </div>
                               </motion.div>
                             );

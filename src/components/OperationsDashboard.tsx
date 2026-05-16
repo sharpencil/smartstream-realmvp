@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { usePersona } from '@/context/PersonaContext';
+import { Button } from './ui/Button';
 
 export function OperationsDashboard() {
   const [tokens, setTokens] = useState(124500);
@@ -84,17 +85,21 @@ export function OperationsDashboard() {
                 </div>
               </div>
               <div className="flex flex-col gap-3">
-                <button 
+                <Button 
+                  variant="primary"
                   onClick={() => setIsSliderModalOpen(true)}
-                  className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-600 dark:text-cyan-400 font-bold transition-all shadow-arctic dark:shadow-lg"
+                  className="px-6 py-3 gap-2"
                 >
                   <RefreshCw className="w-4 h-4" />
                   Scale AI Context
-                </button>
-                <button className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-muted hover:bg-muted/80 border border-border text-foreground font-bold transition-all">
+                </Button>
+                <Button 
+                  variant="secondary"
+                  className="px-6 py-3 gap-2"
+                >
                   <Download className="w-4 h-4" />
                   Financial Audit
-                </button>
+                </Button>
               </div>
             </div>
           </div>
@@ -281,18 +286,20 @@ export function OperationsDashboard() {
               </div>
 
               <div className="flex justify-end gap-3">
-                <button 
+                <Button 
+                  variant="secondary"
                   onClick={() => setIsSliderModalOpen(false)}
-                  className="px-5 py-2 rounded-xl text-sm font-bold text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                  className="px-5 py-2 text-sm"
                 >
                   Cancel
-                </button>
-                <button 
+                </Button>
+                <Button 
+                  variant="primary"
                   onClick={() => setIsSliderModalOpen(false)}
-                  className="px-5 py-2 rounded-xl text-sm font-bold bg-cyan-500 text-white hover:bg-cyan-400 transition-colors shadow-sm dark:shadow-[0_0_15px_rgba(34,211,238,0.3)]"
+                  className="px-5 py-2 text-sm"
                 >
                   Commit Scaling
-                </button>
+                </Button>
               </div>
             </motion.div>
           </motion.div>
