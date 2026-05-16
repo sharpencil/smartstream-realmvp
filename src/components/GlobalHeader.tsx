@@ -31,7 +31,7 @@ export function GlobalHeader() {
   const [selectedProject, setSelectedProject] = useState(projects[0]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 h-16 bg-background/80 dark:bg-slate-900/60 backdrop-blur-2xl border-b border-border dark:border-white/15 z-[300] px-6 flex items-center justify-between shadow-sm dark:shadow-none transition-all duration-500">
+    <header className="fixed top-0 left-0 right-0 h-16 bg-background/80 dark:bg-slate-900/60 border-b border-border dark:border-white/15 z-[300] px-6 flex items-center justify-between shadow-sm dark:shadow-none">
       <div className="flex items-center gap-12">
         {/* Logo */}
         <div className="h-12 min-w-[48px] flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">

@@ -245,18 +245,18 @@ export function LibraryDashboard() {
                         const styles = {
                           green: {
                             container: "dark:border-green-500/20 dark:shadow-green-900/10",
-                            badge: "bg-green-100 dark:bg-green-900/40 border-green-200 dark:border-green-500/30 text-green-700 dark:text-green-300",
-                            percentage: "text-green-400"
+                            badge: "bg-white dark:bg-green-900/40 border-black/[0.03] dark:border-green-500/30 text-slate-900 dark:text-green-300 shadow-[0_2px_8px_rgba(0,0,0,0.04)]",
+                            percentage: "text-green-600 dark:text-green-400"
                           },
                           teal: {
                             container: "dark:border-teal-500/20 dark:shadow-teal-900/10",
-                            badge: "bg-teal-100 dark:bg-teal-900/40 border-teal-200 dark:border-teal-500/30 text-teal-700 dark:text-teal-300",
-                            percentage: "text-teal-400"
+                            badge: "bg-white dark:bg-teal-900/40 border-black/[0.03] dark:border-teal-500/30 text-slate-900 dark:text-teal-300 shadow-[0_2px_8px_rgba(0,0,0,0.04)]",
+                            percentage: "text-teal-600 dark:text-teal-400"
                           },
                           blue: {
                             container: "dark:border-blue-500/20 dark:shadow-blue-900/10",
-                            badge: "bg-blue-100 dark:bg-blue-900/40 border-blue-200 dark:border-blue-500/30 text-blue-700 dark:text-blue-300",
-                            percentage: "text-blue-400"
+                            badge: "bg-white dark:bg-blue-900/40 border-black/[0.03] dark:border-blue-500/30 text-slate-900 dark:text-blue-300 shadow-[0_2px_8px_rgba(0,0,0,0.04)]",
+                            percentage: "text-blue-600 dark:text-blue-400"
                           }
                         }[p.color as 'green' | 'teal' | 'blue'];
 
@@ -406,18 +406,18 @@ export function LibraryDashboard() {
                             const styles = {
                               green: {
                                 container: "dark:shadow-green-900/10",
-                                badge: "bg-green-100 dark:bg-green-900/40 border-green-200 dark:border-green-500/30 text-green-700 dark:text-green-300",
-                                percentage: "text-green-400"
+                                badge: "bg-white dark:bg-green-900/40 border-black/[0.03] dark:border-green-500/30 text-slate-900 dark:text-green-300 shadow-[0_2px_8px_rgba(0,0,0,0.04)]",
+                                percentage: "text-green-600 dark:text-green-400"
                               },
                               teal: {
                                 container: "dark:shadow-teal-900/10",
-                                badge: "bg-teal-100 dark:bg-teal-900/40 border-teal-200 dark:border-teal-500/30 text-teal-700 dark:text-teal-300",
-                                percentage: "text-teal-400"
+                                badge: "bg-white dark:bg-teal-900/40 border-black/[0.03] dark:border-teal-500/30 text-slate-900 dark:text-teal-300 shadow-[0_2px_8px_rgba(0,0,0,0.04)]",
+                                percentage: "text-teal-600 dark:text-teal-400"
                               },
                               blue: {
                                 container: "dark:shadow-blue-900/10",
-                                badge: "bg-blue-100 dark:bg-blue-900/40 border-blue-200 dark:border-blue-500/30 text-blue-700 dark:text-blue-300",
-                                percentage: "text-blue-400"
+                                badge: "bg-white dark:bg-blue-900/40 border-black/[0.03] dark:border-blue-500/30 text-slate-900 dark:text-blue-300 shadow-[0_2px_8px_rgba(0,0,0,0.04)]",
+                                percentage: "text-blue-600 dark:text-blue-400"
                               }
                             }[p.color];
 

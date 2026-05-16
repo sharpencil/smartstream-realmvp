@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { Button } from './ui/Button';
 import { Check, AlertTriangle, ChevronDown, Clock } from 'lucide-react';
 import * as Popover from '@radix-ui/react-popover';
-import { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { Reference } from '@/lib/streams';
 
 export type DropState = 'completed' | 'active' | 'ghost';
@@ -66,7 +66,8 @@ export function getDropWidth(drop: { effortHours: number, complexity?: number },
   return 80 * zoomScale;
 }
 
-export function Drop({
+
+export const Drop = memo(({
   id,
   title,
   state,
@@ -104,7 +105,7 @@ export function Drop({
   ownerVelocity,
   enableStreamHover = true,
   isBlocked: isBlockedProp,
-}: DropProps) {
+}: DropProps) => {
   const isGhost = state === 'ghost';
   const isDraggable = !!onDragEnd;
   const isCompleted = state === 'completed';
@@ -203,7 +204,6 @@ export function Drop({
 
         <Popover.Trigger asChild>
           <motion.button
-            layout
             data-id={id}
             onClick={() => onSelectDrop?.(selectedDropId === id ? null : id)}
             initial={{ opacity: 0, scale: 0.8 }}
@@ -246,7 +246,7 @@ export function Drop({
 
             }}
             className={cn(
-              'flex items-center cursor-pointer backdrop-blur-xl relative group transition-all duration-300 z-20 outline-none overflow-hidden',
+              'flex items-center cursor-pointer relative group z-20 outline-none overflow-hidden',
               variant === 'full' ? 'rounded-xl px-4' : 'rounded-sm px-1',
               getStatusColor(),
               isGhost && 'bg-opacity-20 border-dashed border-border dark:border-white/20'
@@ -308,7 +308,7 @@ export function Drop({
           onMouseEnter={() => setIsMouseOverPopup(true)}
           onMouseLeave={() => setIsMouseOverPopup(false)}
           className={cn(
-            "w-80 bg-popover/95 dark:bg-[#0a192f]/60 backdrop-blur-3xl border border-border dark:border-white/10 shadow-lg outline-none z-[1000] animate-in fade-in zoom-in-95 duration-200 flex flex-col max-h-[480px] transition-all duration-500",
+            "w-80 bg-popover/95 dark:bg-[#0a192f]/60 backdrop-blur-3xl border border-border dark:border-white/10 shadow-lg outline-none z-[1000] animate-in fade-in zoom-in-95 duration-200 flex flex-col max-h-[480px]",
             isSelected && !isHovered && !isMouseOverPopup ? "opacity-10 scale-[0.98] blur-[2px]" : "opacity-100 scale-100 blur-0"
           )}
         >
@@ -427,4 +427,6 @@ export function Drop({
       </Popover.Portal>
     </Popover.Root>
   );
-}
+});
+
+Drop.displayName = 'Drop';

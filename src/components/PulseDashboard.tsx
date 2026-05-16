@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { Drop, DropState, getDropWidth } from './Drop';
@@ -559,7 +559,7 @@ export function PulseDashboard() {
 
 
 
-  const toggleMemberExpand = (id: string, e: React.MouseEvent) => {
+  const toggleMemberExpand = useCallback((id: string, e: React.MouseEvent) => {
     e.stopPropagation();
     setExpandedMemberIds(prev => {
       const next = new Set(prev);
@@ -575,7 +575,7 @@ export function PulseDashboard() {
       }
       return next;
     });
-  };
+  }, [viewLevel]);
 
   // Compute Critical Path Drops recursively
   const criticalPathDropIds = useMemo(() => {
@@ -602,15 +602,56 @@ export function PulseDashboard() {
     return paths;
   }, [drops]);
 
+
   const [hoveredStreamId, setHoveredStreamId] = useState<string | null>(null);
   const [hoveredDropId, setHoveredDropId] = useState<string | null>(null);
 
-  const handleHoverDrop = (id: string | null) => {
+  const handleHoverDrop = useCallback((id: string | null) => {
     setHoveredDropId(id);
-  };
+  }, []);
+
+  const handleHoverStream = useCallback((id: string | null) => {
+    setHoveredStreamId(id);
+  }, []);
   const [selectedDropId, setSelectedDropId] = useState<string | null>(null);
   const [selectedStreamDependencyId, setSelectedStreamDependencyId] = useState<string | null>(null);
   const [nodePositions, setNodePositions] = useState<Record<string, { x: number, y: number }>>({});
+
+  const dropDependencyLinks = useMemo(() => {
+    const linksToDraw: { src: DropData, dst: DropData }[] = [];
+    const added = new Set<string>();
+    const focusedMemberLaneIndex = focusedMemberId ? TEAM_MEMBERS.findIndex(m => m.id === focusedMemberId) : -1;
+
+    drops.forEach(drop => {
+      if (drop.dependsOn) {
+        drop.dependsOn.forEach(depId => {
+          const parent = drops.find(d => d.id === depId || d.id === `staging-${depId}`);
+          if (parent) {
+            if (parent.streamId !== drop.streamId) return;
+
+            if (focusedStreamId && (drop.streamId !== focusedStreamId && parent.streamId !== focusedStreamId)) {
+              return;
+            }
+            if (focusedMemberLaneIndex !== -1 && (drop.lane !== focusedMemberLaneIndex && parent.lane !== focusedMemberLaneIndex)) {
+              return;
+            }
+
+            // Only draw if at least one end is selected
+            if (drop.id === selectedDropId || parent.id === selectedDropId) {
+              const key = `${parent.id}-${drop.id}`;
+              const bothRendered = nodePositions[`drop-${parent.id}`] !== undefined && nodePositions[`drop-${drop.id}`] !== undefined;
+
+              if (!added.has(key) && bothRendered) {
+                added.add(key);
+                linksToDraw.push({ src: parent, dst: drop });
+              }
+            }
+          }
+        });
+      }
+    });
+    return linksToDraw;
+  }, [drops, focusedStreamId, focusedMemberId, selectedDropId, nodePositions]);
 
   useEffect(() => {
     const updatePositions = () => {
@@ -881,11 +922,11 @@ export function PulseDashboard() {
 
   return (
     <>
-      <div className={cn("w-full flex flex-col transition-all duration-500 ease-in-out text-slate-900 dark:text-slate-50 pb-32 bg-transparent")}>
+      <div className={cn("w-full flex flex-col text-slate-900 dark:text-slate-50 pb-32 bg-transparent")}>
 
         {/* Header Controls */}
         <div className={cn(
-          "flex items-center justify-between px-8 pt-8 pb-5 border-b border-border dark:border-white/5 z-40 relative transition-all duration-500 bg-background/80 dark:bg-slate-950/95 dark:backdrop-blur-md"
+          "flex items-center justify-between px-8 pt-8 pb-5 dark:border-b dark:border-white/5 z-40 relative bg-background/80 dark:bg-slate-950/95"
         )}>
           <div className="flex flex-col">
             {isDeepDive && (
@@ -944,7 +985,7 @@ export function PulseDashboard() {
                 if (e.target === e.currentTarget) setSelectedDropId(null);
               }}
               className={cn(
-                'flex flex-col pt-0 pb-32 relative min-w-0 transition-all duration-500',
+                'flex flex-col pt-0 pb-32 relative min-w-0',
                 'flex-none overflow-x-auto custom-scrollbar'
               )}>
 
@@ -953,7 +994,7 @@ export function PulseDashboard() {
 
               {/* Top toolbar (Sticky within the vertical scroll container) */}
               <div className={cn(
-                "left-0 right-0 z-[80] flex items-center justify-between pointer-events-none bg-transparent dark:bg-slate-950/40 dark:backdrop-blur-md py-5 px-8 rounded-b-2xl",
+                "left-0 right-0 z-[80] flex items-center justify-between pointer-events-none bg-transparent dark:bg-slate-950/40 py-5 px-8 rounded-b-2xl",
                 "sticky top-0"
               )}>
 
@@ -1008,7 +1049,7 @@ export function PulseDashboard() {
 
                 {/* Right: Zoom Controls */}
                 <div className="flex-1 flex justify-end items-center pointer-events-auto">
-                  <div className="inline-flex items-center bg-background dark:backdrop-blur-md rounded-xl p-1 h-10 border border-border dark:shadow-[0_0_20px_rgba(0,0,0,0.5)]">
+                  <div className="inline-flex items-center bg-background rounded-xl p-1 h-10 border border-border dark:shadow-[0_0_20px_rgba(0,0,0,0.5)]">
                     <button
                       onClick={() => setZoomScale(prev => Math.max(minZoom, prev - 0.1))}
                       className="w-8 h-full flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-all disabled:opacity-30"
@@ -1044,7 +1085,7 @@ export function PulseDashboard() {
 
               </div>
 
-              <AnimatePresence mode="wait">
+              <AnimatePresence>
                 {analysisMode === 'timeline' && (
                   <motion.div
                     key="timeline"
@@ -1078,7 +1119,7 @@ export function PulseDashboard() {
                                 initial={{ opacity: 0, y: -20, scale: 0.9 }}
                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                 exit={{ opacity: 0, y: -10, scale: 0.9 }}
-                                className="pointer-events-auto bg-card backdrop-blur-xl border border-cyan-500/30 rounded-2xl p-3 dark:shadow-[0_0_30px_rgba(34,211,238,0.2)] flex items-center gap-4 group min-w-[450px]"
+                                className="pointer-events-auto bg-card border border-cyan-500/30 rounded-2xl p-3 dark:shadow-[0_0_30px_rgba(34,211,238,0.2)] flex items-center gap-4 group min-w-[450px]"
                               >
                                 <div className="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center border border-cyan-500/30">
                                   <Brain className="w-4 h-4 text-cyan-400" />
@@ -1200,47 +1241,7 @@ export function PulseDashboard() {
                           })}
 
                           {/* 2. Drop Dependency Traces */}
-                          {(() => {
-                            const linksToDraw: { src: DropData, dst: DropData }[] = [];
-                            const activeDropId = hoveredDropId || selectedDropId;
-                            const added = new Set<string>();
-                            const focusedMemberLaneIndex = focusedMemberId ? TEAM_MEMBERS.findIndex(m => m.id === focusedMemberId) : -1;
-
-                            drops.forEach(drop => {
-                              if (drop.dependsOn) {
-                                drop.dependsOn.forEach(depId => {
-                                  const parent = drops.find(d => d.id === depId || d.id === `staging-${depId}`);
-                                  if (parent) {
-                                    // Enforce strict same-stream dependency visibility
-                                    if (parent.streamId !== drop.streamId) return;
-
-                                    // FOCUS MODE FILTER: Only show lines if at least one end is in the focused view
-                                    if (focusedStreamId && (drop.streamId !== focusedStreamId && parent.streamId !== focusedStreamId)) {
-                                      return;
-                                    }
-                                    if (false) {
-                                      return;
-                                    }
-                                    if (focusedMemberLaneIndex !== -1 && (drop.lane !== focusedMemberLaneIndex && parent.lane !== focusedMemberLaneIndex)) {
-                                      return;
-                                    }
-
-                                    if (drop.id === selectedDropId || parent.id === selectedDropId) {
-                                      const key = `${parent.id}-${drop.id}`;
-                                      // Only draw if BOTH ends are rendered in the DOM (have stored positions)
-                                      const bothRendered = nodePositions[`drop-${parent.id}`] !== undefined && nodePositions[`drop-${drop.id}`] !== undefined;
-
-                                      if (!added.has(key) && bothRendered) {
-                                        added.add(key);
-                                        linksToDraw.push({ src: parent, dst: drop });
-                                      }
-                                    }
-                                  }
-                                });
-                              }
-                            });
-                            return linksToDraw;
-                          })().map(({ src, dst }) => {
+                          {dropDependencyLinks.map(({ src, dst }) => {
                             const getCenter = (d: DropData) => {
 
                               const storedPos = nodePositions[`drop-${d.id}`];
@@ -1307,12 +1308,13 @@ export function PulseDashboard() {
                       {/* ── Swimlane Rows ── */}
                       {viewLevel === 'team' ? (
                         <div className="flex flex-col gap-0">
-                          <AnimatePresence mode="popLayout">
                             {TEAM_MEMBERS
                               .filter(m => !focusedMemberId || m.id === focusedMemberId)
-                              .map((member, laneIndex) => {
-                                const memberDrops = drops.filter(d => d.lane === laneIndex);
+                              .map((member) => {
+                                const originalIndex = TEAM_MEMBERS.findIndex(m => m.id === member.id);
+                                const memberDrops = drops.filter(d => d.lane === originalIndex);
                                 const isFocused = focusedMemberId === member.id;
+                                const isExpanded = expandedMemberIds.has(member.id);
                                 const empData = mockEmployees.find(e => e.name.toLowerCase().includes(member.name.toLowerCase())) || mockEmployees[0];
 
                                 // For Focused Mode, group drops by stream
@@ -1326,18 +1328,16 @@ export function PulseDashboard() {
                                 }
 
                                 return (
-                                  <motion.div
-                                    key={member.id}
-                                    layout
-                                    initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                                    exit={{ opacity: 0, y: 10, scale: 0.95, transition: { duration: 0.3 } }}
+                                    <motion.div
+                                      key={member.id}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
                                     className={cn(
-                                      "transition-all duration-700",
+                                      "relative",
                                       isFocused 
-                                        ? "z-[100] bg-white dark:bg-cyan-950/5 shadow-[0_8px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_0_40px_rgba(34,211,238,0.1)] border-y border-black/[0.03] dark:border-cyan-500/30" 
-                                        : "border-b border-border",
-                                      isFocused && "rounded-b-[40px] overflow-hidden",
+                                        ? "z-[100] bg-white dark:bg-cyan-950/5 shadow-[0_8px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_0_40px_rgba(34,211,238,0.1)] border-t border-black/[0.03] dark:border-cyan-500/30" 
+                                        : "dark:border-b dark:border-border",
+                                      isFocused && isExpanded && "rounded-b-[40px] overflow-hidden",
                                       highlightHotLanes && (parseInt(member.id) === 3 || parseInt(member.id) === 5) && !isFocused && "bg-amber-50/50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-500/40 dark:shadow-[inset_0_0_50px_rgba(245,158,11,0.05)]"
                                     )}
                                     style={{ minWidth: (PROJECT_END_X * zoomScale) + 320 }}
@@ -1346,10 +1346,10 @@ export function PulseDashboard() {
                                       {/* Member Sidebar */}
                                       <div
                                         className={cn(
-                                          "shrink-0 flex items-center gap-4 py-6 px-8 sticky left-0 z-[60] border-r border-border dark:border-slate-900/50 bg-background/95 dark:bg-slate-950 transition-all duration-500 w-80",
+                                          "shrink-0 flex items-center gap-4 py-6 px-8 sticky left-0 z-[60] dark:border-r dark:border-slate-900/50 bg-background/95 dark:bg-slate-950 w-80",
                                           isFocused 
-                                            ? "shadow-[15px_0_40px_rgba(0,0,0,0.03)] dark:shadow-[30px_0_60px_rgba(0,0,0,0.8)] rounded-l-[38px]" 
-                                            : "dark:shadow-[15px_0_40px_rgba(0,0,0,0.7)]"
+                                            ? "shadow-[20px_0_40px_rgba(0,0,0,0.03)] dark:shadow-[30px_0_60px_rgba(0,0,0,0.8)] rounded-l-[38px]" 
+                                            : "shadow-[10px_0_30px_rgba(0,0,0,0.02)] dark:shadow-[15px_0_40px_rgba(0,0,0,0.7)]"
                                         )}
                                       >
                                         <div className="flex-1 min-w-0 flex flex-col gap-4">
@@ -1402,7 +1402,7 @@ export function PulseDashboard() {
                                       </div>
 
                                       {/* Timeline / Macro-Bar */}
-                                      <div className="flex-1 h-full relative border-l border-slate-800/30 min-h-[100px] flex items-center">
+                                      <div className="flex-1 h-full relative dark:border-l dark:border-slate-800/30 min-h-[100px] flex items-center">
                                         {!isFocused ? (
                                           /* MACRO-FLATTENED VIEW: Liquid Tube using Drop component */
                                           <div className="absolute inset-0 flex items-center">
@@ -1442,14 +1442,13 @@ export function PulseDashboard() {
                                     </div>
 
                                     {/* Focus Mode Sub-Lanes */}
-                                    <AnimatePresence>
-                                      {isFocused && (
-                                        <motion.div
-                                          initial={{ height: 0, opacity: 0 }}
-                                          animate={{ height: 'auto', opacity: 1 }}
-                                          exit={{ height: 0, opacity: 0 }}
-                                          className="border-x border-b dark:border-slate-800/30 border-border rounded-b-[40px] bg-slate-50/50 dark:bg-slate-900/20 overflow-visible"
-                                        >
+                                    {isFocused && (
+                                      <motion.div
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{ height: 'auto', opacity: 1 }}
+                                        exit={{ height: 0, opacity: 0 }}
+                                        className="border-x border-b dark:border-slate-800/30 border-border rounded-b-[40px] bg-slate-50/50 dark:bg-slate-900/20 overflow-visible"
+                                      >
                                           <div className="pl-16 relative py-4">
                                             {/* Hierarchy Line */}
                                             <div className="absolute left-10 top-0 bottom-10 w-px border-l border-dashed border-slate-700/50" />
@@ -1476,7 +1475,7 @@ export function PulseDashboard() {
                                                       style={{ backgroundColor: streamColor }}
                                                     />
                                                     <div className="flex flex-col min-w-0">
-                                                      <span className="text-xs font-bold text-foreground truncate group-hover/sublane:text-cyan-600 dark:group-hover/sublane:text-white transition-colors">
+                                                      <span className="text-xs font-bold text-foreground truncate group-hover/sublane:text-cyan-600 dark:group-hover/sublane:text-white">
                                                         {stream?.title || 'Unassigned'}
                                                       </span>
                                                       <span className="text-[9px] font-medium text-slate-500 uppercase tracking-tighter">
@@ -1530,16 +1529,13 @@ export function PulseDashboard() {
                                           </div>
                                         </motion.div>
                                       )}
-                                    </AnimatePresence>
                                   </motion.div>
                                 );
                               })}
-                          </AnimatePresence>
                         </div>
                       ) : (
                         // ── OVERVIEW (STREAMS) VIEW ──
                         <div className="flex flex-col gap-0">
-                          <AnimatePresence mode="popLayout">
                             {[...STAGING_STREAMS]
                               .filter(s => !focusedStreamId || s.id === focusedStreamId)
                               .sort((a, b) => {
@@ -1556,15 +1552,13 @@ export function PulseDashboard() {
                                 return (
                                   <motion.div
                                     key={stream.id}
-                                    layout
-                                    initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                                    exit={{ opacity: 0, y: 10, scale: 0.95, transition: { duration: 0.3 } }}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
                                     className={cn(
-                                      "transition-all duration-700",
+                                      "relative",
                                       isFocused 
-                                        ? "z-[100] bg-white dark:bg-cyan-950/5 shadow-[0_8px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_0_40px_rgba(34,211,238,0.1)] border-y border-black/[0.03] dark:border-cyan-500/30" 
-                                        : "border-b border-border",
+                                        ? "z-[100] bg-white dark:bg-cyan-950/5 shadow-[0_8px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_0_40px_rgba(34,211,238,0.1)] border-t border-black/[0.03] dark:border-cyan-500/30" 
+                                        : "dark:border-b dark:border-border",
                                       isFocused && isExpanded && "rounded-b-[40px] overflow-hidden"
                                     )}
                                     style={{ minWidth: (PROJECT_END_X * zoomScale) + currentSidebarWidth }}
@@ -1575,10 +1569,10 @@ export function PulseDashboard() {
                                       {/* Stream Sidebar */}
                                       <div
                                         className={cn(
-                                          "shrink-0 flex items-center gap-4 py-6 px-8 sticky left-0 z-[60] border-r border-border dark:border-slate-900/50 bg-background/95 dark:bg-slate-950 transition-all duration-500",
+                                          "shrink-0 flex items-center gap-4 py-6 px-8 sticky left-0 z-[60] dark:border-r dark:border-slate-900/50 bg-background/95 dark:bg-slate-950",
                                           isFocused 
-                                            ? "shadow-[15px_0_40px_rgba(0,0,0,0.03)] dark:shadow-[30px_0_60px_rgba(0,0,0,0.8)]" 
-                                            : (isDark ? "shadow-[15px_0_40px_rgba(0,0,0,0.7)]" : "")
+                                            ? "shadow-[20px_0_40px_rgba(0,0,0,0.03)] dark:shadow-[30px_0_60px_rgba(0,0,0,0.8)]" 
+                                            : (isDark ? "shadow-[15px_0_40px_rgba(0,0,0,0.7)]" : "shadow-[10px_0_30px_rgba(0,0,0,0.02)]")
                                         )}
                                         style={{ width: currentSidebarWidth }}
                                       >
@@ -1655,7 +1649,7 @@ export function PulseDashboard() {
                                       </div>
 
                                       {/* Timeline Area (Collapsed View) */}
-                                      <div className="flex-1 h-full relative border-l border-border dark:border-slate-800/30 overflow-visible min-h-[100px] flex items-center">
+                                      <div className="flex-1 h-full relative dark:border-l dark:border-slate-800/30 overflow-visible min-h-[100px] flex items-center">
                                         <div className="absolute inset-0 flex items-center">
                                           <AnimatePresence>
                                             {!isExpanded && stats.drops.map(drop => {
@@ -1709,17 +1703,16 @@ export function PulseDashboard() {
                                     </div>
 
                                     {/* Expandable Sub-Lanes */}
-                                    <AnimatePresence>
-                                      {isExpanded && (
-                                        <motion.div
-                                          initial={{ height: 0, opacity: 0 }}
-                                          animate={{ height: 'auto', opacity: 1 }}
-                                          exit={{ height: 0, opacity: 0 }}
-                                          className={cn(
-                                            "border-x border-b dark:border-slate-800/30 border-border rounded-b-[40px] transition-all",
-                                            isFocused ? "bg-white dark:bg-slate-900/20" : "bg-slate-50/50 dark:bg-slate-950/20"
-                                          )}
-                                        >
+                                    {isExpanded && (
+                                      <motion.div
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{ height: 'auto', opacity: 1 }}
+                                        exit={{ height: 0, opacity: 0 }}
+                                        className={cn(
+                                          "dark:border-x dark:border-b dark:border-slate-800/30 border-border rounded-b-[40px]",
+                                          isFocused ? "bg-white dark:bg-slate-900/20" : "bg-slate-50/50 dark:bg-slate-950/20"
+                                        )}
+                                      >
                                           <div className="pl-16 relative">
                                             {/* Hierarchy Line */}
                                             <div className="absolute left-10 top-0 bottom-10 w-px border-l border-dashed border-slate-700/50" />
@@ -1742,10 +1735,10 @@ export function PulseDashboard() {
                                                     className="shrink-0 flex items-center gap-3 px-8 py-4 border-r border-border dark:border-slate-800/30 sticky left-0 z-[55] bg-background/95 dark:bg-slate-950 dark:shadow-[12px_0_35px_rgba(0,0,0,0.6)]"
                                                     style={{ width: currentSidebarWidth - 64 }}
                                                   >
-                                                    <div className="w-8 h-8 rounded-full bg-white dark:bg-cyan-950 flex items-center justify-center border border-black/[0.03] dark:border-cyan-800/30 flex items-center justify-center text-[10px] font-bold text-slate-900 dark:text-cyan-200 group-hover/sublane:border-cyan-500/50 transition-all shadow-[0_2px_8px_rgba(0,0,0,0.04)] dark:shadow-lg">
+                                                    <div className="w-8 h-8 rounded-full bg-white dark:bg-cyan-950 flex items-center justify-center border border-black/[0.03] dark:border-cyan-800/30 flex items-center justify-center text-[10px] font-bold text-slate-900 dark:text-cyan-200 group-hover/sublane:border-cyan-500/50 shadow-[0_2px_8px_rgba(0,0,0,0.04)] dark:shadow-lg">
                                                       {member.name.charAt(0)}
                                                     </div>
-                                                    <span className="text-xs font-semibold text-muted-foreground group-hover/sublane:text-foreground transition-colors whitespace-nowrap">
+                                                    <span className="text-xs font-semibold text-muted-foreground group-hover/sublane:text-foreground whitespace-nowrap">
                                                       {member.name}
                                                     </span>
                                                   </div>
@@ -1782,11 +1775,9 @@ export function PulseDashboard() {
                                           </div>
                                         </motion.div>
                                       )}
-                                    </AnimatePresence>
-                                  </motion.div>
+                                    </motion.div>
                                 );
                               })}
-                          </AnimatePresence>
                         </div>
                       )}
                     </div>

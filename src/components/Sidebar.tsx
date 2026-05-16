@@ -64,7 +64,7 @@ export function Sidebar() {
 
   return (
     <>
-      <aside className="fixed top-16 bottom-0 left-0 w-20 flex flex-col items-center py-8 bg-background/80 dark:bg-slate-900/40 backdrop-blur-xl border-r border-border dark:border-white/10 z-[200] shadow-sm dark:shadow-none transition-all duration-300">
+      <aside className="fixed top-16 bottom-0 left-0 w-20 flex flex-col items-center py-8 bg-background/80 dark:bg-slate-900/40 border-r border-border dark:border-white/10 z-[200] shadow-sm dark:shadow-none">
         
         <nav className="flex-1 flex flex-col gap-8 w-full items-center mt-4">
           <AnimatePresence mode="wait">
@@ -112,7 +112,7 @@ export function Sidebar() {
           {/* Theme Toggle */}
           <button
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            className="p-3 rounded-[20px] bg-muted dark:bg-white/5 border border-border dark:border-white/5 text-muted-foreground hover:text-foreground transition-all duration-300 shadow-sm dark:shadow-none"
+            className="p-3 rounded-[20px] bg-muted dark:bg-white/5 border border-border dark:border-white/5 text-muted-foreground hover:text-foreground shadow-sm dark:shadow-none"
             aria-label="Toggle theme"
           >
             {mounted && (theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />)}
@@ -136,7 +136,7 @@ export function Sidebar() {
                 side="right" 
                 align="end" 
                 sideOffset={16}
-                className="z-[250] w-56 rounded-[16px] bg-white/90 dark:bg-[#0a192f]/90 backdrop-blur-2xl border border-black/[0.05] dark:border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.1)] dark:shadow-2xl p-2 outline-none animate-in fade-in zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:zoom-out-95"
+                className="z-[250] w-56 rounded-[16px] bg-white/90 dark:bg-[#0a192f]/90 border border-black/[0.05] dark:border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.1)] dark:shadow-2xl p-2 outline-none animate-in fade-in zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:zoom-out-95"
               >
                 <div className="px-3 py-3 mb-2 border-b border-black/[0.03] dark:border-white/10">
                   <div className="flex items-center gap-3 mb-2">

@@ -323,9 +323,9 @@ function Step2SynthesisWorkspace({
                 { name: 'Alex', role: 'UI / UX', match: 85, color: 'blue' }
               ] as const).map((p) => {
                 const styles = {
-                  green: "bg-green-100 dark:bg-green-900/40 border-green-200 dark:border-green-500/30 text-green-700 dark:text-green-300 dark:shadow-green-900/10",
-                  teal: "bg-teal-100 dark:bg-teal-900/40 border-teal-200 dark:border-teal-500/30 text-teal-700 dark:text-teal-300 dark:shadow-teal-900/10",
-                  blue: "bg-blue-100 dark:bg-blue-900/40 border-blue-200 dark:border-blue-500/30 text-blue-700 dark:text-blue-300 dark:shadow-blue-900/10"
+                  green: "bg-white dark:bg-green-900/40 border-black/[0.03] dark:border-green-500/30 text-slate-900 dark:text-green-300 shadow-[0_2px_8px_rgba(0,0,0,0.04)] dark:shadow-green-900/10",
+                  teal: "bg-white dark:bg-teal-900/40 border-black/[0.03] dark:border-teal-500/30 text-slate-900 dark:text-teal-300 shadow-[0_2px_8px_rgba(0,0,0,0.04)] dark:shadow-teal-900/10",
+                  blue: "bg-white dark:bg-blue-900/40 border-black/[0.03] dark:border-blue-500/30 text-slate-900 dark:text-blue-300 shadow-[0_2px_8px_rgba(0,0,0,0.04)] dark:shadow-blue-900/10"
                 }[p.color];
                 
                 return (
@@ -435,14 +435,14 @@ function PersistentGenesisSummary() {
             { name: 'Alex', match: 85, color: 'blue' }
           ] as const).map((p) => {
             const styles = {
-              green: "text-green-600 dark:text-green-300 border-green-200 dark:border-green-500/30",
-              teal: "text-teal-600 dark:text-teal-300 border-teal-200 dark:border-teal-500/30",
-              blue: "text-blue-600 dark:text-blue-300 border-blue-200 dark:border-blue-500/30"
+              green: "text-slate-900 dark:text-green-300 border-black/[0.03] dark:border-green-500/30",
+              teal: "text-slate-900 dark:text-teal-300 border-black/[0.03] dark:border-teal-500/30",
+              blue: "text-slate-900 dark:text-blue-300 border-black/[0.03] dark:border-blue-500/30"
             }[p.color];
 
             return (
               <div key={p.name} className="flex items-center justify-between p-2 rounded-xl bg-muted/50 dark:bg-slate-900/60 border border-border dark:border-white/5 shadow-sm dark:shadow-inner">
-                <div className={cn("w-6 h-6 rounded-full flex items-center justify-center border font-bold text-[8px] bg-background dark:bg-slate-800/40 shadow-sm", styles)}>
+                <div className={cn("w-6 h-6 rounded-full flex items-center justify-center border font-bold text-[8px] bg-white dark:bg-slate-800/40 shadow-[0_2px_4px_rgba(0,0,0,0.04)]", styles)}>
                   {p.name.charAt(0)}
                 </div>
                 <div className="text-[10px] font-bold text-slate-600 dark:text-slate-400">{p.name}</div>
@@ -610,28 +610,28 @@ function Step4FinalPreview({ onLaunch }: { onLaunch: () => void }) {
                  { name: 'Mike', role: 'Database Arch', match: 92, color: 'teal' },
                  { name: 'Alex', role: 'UI / UX', match: 85, color: 'blue' }
                ] as const).map((p) => {
-                 const styles = {
-                   green: {
-                     container: "dark:shadow-green-900/10",
-                     badge: "bg-green-100 dark:bg-green-900/40 border-green-200 dark:border-green-500/30 text-green-700 dark:text-green-300",
-                     percentage: "text-green-600 dark:text-green-400"
-                   },
-                   teal: {
-                     container: "dark:shadow-teal-900/10",
-                     badge: "bg-teal-100 dark:bg-teal-900/40 border-teal-200 dark:border-teal-500/30 text-teal-700 dark:text-teal-300",
-                     percentage: "text-teal-600 dark:text-teal-400"
-                   },
-                   blue: {
-                     container: "dark:shadow-blue-900/10",
-                     badge: "bg-blue-100 dark:bg-blue-900/40 border-blue-200 dark:border-blue-500/30 text-blue-700 dark:text-blue-300",
-                     percentage: "text-blue-600 dark:text-blue-400"
-                   }
-                 }[p.color];
+                  const styles = {
+                    green: {
+                      container: "dark:shadow-green-900/10",
+                      badge: "bg-white dark:bg-green-900/40 border-black/[0.03] dark:border-green-500/30 text-slate-900 dark:text-green-300 shadow-[0_2px_8px_rgba(0,0,0,0.04)]",
+                      percentage: "text-green-600 dark:text-green-400"
+                    },
+                    teal: {
+                      container: "dark:shadow-teal-900/10",
+                      badge: "bg-white dark:bg-teal-900/40 border-black/[0.03] dark:border-teal-500/30 text-slate-900 dark:text-teal-300 shadow-[0_2px_8px_rgba(0,0,0,0.04)]",
+                      percentage: "text-teal-600 dark:text-teal-400"
+                    },
+                    blue: {
+                      container: "dark:shadow-blue-900/10",
+                      badge: "bg-white dark:bg-blue-900/40 border-black/[0.03] dark:border-blue-500/30 text-slate-900 dark:text-blue-300 shadow-[0_2px_8px_rgba(0,0,0,0.04)]",
+                      percentage: "text-blue-600 dark:text-blue-400"
+                    }
+                  }[p.color];
 
                  return (
                    <div key={p.name} className={cn("flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-transparent transition-all shadow-sm dark:shadow-inner", styles.container)}>
                      <div className="flex items-center gap-3">
-                       <div className={cn("w-8 h-8 rounded-full flex items-center justify-center border font-bold text-xs shadow-sm dark:shadow-lg relative", styles.badge)}>
+                       <div className={cn("w-8 h-8 rounded-full flex items-center justify-center border font-bold text-xs relative", styles.badge)}>
                          {p.name.charAt(0)}
                        </div>
                        <div className="flex flex-col">

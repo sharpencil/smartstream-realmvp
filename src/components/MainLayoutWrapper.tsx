@@ -22,7 +22,7 @@ export function MainLayoutWrapper({ children }: { children: ReactNode }) {
         backgroundColor: mounted ? (theme === 'dark' ? '#020617' : '#f8fafc') : '#020617',
       }}
       transition={{ duration: 0.8, ease: "easeInOut" }}
-      className={cn("min-h-full w-full transition-all duration-500", isAgentOpen ? "pr-[360px]" : "pr-0")}
+      className={cn("min-h-full w-full", isAgentOpen ? "pr-[360px]" : "pr-0")}
     >
       {children}
     </motion.div>
