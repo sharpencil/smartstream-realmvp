@@ -233,8 +233,8 @@ export function ProjectMap() {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent dark:via-[#020617]/50 to-transparent dark:to-[#020617] pointer-events-none" />
       
       {/* Header & Navigation */}
-      <div className="sticky top-0 z-50 bg-white/80 dark:bg-[#020617]/95 backdrop-blur-xl px-10 h-[120px] border-b border-slate-200 dark:border-white/5 flex items-center justify-between shrink-0">
-        <div className="relative h-full flex flex-col justify-center">
+      <div className="sticky top-0 z-50 bg-white/80 dark:bg-[#020617]/95 backdrop-blur-xl px-8 pt-8 pb-6 border-b border-slate-200 dark:border-white/5 flex items-center justify-between shrink-0">
+        <div className="flex flex-col">
           <div className="flex items-center gap-3">
             {viewMode === 'drop' && (
               <button 
@@ -242,19 +242,19 @@ export function ProjectMap() {
                   setViewMode('stream');
                   setSelectedStreamId(null);
                 }}
-                className="p-2.5 rounded-xl bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 transition-all mr-3 shadow-sm dark:shadow-none"
+                className="p-2 rounded-xl bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 transition-all mr-1 shadow-sm dark:shadow-none"
               >
-                <ArrowLeft className="w-5 h-5" />
+                <ArrowLeft className="w-4 h-4" />
               </button>
             )}
             <h1 className="text-3xl font-bold tracking-tight text-foreground">Project Map</h1>
           </div>
           
           {viewMode === 'drop' && (
-            <div className="absolute top-[96px] left-0 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 dark:text-slate-500 whitespace-nowrap">
+            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 dark:text-slate-500 whitespace-nowrap mt-1">
               <span>Streams</span>
               <ChevronRight className="w-3 h-3" />
-              <span className="text-slate-300">
+              <span className="text-slate-400">
                 {selectedStreamId ? hydratedStreams.find(s => s.id === selectedStreamId)?.title : 'All Drops'}
               </span>
             </div>

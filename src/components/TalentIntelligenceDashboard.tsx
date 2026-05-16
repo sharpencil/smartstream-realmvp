@@ -183,7 +183,7 @@ export function TalentIntelligenceDashboard() {
                           <tr key={emp.id} className="hover:bg-white/[0.02] transition-colors">
                             <td className="px-6 py-4">
                               <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-xs font-bold text-teal-600 dark:text-teal-400 border border-teal-200 dark:border-teal-500/20">
+                                <div className="w-8 h-8 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center text-xs font-bold text-slate-900 dark:text-teal-400 border border-black/[0.03] dark:border-teal-500/20 shadow-[0_2px_8px_rgba(0,0,0,0.04)] dark:shadow-none">
                                   {emp.avatar}
                                 </div>
                                 <div>

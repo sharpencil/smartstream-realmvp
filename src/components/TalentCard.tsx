@@ -45,8 +45,8 @@ export function TalentCard({ employee, onClick, isHighlighted }: TalentCardProps
 
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-950 dark:to-[#0a192f] border border-teal-200 dark:border-teal-800/30 flex items-center justify-center shadow-sm dark:shadow-lg group-hover:border-teal-400/50 dark:group-hover:shadow-[0_0_15px_rgba(13,148,136,0.2)] transition-all">
-             <span className="text-teal-700 dark:text-teal-200 font-bold text-lg">{employee.name.charAt(0)}</span>
+          <div className="w-12 h-12 rounded-full bg-white dark:bg-slate-900 flex items-center justify-center border border-black/[0.03] dark:border-teal-800/30 shadow-[0_2px_10px_rgba(0,0,0,0.06)] dark:shadow-lg group-hover:border-teal-400/50 dark:group-hover:shadow-[0_0_15px_rgba(13,148,136,0.2)] transition-all">
+             <span className="text-slate-900 dark:text-teal-200 font-bold text-lg">{employee.name.charAt(0)}</span>
           </div>
           <div>
             <h3 className="text-lg font-bold text-slate-900 dark:text-white tracking-tight">{employee.name}</h3>

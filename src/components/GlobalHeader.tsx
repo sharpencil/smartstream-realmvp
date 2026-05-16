@@ -43,24 +43,26 @@ export function GlobalHeader() {
         <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground dark:text-slate-300">
           <Popover>
             <PopoverTrigger asChild>
-              <button className="h-[34px] flex items-center gap-2 text-foreground dark:text-slate-300 hover:text-foreground dark:hover:text-white transition-colors bg-muted dark:bg-slate-800/30 px-3 rounded-[12px] group focus:outline-none border border-border dark:border-transparent">
-                {selectedOrg}
+              <button className="h-[34px] flex items-center gap-2 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors bg-slate-100/80 dark:bg-slate-800/30 px-3 rounded-[12px] group focus:outline-none border border-black/[0.03] dark:border-transparent">
+                <span className="text-[11px] font-bold uppercase tracking-wider">{selectedOrg}</span>
                 <ChevronDown className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
               </button>
             </PopoverTrigger>
-            <PopoverContent align="start" className="w-56">
+            <PopoverContent align="start" className="w-56 p-1.5 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-black/[0.05] dark:border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.1)] dark:shadow-none rounded-[16px]">
               <div className="flex flex-col gap-1">
                 {organizations.map((org) => (
                   <button
                     key={org}
                     onClick={() => setSelectedOrg(org)}
                     className={cn(
-                      "flex items-center justify-between px-3 py-2 rounded-[12px] text-left text-sm transition-all duration-200 hover:bg-muted dark:hover:bg-white/5",
-                      selectedOrg === org ? "text-cyan-600 dark:text-teal-400 bg-cyan-50 dark:bg-teal-400/5 font-semibold" : "text-muted-foreground dark:text-slate-400 hover:text-foreground dark:hover:text-slate-200"
+                      "flex items-center justify-between px-3 py-2 rounded-[12px] text-left text-[11px] font-bold uppercase tracking-widest transition-all duration-200",
+                      selectedOrg === org 
+                        ? "text-slate-900 dark:text-teal-400 bg-white dark:bg-teal-400/5 shadow-[0_2px_8px_rgba(0,0,0,0.04)] dark:shadow-none border border-black/[0.02] dark:border-teal-500/20" 
+                        : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5"
                     )}
                   >
                     {org}
-                    {selectedOrg === org && <Check className="w-4 h-4 text-cyan-600 dark:text-teal-400" />}
+                    {selectedOrg === org && <Check className="w-3.5 h-3.5 text-cyan-600 dark:text-teal-400" />}
                   </button>
                 ))}
               </div>
@@ -71,24 +73,26 @@ export function GlobalHeader() {
 
           <Popover>
             <PopoverTrigger asChild>
-              <button className="h-[34px] flex items-center gap-2 hover:text-slate-900 dark:hover:text-white transition-colors bg-cyan-50 dark:bg-cyan-950/20 text-cyan-700 dark:text-cyan-100 px-3 rounded-[12px] border border-cyan-200 dark:border-cyan-500/10 group focus:outline-none">
-                {selectedProject}
+              <button className="h-[34px] flex items-center gap-2 hover:text-slate-900 dark:hover:text-white transition-all bg-cyan-500/[0.08] dark:bg-cyan-950/20 text-cyan-700 dark:text-cyan-100 px-3 rounded-[12px] border border-cyan-500/10 dark:border-cyan-500/10 group focus:outline-none shadow-sm shadow-cyan-500/5">
+                <span className="text-[11px] font-bold uppercase tracking-wider">{selectedProject}</span>
                 <ChevronDown className="w-4 h-4 opacity-50 text-cyan-600 dark:text-cyan-400 group-hover:opacity-100 transition-opacity" />
               </button>
             </PopoverTrigger>
-            <PopoverContent align="start" className="w-64">
+            <PopoverContent align="start" className="w-64 p-1.5 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-black/[0.05] dark:border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.1)] dark:shadow-none rounded-[16px]">
               <div className="flex flex-col gap-1">
                 {projects.map((project) => (
                   <button
                     key={project}
                     onClick={() => setSelectedProject(project)}
                     className={cn(
-                      "flex items-center justify-between px-3 py-2 rounded-[12px] text-left text-sm transition-all duration-200 hover:bg-muted dark:hover:bg-white/5",
-                      selectedProject === project ? "text-cyan-600 dark:text-teal-400 bg-cyan-50 dark:bg-teal-400/5 font-semibold" : "text-muted-foreground dark:text-slate-400 hover:text-foreground dark:hover:text-slate-200"
+                      "flex items-center justify-between px-3 py-2 rounded-[12px] text-left text-[11px] font-bold uppercase tracking-widest transition-all duration-200",
+                      selectedProject === project 
+                        ? "text-slate-900 dark:text-teal-400 bg-white dark:bg-teal-400/5 shadow-[0_2px_8px_rgba(0,0,0,0.04)] dark:shadow-none border border-black/[0.02] dark:border-teal-500/20" 
+                        : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5"
                     )}
                   >
                     {project}
-                    {selectedProject === project && <Check className="w-4 h-4 text-cyan-600 dark:text-teal-400" />}
+                    {selectedProject === project && <Check className="w-3.5 h-3.5 text-cyan-600 dark:text-teal-400" />}
                   </button>
                 ))}
               </div>

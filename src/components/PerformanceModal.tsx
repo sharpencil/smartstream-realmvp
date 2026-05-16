@@ -83,7 +83,7 @@ export function PerformanceModal({ employee, isOpen, onOpenChange }: Performance
         <div className="flex flex-col md:flex-row h-full">
           {/* Left Sidebar: Profile Summary */}
           <div className="w-full md:w-80 bg-slate-50 dark:bg-slate-900/40 p-8 border-r border-slate-200/60 dark:border-white/10 flex flex-col items-center text-center">
-            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-950 dark:to-[#0a192f] border border-teal-200 dark:border-teal-800/30 flex items-center justify-center text-4xl font-bold text-teal-700 dark:text-teal-200 shadow-sm dark:shadow-lg mb-6">
+            <div className="w-24 h-24 rounded-full bg-white dark:bg-slate-900 border border-black/[0.03] dark:border-teal-800/30 flex items-center justify-center text-4xl font-bold text-slate-900 dark:text-teal-200 shadow-[0_4px_20px_rgba(0,0,0,0.06)] dark:shadow-lg mb-6">
               {employee.name.charAt(0)}
             </div>
             <DialogHeader className="p-0 space-y-0 text-center items-center">
