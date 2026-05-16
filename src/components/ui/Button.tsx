@@ -38,7 +38,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const motionProps = isPrimary ? {
       whileHover: isLight ? { y: -2, shadow: "0 15px 30px rgba(6,182,212,0.4)" } : {},
-      transition: { type: "spring", stiffness: 400, damping: 10 }
+      transition: { type: "spring", stiffness: 400, damping: 10 } as const
     } : {};
 
     return (
