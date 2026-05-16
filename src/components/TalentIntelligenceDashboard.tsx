@@ -114,21 +114,41 @@ export function TalentIntelligenceDashboard() {
           <div className="lg:col-span-3 flex flex-col gap-6">
             
             {/* View Toggle */}
-            <div className="flex items-center gap-2 p-1.5 bg-background/80 dark:bg-slate-900/60 border border-border dark:border-slate-800/60 rounded-full shadow-sm dark:shadow-inner dark:shadow-black/20 flex-nowrap backdrop-blur-md w-fit">
-              <button
-                onClick={() => setViewMode('table')}
-                className={cn("flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all", viewMode === 'table' ? "bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-slate-100 shadow-md" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300")}
-              >
-                <List className="w-4 h-4" />
-                Leaderboard
-              </button>
-              <button
-                onClick={() => setViewMode('skills')}
-                className={cn("flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all", viewMode === 'skills' ? "bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-slate-100 shadow-md" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300")}
-              >
-                <LayoutGrid className="w-4 h-4" />
-                Skill Aura Map
-              </button>
+            <div className="flex items-center gap-2 p-1 bg-slate-100/80 dark:bg-slate-900/60 border border-black/[0.03] dark:border-slate-800/60 rounded-full dark:shadow-inner dark:shadow-black/20 flex-nowrap backdrop-blur-md w-fit h-auto">
+              {[
+                { id: 'table', label: 'Leaderboard', icon: List },
+                { id: 'skills', label: 'Skill Aura Map', icon: LayoutGrid }
+              ].map((tab) => {
+                const isActive = viewMode === tab.id;
+                const Icon = tab.icon;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setViewMode(tab.id as any)}
+                    className={cn(
+                      "relative px-6 py-2 rounded-full text-sm tracking-wide transition-colors outline-none whitespace-nowrap z-10 flex items-center gap-2",
+                      isActive 
+                        ? "text-slate-900 dark:text-teal-400 font-medium" 
+                        : "text-slate-500 dark:text-muted-foreground hover:text-slate-700 dark:hover:text-foreground group"
+                    )}
+                  >
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeTabPebbleTalent"
+                        className="absolute inset-0 bg-white dark:bg-teal-950/80 rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.06)] dark:shadow-none border-none dark:border dark:border-teal-500/20"
+                        transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                      />
+                    )}
+                    <Icon className="w-4 h-4 relative z-20" />
+                    <span className="relative z-20 font-bold uppercase text-[11px] tracking-widest">{tab.label}</span>
+                    
+                    {/* Hover Indicator (Cyan Dot) */}
+                    {!isActive && (
+                      <div className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    )}
+                  </button>
+                );
+              })}
             </div>
 
             <AnimatePresence mode="wait">

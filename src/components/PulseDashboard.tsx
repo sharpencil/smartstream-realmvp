@@ -962,30 +962,47 @@ export function PulseDashboard() {
 
                 {/* Center: View Level Tabs */}
                 <div className="flex justify-center items-center pointer-events-auto">
-                  <div className="flex bg-slate-100 dark:bg-slate-900/60 border border-border dark:border-slate-800/60 rounded-full p-1.5 dark:shadow-inner dark:shadow-black/20 relative h-auto">
-                    <button
-                      onClick={() => setViewLevel('streams')}
-                      className={cn(
-                        'px-6 py-2 rounded-full text-sm font-bold tracking-wide transition-all outline-none whitespace-nowrap',
-                        viewLevel === 'streams' ? 'bg-teal-50 dark:bg-teal-950/80 text-teal-700 dark:text-teal-400 border border-teal-200 dark:border-teal-500/20' : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                      )}
-                    >
-                      Streams
-                    </button>
-                    <button
-                      onClick={() => {
-                        setViewLevel('team');
-                        setHoveredStreamId(null);
-                        setHoveredDropId(null);
-                        setHighlightHotLanes(false);
-                      }}
-                      className={cn(
-                        'px-6 py-2 rounded-full text-sm font-bold tracking-wide transition-all outline-none whitespace-nowrap',
-                        viewLevel === 'team' ? 'bg-teal-50 dark:bg-teal-950/80 text-teal-700 dark:text-teal-400 border border-teal-200 dark:border-teal-500/20' : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                      )}
-                    >
-                      Team
-                    </button>
+                  <div className="flex bg-slate-100/80 dark:bg-slate-900/60 rounded-full p-1 border border-black/[0.03] dark:border-slate-800/60 relative h-auto">
+                    {[
+                      { id: 'streams', label: 'Streams' },
+                      { id: 'team', label: 'Team' }
+                    ].map((tab) => {
+                      const isActive = viewLevel === tab.id;
+                      return (
+                        <button
+                          key={tab.id}
+                          onClick={() => {
+                            if (tab.id === 'streams') setViewLevel('streams');
+                            else if (tab.id === 'team') {
+                              setViewLevel('team');
+                              setHoveredStreamId(null);
+                              setHoveredDropId(null);
+                              setHighlightHotLanes(false);
+                            }
+                          }}
+                          className={cn(
+                            'relative px-6 py-2 rounded-full text-sm tracking-wide transition-colors outline-none whitespace-nowrap z-10',
+                            isActive 
+                              ? 'text-slate-900 dark:text-teal-400 font-medium' 
+                              : 'text-slate-500 dark:text-muted-foreground hover:text-slate-700 dark:hover:text-foreground group'
+                          )}
+                        >
+                          {isActive && (
+                            <motion.div
+                              layoutId="activeTabPebble"
+                              className="absolute inset-0 bg-white dark:bg-teal-950/80 rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.06)] dark:shadow-none border-none dark:border dark:border-teal-500/20"
+                              transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                            />
+                          )}
+                          <span className="relative z-20 uppercase font-bold text-[11px] tracking-widest">{tab.label}</span>
+                          
+                          {/* Hover Indicator (Cyan Dot) */}
+                          {!isActive && (
+                            <div className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                          )}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 

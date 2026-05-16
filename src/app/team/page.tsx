@@ -153,26 +153,40 @@ export default function TeamPage() {
         </h1>
         
         {/* Main Tab Switcher: Crew vs Bench */}
-        <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 p-1.5 bg-slate-100 dark:bg-slate-900/60 border border-border dark:border-slate-800/60 rounded-full dark:shadow-inner dark:shadow-black/20">
-          <button
-            onClick={() => setActiveTab('crew')}
-            className={cn(
-              "px-6 py-2 rounded-full text-sm font-bold tracking-wide transition-all outline-none",
-              activeTab === 'crew' ? "bg-teal-50 dark:bg-teal-950/80 text-teal-700 dark:text-teal-400 border border-teal-200 dark:border-teal-500/20" : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-white/5"
-            )}
-          >
-            The Crew
-          </button>
-          <button
-            ref={benchTabRef}
-            onClick={() => setActiveTab('bench')}
-            className={cn(
-              "px-6 py-2 rounded-full text-sm font-bold tracking-wide transition-all outline-none",
-              activeTab === 'bench' ? "bg-teal-50 dark:bg-teal-950/80 text-teal-700 dark:text-teal-400 border border-teal-200 dark:border-teal-500/20" : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-white/5"
-            )}
-          >
-            The Bench
-          </button>
+        <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 p-1 bg-slate-100/80 dark:bg-slate-900/60 border border-black/[0.03] dark:border-slate-800/60 rounded-full dark:shadow-inner dark:shadow-black/20 h-auto">
+          {[
+            { id: 'crew', label: 'The Crew', ref: null },
+            { id: 'bench', label: 'The Bench', ref: benchTabRef }
+          ].map((tab) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                ref={tab.ref}
+                onClick={() => setActiveTab(tab.id)}
+                className={cn(
+                  "relative px-6 py-2 rounded-full text-sm tracking-wide transition-colors outline-none whitespace-nowrap z-10",
+                  isActive 
+                    ? "text-slate-900 dark:text-teal-400 font-medium" 
+                    : "text-slate-500 dark:text-muted-foreground hover:text-slate-700 dark:hover:text-foreground group"
+                )}
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId="activeTabPebbleTeam"
+                    className="absolute inset-0 bg-white dark:bg-teal-950/80 rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.06)] dark:shadow-none border-none dark:border dark:border-teal-500/20"
+                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                  />
+                )}
+                <span className="relative z-20 font-bold uppercase text-[11px] tracking-widest">{tab.label}</span>
+                
+                {/* Hover Indicator (Cyan Dot) */}
+                {!isActive && (
+                  <div className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                )}
+              </button>
+            );
+          })}
         </div>
 
         <div className="flex items-center gap-4 pr-4">
