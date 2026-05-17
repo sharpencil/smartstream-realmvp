@@ -233,8 +233,8 @@ export function ProjectMap() {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent dark:via-[#020617]/50 to-transparent dark:to-[#020617] pointer-events-none" />
       
       {/* Header & Navigation */}
-      <div className="px-8 pt-8 pb-6 border-b border-slate-200 dark:border-white/5 flex items-center justify-between shrink-0">
-        <div className="flex flex-col">
+      <div className="px-8 pt-8 pb-6 border-b border-slate-200 dark:border-white/5 flex flex-col gap-3 shrink-0">
+        <div className="flex items-center justify-between relative w-full">
           <div className="flex items-center gap-3">
             {viewMode === 'drop' && (
               <button 
@@ -249,43 +249,9 @@ export function ProjectMap() {
             )}
             <h1 className="text-3xl font-bold tracking-tight text-foreground">Project Map</h1>
           </div>
-          
-          {viewMode === 'drop' && (
-            <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 dark:text-slate-500 whitespace-nowrap mt-1">
-              <span>Streams</span>
-              <ChevronRight className="w-3 h-3" />
-              <span className="text-slate-400">
-                {selectedStreamId ? hydratedStreams.find(s => s.id === selectedStreamId)?.title : 'All Drops'}
-              </span>
-            </div>
-          )}
-        </div>
-        <div className="flex items-center gap-4">
-          {/* Filters */}
-          <div className="flex items-center gap-2 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-2 py-1 shadow-sm dark:shadow-none">
-            <select 
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="bg-transparent text-xs font-bold text-slate-600 dark:text-slate-400 outline-none px-2 py-1 cursor-pointer hover:text-slate-900 dark:hover:text-slate-200"
-            >
-              <option className="bg-[#0f172a]">All Status</option>
-              <option className="bg-[#0f172a]">Past</option>
-              <option className="bg-[#0f172a]">Current</option>
-              <option className="bg-white dark:bg-[#0f172a] text-slate-900 dark:text-slate-100">Future</option>
-            </select>
-            <div className="w-px h-4 bg-slate-200 dark:bg-white/10" />
-            <select 
-              value={ownerFilter}
-              onChange={(e) => setOwnerFilter(e.target.value)}
-              className="bg-transparent text-xs font-bold text-slate-600 dark:text-slate-400 outline-none px-2 py-1 cursor-pointer hover:text-slate-900 dark:hover:text-slate-200"
-            >
-              <option className="bg-[#0f172a]">All Owners</option>
-              <option className="bg-[#0f172a]">Me</option>
-              <option className="bg-[#0f172a]">Team</option>
-            </select>
-          </div>
 
-          <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 p-1 bg-slate-100/80 dark:bg-[#0a192f]/60 border border-black/[0.03] dark:border-slate-800/60 rounded-full dark:shadow-inner dark:shadow-black/20 h-auto">
+          {/* Centered Switcher */}
+          <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 p-1 bg-slate-100/80 dark:bg-[#0a192f]/60 border border-black/[0.03] dark:border-slate-800/60 rounded-full dark:shadow-inner dark:shadow-black/20 h-auto z-20">
             {[
               { id: 'stream', label: 'Stream Graph' },
               { id: 'drop', label: 'Drop Graph' }
@@ -326,7 +292,43 @@ export function ProjectMap() {
               );
             })}
           </div>
+
+          <div className="flex items-center gap-4">
+            {/* Filters */}
+            <div className="flex items-center gap-2 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-2 py-1 shadow-sm dark:shadow-none">
+              <select 
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="bg-transparent text-xs font-bold text-slate-600 dark:text-slate-400 outline-none px-2 py-1 cursor-pointer hover:text-slate-900 dark:hover:text-slate-200"
+              >
+                <option className="bg-[#0f172a]">All Status</option>
+                <option className="bg-[#0f172a]">Past</option>
+                <option className="bg-[#0f172a]">Current</option>
+                <option className="bg-white dark:bg-[#0f172a] text-slate-900 dark:text-slate-100">Future</option>
+              </select>
+              <div className="w-px h-4 bg-slate-200 dark:bg-white/10" />
+              <select 
+                value={ownerFilter}
+                onChange={(e) => setOwnerFilter(e.target.value)}
+                className="bg-transparent text-xs font-bold text-slate-600 dark:text-slate-400 outline-none px-2 py-1 cursor-pointer hover:text-slate-900 dark:hover:text-slate-200"
+              >
+                <option className="bg-[#0f172a]">All Owners</option>
+                <option className="bg-[#0f172a]">Me</option>
+                <option className="bg-[#0f172a]">Team</option>
+              </select>
+            </div>
+          </div>
         </div>
+
+        {viewMode === 'drop' && (
+          <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 dark:text-slate-500 whitespace-nowrap pl-1">
+            <span>Streams</span>
+            <ChevronRight className="w-3 h-3" />
+            <span className="text-slate-400">
+              {selectedStreamId ? hydratedStreams.find(s => s.id === selectedStreamId)?.title : 'All Drops'}
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Main Map Canvas */}
@@ -400,7 +402,7 @@ export function ProjectMap() {
                   <div className="flex items-center gap-3">
                     <div className={cn(
                       "w-2 h-2 rounded-full",
-                      col === 'PAST' ? "bg-slate-700" : col === 'CURRENT' ? "bg-cyan-500 shadow-[0_0_15px_rgba(34,211,238,0.5)]" : "bg-slate-800 border border-white/5"
+                      col === 'PAST' ? "bg-slate-400 dark:bg-slate-700" : col === 'CURRENT' ? "bg-cyan-500 shadow-[0_0_15px_rgba(34,211,238,0.5)]" : "bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-white/5"
                     )} />
                     <h2 className="text-sm font-black uppercase tracking-[0.2em] text-slate-600 dark:text-slate-400">{col}</h2>
                   </div>
@@ -514,7 +516,7 @@ export function ProjectMap() {
                               </h3>
                               <div className="flex items-center justify-between mt-1">
                                 <div className="flex items-center gap-2">
-                                  <div className="w-5 h-5 rounded-full bg-slate-800 flex items-center justify-center border border-white/10">
+                                  <div className="w-5 h-5 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center border border-slate-200 dark:border-white/10">
                                     <User className="w-3 h-3 text-slate-400" />
                                   </div>
                                   <span className="text-[10px] font-bold text-slate-700 dark:text-slate-400">{isMe ? 'Me' : 'Owner'}</span>
@@ -596,11 +598,11 @@ export function ProjectMap() {
                         <h4 className="text-xs font-bold text-slate-600 dark:text-slate-500 uppercase tracking-widest mb-4">Execution Steps</h4>
                         <div className="space-y-3">
                           {drop.tasks.map((task, idx) => (
-                            <div key={idx} className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/5 group hover:border-slate-300 dark:hover:border-white/10 transition-all shadow-sm dark:shadow-none">
+                            <div key={idx} className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/5 group hover:border-slate-300 dark:hover:border-white/10 transition-all shadow-sm dark:shadow-none min-w-0">
                               <div className="mt-1 w-4 h-4 rounded border border-slate-300 dark:border-slate-700 flex items-center justify-center shrink-0">
                                 {drop.status === 'Completed' && <CheckCircle className="w-3 h-3 text-emerald-500 dark:text-emerald-400" />}
                               </div>
-                              <span className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">{task}</span>
+                              <span className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed break-words min-w-0">{task}</span>
                             </div>
                           ))}
                         </div>

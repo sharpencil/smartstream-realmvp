@@ -1175,13 +1175,13 @@ export function PulseDashboard() {
 
                     {/* Now Line */}
                     <div
-                      className="absolute top-[120px] bottom-0 w-[2px] bg-cyan-500 dark:bg-gradient-to-b dark:from-cyan-400/0 dark:via-cyan-400 dark:to-cyan-400/0 z-[120]
-                       dark:animate-time-pulse pointer-events-none
+                      className="absolute top-[120px] bottom-0 w-[2px] bg-gradient-to-b from-cyan-400/0 via-cyan-400 to-cyan-400/0 z-[120]
+                       animate-time-pulse pointer-events-none
                        before:absolute before:content-[''] before:left-1/2 before:-translate-x-1/2 before:-top-3
-                       before:w-3.5 before:h-3.5 before:bg-cyan-500 dark:before:bg-cyan-400 before:rounded-full before:shadow-sm dark:before:shadow-[0_0_10px_rgba(34,211,238,1)]
+                       before:w-3.5 before:h-3.5 before:bg-cyan-400 before:rounded-full before:shadow-[0_0_10px_rgba(34,211,238,1)]
                        before:hover:scale-125 before:transition-transform before:pointer-events-auto before:cursor-pointer
                        after:content-['NOW'] after:absolute after:-top-8 after:left-1/2 after:-translate-x-1/2
-                       after:bg-transparent after:text-cyan-500 dark:after:text-cyan-400
+                       after:bg-transparent after:text-cyan-400
                        after:text-[10px] after:font-bold after:tracking-widest
                        transition-all duration-500"
                       style={{ left: (NOW_LINE_X * zoomScale) + currentSidebarWidth }}

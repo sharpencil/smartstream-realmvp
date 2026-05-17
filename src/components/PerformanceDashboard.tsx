@@ -227,9 +227,9 @@ export function PerformanceDashboard() {
             <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">High Data Rate Feed</span>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-400 border-collapse">
+            <table className="w-full text-left text-sm text-slate-600 dark:text-slate-400 border-collapse">
               <thead>
-                <tr className="bg-slate-900/50 text-[10px] uppercase font-black text-slate-500 tracking-[0.15em] border-b border-slate-200 dark:border-white/5">
+                <tr className="bg-slate-50 dark:bg-slate-900/50 text-[10px] uppercase font-black text-slate-500 tracking-[0.15em] border-b border-slate-200 dark:border-white/5">
                   <th className="px-8 py-4 align-middle whitespace-nowrap">Stream</th>
                   <th className="px-8 py-4 align-middle whitespace-nowrap">Drop Title</th>
                   <th className="px-8 py-4 align-middle text-center whitespace-nowrap">Complexity</th>
@@ -264,7 +264,7 @@ export function PerformanceDashboard() {
                         </div>
                       </td>
                       <td className="px-8 py-4 align-middle text-center">
-                        <span className="inline-block text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-slate-800/80 border border-slate-700/50"
+                        <span className="inline-block text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/50"
                           style={{ color: sColor.hex }}>
                           C{drop.complexity}
                         </span>
@@ -272,13 +272,13 @@ export function PerformanceDashboard() {
                       <td className="px-8 py-4 align-middle text-right tabular-nums font-mono font-bold text-slate-700 dark:text-slate-300">
                         {drop.estimated_time}h <span className="text-slate-600 mx-1">/</span> {drop.completion_time.toFixed(1)}h
                       </td>
-                      <td className={cn("px-8 py-4 align-middle text-center font-mono font-bold", latency > 0 ? "text-amber-400" : "text-teal-400")}>
+                      <td className={cn("px-8 py-4 align-middle text-center font-mono font-bold", latency > 0 ? "text-amber-600 dark:text-amber-400" : "text-teal-600 dark:text-teal-400")}>
                         {latency > 0 ? `+${latency}%` : `${latency}%`}
                       </td>
                       <td className="px-8 py-4 align-middle text-right">
                         <div className={cn(
                           "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border whitespace-nowrap",
-                          isOnTime ? "bg-teal-500/10 text-teal-400 border-teal-500/20" : "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                          isOnTime ? "bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/20" : "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20"
                         )}>
                           {isOnTime ? <CheckCircle className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
                           {isOnTime ? 'On-Time' : 'Late'}

@@ -421,13 +421,13 @@ export function MyFlowDashboard() {
               {/* Close button for card */}
               <button
                 onClick={() => setSelectedDropId(null)}
-                className="absolute top-6 right-6 p-2 rounded-lg bg-white/5 hover:bg-white/10 text-slate-500 dark:text-slate-400 hover:text-white transition-colors"
+                className="absolute top-6 right-6 p-2 rounded-lg bg-slate-100/50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
               >
                 <XCircle className="w-5 h-5" />
               </button>
 
               <div className="flex items-center gap-3 mb-2">
-                <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-black/40 border border-white/10" style={{ color: sColor.hex }}>
+                <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-slate-100 dark:bg-black/40 border border-slate-200 dark:border-white/10" style={{ color: sColor.hex }}>
                   {streamInfo?.initials || 'STR'}
                 </span>
                 <span className="text-slate-500 text-xs font-mono">{activeDrop.drop_id}</span>
@@ -450,7 +450,7 @@ export function MyFlowDashboard() {
                   </span>
                 )}
                 {activeDrop.state === 'COMPLETED' && (
-                  <span className="ml-2 flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/50 border border-slate-700 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                  <span className="ml-2 flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                     <Check className="w-3 h-3 text-slate-500" />
                     Completed
                   </span>
@@ -478,9 +478,9 @@ export function MyFlowDashboard() {
                       <h3 className="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-4">Proposed Scope</h3>
                       <div className="space-y-3 bg-slate-50 dark:bg-slate-900/50 rounded-xl p-4 border border-slate-200 dark:border-slate-800">
                         {activeDrop.tasks.map((task, idx) => (
-                          <div key={idx} className="flex items-start gap-3">
+                          <div key={idx} className="flex items-start gap-3 min-w-0">
                             <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-cyan-500/50 shrink-0" />
-                            <span className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">{task}</span>
+                            <span className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed break-words min-w-0">{task}</span>
                           </div>
                         ))}
                       </div>
@@ -493,14 +493,14 @@ export function MyFlowDashboard() {
                     <div className="flex gap-4 w-full max-w-md">
                       <button
                         onClick={handleReject}
-                        className="flex-1 px-8 py-4 rounded-full bg-slate-800/50 hover:bg-rose-500/10 border border-slate-700 hover:border-rose-500/30 text-slate-500 dark:text-slate-400 hover:text-rose-400 font-bold flex items-center justify-center gap-2 transition-all"
+                        className="flex-1 px-8 py-4 rounded-full bg-slate-50 dark:bg-slate-800/50 hover:bg-rose-500/10 dark:hover:bg-rose-500/10 border border-slate-200 dark:border-slate-700 hover:border-rose-200 dark:hover:border-rose-500/30 text-slate-600 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 font-bold flex items-center justify-center gap-2 transition-all"
                       >
                         <XCircle className="w-5 h-5" />
                         Reject Drop
                       </button>
                       <button
                         onClick={handleAccept}
-                        className="flex-[2] py-4 rounded-full bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/40 text-cyan-400 font-bold text-lg flex items-center justify-center gap-2 transition-all shadow-[0_0_20px_rgba(34,211,238,0.2)]"
+                        className="flex-[2] py-4 rounded-full bg-cyan-400 dark:bg-cyan-500 text-slate-950 dark:text-white font-bold text-lg flex items-center justify-center gap-2 transition-all shadow-[0_10px_25px_rgba(6,182,212,0.3)] dark:shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:scale-105 active:scale-95"
                       >
                         <PlayCircle className="w-5 h-5" />
                         Accept Drop
@@ -521,12 +521,12 @@ export function MyFlowDashboard() {
                     <h3 className="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-4">Execution Checklist</h3>
                     <div className="flex-1 space-y-3 overflow-y-auto pr-2 max-h-[200px]">
                       {activeDrop.tasks.map((task, idx) => (
-                        <label key={idx} className={cn("flex items-start gap-3 p-3 rounded-xl transition-colors group", activeDrop.state === 'COMPLETED' ? "opacity-60 cursor-default" : "hover:bg-white/5 cursor-pointer")}>
+                        <label key={idx} className={cn("flex items-start gap-3 p-3 rounded-xl transition-colors group min-w-0", activeDrop.state === 'COMPLETED' ? "opacity-60 cursor-default" : "hover:bg-white/5 cursor-pointer")}>
                           <div className={cn("mt-0.5 relative flex items-center justify-center w-5 h-5 rounded border shrink-0 transition-colors", activeDrop.state === 'COMPLETED' ? "border-cyan-500 bg-cyan-500/20" : "border-slate-600 group-hover:border-cyan-500")}>
                             {activeDrop.state !== 'COMPLETED' && <input type="checkbox" className="opacity-0 absolute inset-0 cursor-pointer peer" />}
                             <CheckCircle2 className={cn("w-3 h-3 transition-opacity", activeDrop.state === 'COMPLETED' ? "text-cyan-400 opacity-100" : "text-cyan-400 opacity-0 peer-checked:opacity-100")} />
                           </div>
-                          <span className={cn("transition-colors leading-snug", activeDrop.state === 'COMPLETED' ? "text-slate-500 dark:text-slate-400 line-through" : "text-slate-700 dark:text-slate-200 group-hover:text-slate-900 dark:group-hover:text-white")}>{task}</span>
+                          <span className={cn("transition-colors leading-snug break-words min-w-0", activeDrop.state === 'COMPLETED' ? "text-slate-500 dark:text-slate-400 line-through" : "text-slate-700 dark:text-slate-200 group-hover:text-slate-900 dark:group-hover:text-white")}>{task}</span>
                         </label>
                       ))}
                     </div>
@@ -535,14 +535,14 @@ export function MyFlowDashboard() {
                       <div className="mt-8 flex gap-4 pt-6 border-t border-slate-200 dark:border-white/5">
                         <button
                           onClick={handleComplete}
-                          className="flex-[2] py-4 rounded-full bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 font-bold text-lg flex items-center justify-center gap-2 transition-all shadow-[0_0_20px_rgba(34,211,238,0.1)] hover:shadow-[0_0_30px_rgba(34,211,238,0.2)]"
+                          className="flex-[2] py-4 rounded-full bg-cyan-400 dark:bg-cyan-500 text-slate-950 dark:text-white font-bold text-lg flex items-center justify-center gap-2 transition-all shadow-[0_10px_25px_rgba(6,182,212,0.3)] dark:shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:scale-105 active:scale-95"
                         >
                           <CheckCircle2 className="w-5 h-5" />
                           Mark Completed
                         </button>
                         <button
                           onClick={handleFlagBlocker}
-                          className="flex-1 px-8 py-4 rounded-full bg-slate-800/50 hover:bg-amber-500/10 border border-slate-700 hover:border-amber-500/30 text-slate-500 dark:text-slate-400 hover:text-amber-400 font-bold flex items-center justify-center gap-2 transition-all"
+                          className="flex-1 px-8 py-4 rounded-full bg-slate-50 dark:bg-slate-800/50 hover:bg-amber-500/10 dark:hover:bg-amber-500/10 border border-slate-200 dark:border-slate-700 hover:border-amber-200 dark:hover:border-amber-500/30 text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 font-bold flex items-center justify-center gap-2 transition-all"
                         >
                           <AlertOctagon className="w-5 h-5" />
                           Flag Blocker
