@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/Button';
 import { Check, AlertTriangle, ChevronDown, Clock } from 'lucide-react';
@@ -106,6 +107,7 @@ export const Drop = memo(({
   enableStreamHover = true,
   isBlocked: isBlockedProp,
 }: DropProps) => {
+  const router = useRouter();
   const isGhost = state === 'ghost';
   const isDraggable = !!onDragEnd;
   const isCompleted = state === 'completed';
@@ -186,7 +188,13 @@ export const Drop = memo(({
               </h5>
               {streamName && (
                 <div className="flex flex-col gap-0.5 mt-0.5">
-                  <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
+                  <div 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (streamId) router.push(`/library?expand=${streamId}`);
+                    }}
+                    className="text-[9px] font-bold text-slate-400 uppercase tracking-widest cursor-pointer hover:text-cyan-400 transition-colors"
+                  >
                     Stream: {streamName}
                   </div>
                 </div>

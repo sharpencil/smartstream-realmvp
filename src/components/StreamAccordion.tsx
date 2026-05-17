@@ -5,8 +5,9 @@ import { ChevronDown, CheckCircle2, CircleDashed, Activity, ListChecks, Info, Za
 import { cn } from '@/lib/utils';
 import { STREAM_COLORS, getStreamColor, PALETTE_KEYS } from '@/lib/streams';
 import { STAGING_STREAMS, StagingStream, StagingDrop } from '@/lib/stagingData';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
+import { useSearchParams } from 'next/navigation';
 
 // ── Drop Row ─────────────────────────────────────────────────────────────────
 
@@ -119,6 +120,22 @@ function DropRow({ drop, idx, streamColorHex }: { drop: StagingDrop; idx: number
 
 export function StreamAccordion({ type = 'drafted', showDrops = true }: { type?: 'drafted' | 'active'; showDrops?: boolean }) {
   const { theme } = useTheme();
+  const searchParams = useSearchParams();
+  const expandId = searchParams.get('expand');
+  
+  const [expandedItems, setExpandedItems] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (expandId) {
+      setExpandedItems([expandId]);
+      // Optional: scroll to the element
+      setTimeout(() => {
+        const el = document.getElementById(`stream-${expandId}`);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+  }, [expandId]);
+
   // Use staging streams for both modes — 'drafted' shows all, 'active' shows ones with completed drops
   // Both modes show the STAGING_STREAMS in this project view
   const streams = STAGING_STREAMS;
@@ -126,7 +143,8 @@ export function StreamAccordion({ type = 'drafted', showDrops = true }: { type?:
   return (
     <Accordion.Root
       type="multiple"
-      defaultValue={[]}
+      value={expandedItems}
+      onValueChange={setExpandedItems}
       className="w-full flex flex-col gap-4 z-10"
     >
       {streams.map((stream, idx) => {
@@ -142,6 +160,7 @@ export function StreamAccordion({ type = 'drafted', showDrops = true }: { type?:
           <Accordion.Item
             key={stream.id}
             value={stream.id}
+            id={`stream-${stream.id}`}
             className="border border-slate-200/60 dark:border-white/5 bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl rounded-[24px] overflow-hidden shadow-arctic dark:shadow-[0_0_20px_rgba(0,0,0,0.3)] transition-all focus-within:border-teal-500/30 group"
           >
             <Accordion.Header className="flex m-0">

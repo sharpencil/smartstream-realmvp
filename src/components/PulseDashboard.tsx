@@ -16,6 +16,7 @@ import { useGenesis } from '@/context/GenesisContext';
 import { BurndownOverlay } from './BurndownOverlay';
 import * as Popover from '@radix-ui/react-popover';
 import { useTheme } from 'next-themes';
+import { useRouter } from 'next/navigation';
 import { Button } from './ui/Button';
 
 export interface DropData {
@@ -469,6 +470,7 @@ const MOCK_FIRM_PROJECTS = [
 ];
 
 export function PulseDashboard() {
+  const router = useRouter();
   const { isDeepDive, setIsDeepDive, setActivePersona, setFeed, selectedProjectId, activePersona, analysisMode, setAnalysisMode } = usePersona();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
@@ -1475,7 +1477,13 @@ export function PulseDashboard() {
                                                       style={{ backgroundColor: streamColor }}
                                                     />
                                                     <div className="flex flex-col min-w-0">
-                                                      <span className="text-xs font-bold text-foreground truncate group-hover/sublane:text-cyan-600 dark:group-hover/sublane:text-white">
+                                                      <span 
+                                                        onClick={(e) => {
+                                                          e.stopPropagation();
+                                                          if (stream) router.push(`/library?expand=${stream.id}`);
+                                                        }}
+                                                        className="text-xs font-bold text-foreground truncate group-hover/sublane:text-cyan-600 dark:group-hover/sublane:text-white cursor-pointer hover:underline underline-offset-4"
+                                                      >
                                                         {stream?.title || 'Unassigned'}
                                                       </span>
                                                       <span className="text-[9px] font-medium text-slate-500 uppercase tracking-tighter">
@@ -1580,10 +1588,16 @@ export function PulseDashboard() {
                                         <div className="flex-1 min-w-0 flex flex-col gap-3">
                                           {/* Top Line: Name and Focus Controls */}
                                           <div className="flex-1 flex items-center gap-3 group/title">
-                                            <h3 className={cn(
-                                              "flex-1 font-bold transition-all truncate tracking-tight",
-                                              isFocused ? "text-xl text-foreground" : "text-sm text-foreground group-hover/title:text-foreground"
-                                            )}>
+                                            <h3 
+                                              onClick={(e) => {
+                                                e.stopPropagation();
+                                                router.push(`/library?expand=${stream.id}`);
+                                              }}
+                                              className={cn(
+                                                "flex-1 font-bold transition-all truncate tracking-tight cursor-pointer hover:text-cyan-600 dark:hover:text-cyan-400 hover:underline underline-offset-4",
+                                                isFocused ? "text-xl text-foreground" : "text-sm text-foreground group-hover/title:text-foreground"
+                                              )}
+                                            >
                                               {stream.title}
                                             </h3>
 
