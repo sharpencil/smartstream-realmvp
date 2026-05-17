@@ -241,7 +241,7 @@ export function MyFlowDashboard() {
   return (
     <div className="flex flex-col w-full bg-transparent relative">
       {/* Header */}
-      <div className="sticky top-0 z-[120] bg-white/80 dark:bg-slate-950/95 backdrop-blur-md px-8 pt-8 pb-6 border-b border-slate-200 dark:border-slate-200 dark:border-white/5 flex items-center justify-between">
+      <div className="px-8 pt-8 pb-6 border-b border-slate-200 dark:border-slate-200 dark:border-white/5 flex items-center justify-between">
         <h1 className="text-3xl font-bold font-sans tracking-tight text-slate-900 dark:text-slate-100 flex items-center gap-3">
           My Flow
         </h1>

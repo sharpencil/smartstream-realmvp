@@ -91,7 +91,7 @@ export const DailyBriefing = memo(({
     <div className="relative z-20 bg-transparent">
       <div className="py-5 relative">
 
-        <div className="flex gap-2.5 mb-2.5">
+        <div className="w-full mb-2.5">
           <div className="flex flex-col gap-2.5 w-full">
             <div className="flex gap-2.5 w-full items-stretch">
               {/* Task 1: Narrative Oracle Briefing */}
@@ -121,7 +121,7 @@ export const DailyBriefing = memo(({
                 </div>
                 <div className="flex items-baseline justify-between">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-xl font-bold text-foreground tracking-tight leading-none">72%</span>
+                    <span className="text-2xl font-bold text-foreground tracking-tight leading-none">72%</span>
                     <BurndownChart />
                   </div>
                   <span className="text-[10px] font-bold text-teal-700 dark:text-teal-400 leading-none">on track</span>

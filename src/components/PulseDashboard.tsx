@@ -8,7 +8,7 @@ import { DailyBriefing } from './DailyBriefing';
 import { cn } from '@/lib/utils';
 import { STAGING_DROPS, STAGING_STREAMS } from '@/lib/stagingData';
 import { STREAM_COLORS, StreamColorKey, Reference, PALETTE_KEYS, getStreamColor } from '@/lib/streams';
-import { Zap, PlayCircle, ChevronDown, AlertTriangle, Plus, Minus, Link, X, Crosshair, Search, Clock, ArrowLeft, Brain } from 'lucide-react';
+import { Zap, PlayCircle, ChevronDown, AlertTriangle, Plus, Minus, Link, X, Crosshair, Search, Clock, ArrowLeft, Brain, Sparkles } from 'lucide-react';
 import { format, addDays, startOfDay, addHours, differenceInDays, differenceInWeeks, isWeekend, startOfWeek } from 'date-fns';
 import { mockEmployees } from '@/lib/mockTeam';
 import { usePersona, FeedItem } from '@/context/PersonaContext';
@@ -1121,17 +1121,17 @@ export function PulseDashboard() {
                                 initial={{ opacity: 0, y: -20, scale: 0.9 }}
                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                 exit={{ opacity: 0, y: -10, scale: 0.9 }}
-                                className="pointer-events-auto bg-card border border-cyan-500/30 rounded-2xl p-3 dark:shadow-[0_0_30px_rgba(34,211,238,0.2)] flex items-center gap-4 group min-w-[450px]"
+                                className="pointer-events-auto bg-card border border-indigo-500/25 dark:border-indigo-500/40 rounded-2xl p-3 dark:shadow-[0_0_40px_rgba(99,102,241,0.12)] flex items-center gap-4 group min-w-[450px] shadow-lg"
                               >
-                                <div className="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center border border-cyan-500/30">
-                                  <Brain className="w-4 h-4 text-cyan-400" />
+                                <div className="w-8 h-8 rounded-full bg-indigo-500/10 dark:bg-indigo-950/50 flex items-center justify-center border border-indigo-500/20 dark:border-indigo-500/30 shrink-0">
+                                  <Sparkles className="w-4 h-4 text-indigo-600 dark:text-indigo-400 animate-pulse" />
                                 </div>
                                 <div className="flex flex-col">
-                                  <span className="text-[10px] font-black uppercase tracking-tighter text-cyan-400/70">AI Suggestion</span>
+                                  <span className="text-[9px] font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400 mb-0.5">Oracle Suggestion</span>
                                   <span className="text-xs text-foreground font-bold whitespace-nowrap">
-                                    Move <span className="text-cyan-400 font-black">{drop.id.toUpperCase()}</span> from {fromMember?.name} to {toMember?.name}
+                                    Move <span className="text-indigo-600 dark:text-indigo-400 font-extrabold">{drop.id.toUpperCase()}</span> from {fromMember?.name} to {toMember?.name}
                                   </span>
-                                  <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-tight">Impact: {decision.impact}</span>
+                                  <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-wide mt-0.5">Impact: {decision.impact}</span>
                                 </div>
                                 <div className="flex gap-1.5 ml-2">
                                   <Button

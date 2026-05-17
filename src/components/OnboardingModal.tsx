@@ -636,7 +636,7 @@ export function OnboardingModal({ isOpen, onClose, onAdd }: OnboardingModalProps
                       {/* Left: Identity & Skills */}
                       <div className="flex-[2] flex flex-col gap-8">
                         <div className="flex items-center gap-6">
-                          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-950 dark:to-[#0a192f] border border-teal-200 dark:border-teal-800/30 flex items-center justify-center text-3xl font-bold text-teal-700 dark:text-teal-200 shadow-sm">
+                          <div className="w-20 h-20 rounded-full bg-white dark:bg-slate-900/60 border border-black/[0.05] dark:border-white/10 flex items-center justify-center text-3xl font-extrabold text-slate-850 dark:text-teal-400 shadow-[0_8px_30px_rgba(0,0,0,0.04)] dark:shadow-none">
                             {draftProfile.avatar}
                           </div>
                           <div>

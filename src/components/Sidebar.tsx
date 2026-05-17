@@ -64,7 +64,7 @@ export function Sidebar() {
 
   return (
     <>
-      <aside className="fixed top-16 bottom-0 left-0 w-20 flex flex-col items-center py-8 bg-background/80 dark:bg-slate-900/40 border-r border-border dark:border-white/10 z-[200] shadow-sm dark:shadow-none">
+      <aside className="fixed top-16 bottom-0 left-0 w-20 flex flex-col items-center py-8 bg-background border-r border-border dark:border-white/10 z-[200] shadow-sm dark:shadow-none">
         
         <nav className="flex-1 flex flex-col gap-8 w-full items-center mt-4">
           <AnimatePresence mode="wait">

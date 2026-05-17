@@ -31,7 +31,7 @@ export function OperationsDashboard() {
   return (
     <div className="w-full bg-transparent pb-32">
       {/* Header */}
-      <div className="sticky top-0 z-40 bg-background/80 dark:bg-background/95 backdrop-blur-md px-8 pt-8 pb-6 border-b border-border flex items-center justify-between">
+      <div className="px-8 pt-8 pb-6 border-b border-border flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold font-sans tracking-tight text-foreground flex items-center gap-3">
             Operations

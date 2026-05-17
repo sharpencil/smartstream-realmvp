@@ -233,7 +233,7 @@ export function ProjectMap() {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent dark:via-[#020617]/50 to-transparent dark:to-[#020617] pointer-events-none" />
       
       {/* Header & Navigation */}
-      <div className="sticky top-0 z-50 bg-white/80 dark:bg-[#020617]/95 backdrop-blur-xl px-8 pt-8 pb-6 border-b border-slate-200 dark:border-white/5 flex items-center justify-between shrink-0">
+      <div className="px-8 pt-8 pb-6 border-b border-slate-200 dark:border-white/5 flex items-center justify-between shrink-0">
         <div className="flex flex-col">
           <div className="flex items-center gap-3">
             {viewMode === 'drop' && (

@@ -72,7 +72,7 @@ export function LibraryDashboard() {
   return (
     <div className="w-full flex flex-col transition-all duration-500 ease-in-out bg-transparent text-foreground pb-20">
       {/* View Header */}
-      <div className="flex items-center justify-between px-8 pt-8 pb-6 border-b border-border dark:border-white/5 sticky top-0 bg-background dark:bg-slate-950/95 dark:backdrop-blur-md z-40 shrink-0">
+      <div className="flex items-center justify-between px-8 pt-8 pb-6 border-b border-border dark:border-white/5 shrink-0">
          <h1 className="text-3xl font-bold font-sans tracking-tight text-foreground dark:text-slate-100 flex items-center gap-3">
            Streams
          </h1>
