@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 import { Sidebar } from "@/components/Sidebar";
 import { GlobalHeader } from "@/components/GlobalHeader";
@@ -43,7 +44,9 @@ export default function RootLayout({
             <GenesisProvider>
               <Sidebar />
               <GlobalHeader />
-              <GenesisModal />
+              <Suspense fallback={null}>
+                <GenesisModal />
+              </Suspense>
               <AgentPanel />
               <main className="flex-1 min-h-0 ml-20 pt-16 overflow-y-auto w-[calc(100%-5rem)]">
                 <MainLayoutWrapper>
