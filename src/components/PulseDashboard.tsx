@@ -1025,8 +1025,8 @@ export function PulseDashboard() {
                           }}
                           className={cn(
                             'relative px-6 py-2 rounded-full text-sm tracking-wide transition-colors outline-none whitespace-nowrap z-10',
-                            isActive 
-                              ? 'text-slate-900 dark:text-teal-400 font-medium' 
+                            isActive
+                              ? 'text-slate-900 dark:text-teal-400 font-medium'
                               : 'text-slate-500 dark:text-muted-foreground hover:text-slate-700 dark:hover:text-foreground group'
                           )}
                         >
@@ -1038,7 +1038,7 @@ export function PulseDashboard() {
                             />
                           )}
                           <span className="relative z-20 uppercase font-bold text-[11px] tracking-widest">{tab.label}</span>
-                          
+
                           {/* Hover Indicator (Cyan Dot) */}
                           {!isActive && (
                             <div className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -1141,7 +1141,7 @@ export function PulseDashboard() {
                                   >
                                     Approve
                                   </Button>
-                                  <Button 
+                                  <Button
                                     variant="secondary"
                                     className="px-3 py-1 text-[10px]"
                                   >
@@ -1310,488 +1310,488 @@ export function PulseDashboard() {
                       {/* ── Swimlane Rows ── */}
                       {viewLevel === 'team' ? (
                         <div className="flex flex-col gap-0">
-                            {TEAM_MEMBERS
-                              .filter(m => !focusedMemberId || m.id === focusedMemberId)
-                              .map((member) => {
-                                const originalIndex = TEAM_MEMBERS.findIndex(m => m.id === member.id);
-                                const memberDrops = drops.filter(d => d.lane === originalIndex);
-                                const isFocused = focusedMemberId === member.id;
-                                const isExpanded = expandedMemberIds.has(member.id);
-                                const empData = mockEmployees.find(e => e.name.toLowerCase().includes(member.name.toLowerCase())) || mockEmployees[0];
+                          {TEAM_MEMBERS
+                            .filter(m => !focusedMemberId || m.id === focusedMemberId)
+                            .map((member) => {
+                              const originalIndex = TEAM_MEMBERS.findIndex(m => m.id === member.id);
+                              const memberDrops = drops.filter(d => d.lane === originalIndex);
+                              const isFocused = focusedMemberId === member.id;
+                              const isExpanded = expandedMemberIds.has(member.id);
+                              const empData = mockEmployees.find(e => e.name.toLowerCase().includes(member.name.toLowerCase())) || mockEmployees[0];
 
-                                // For Focused Mode, group drops by stream
-                                const dropsByStream: Record<string, DropData[]> = {};
-                                if (isFocused) {
-                                  memberDrops.forEach(d => {
-                                    const sId = d.streamId || 'unassigned';
-                                    if (!dropsByStream[sId]) dropsByStream[sId] = [];
-                                    dropsByStream[sId].push(d);
-                                  });
-                                }
+                              // For Focused Mode, group drops by stream
+                              const dropsByStream: Record<string, DropData[]> = {};
+                              if (isFocused) {
+                                memberDrops.forEach(d => {
+                                  const sId = d.streamId || 'unassigned';
+                                  if (!dropsByStream[sId]) dropsByStream[sId] = [];
+                                  dropsByStream[sId].push(d);
+                                });
+                              }
 
-                                return (
-                                    <motion.div
-                                      key={member.id}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    className={cn(
-                                      "relative",
-                                      isFocused 
-                                        ? "z-[100] bg-white dark:bg-cyan-950/5 shadow-[0_8px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_0_40px_rgba(34,211,238,0.1)] border-t border-black/[0.03] dark:border-cyan-500/30" 
-                                        : "dark:border-b dark:border-border",
-                                      isFocused && isExpanded && "rounded-b-[40px] overflow-hidden",
-                                      highlightHotLanes && (parseInt(member.id) === 3 || parseInt(member.id) === 5) && !isFocused && "bg-amber-50/50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-500/40 dark:shadow-[inset_0_0_50px_rgba(245,158,11,0.05)]"
-                                    )}
-                                    style={{ minWidth: (PROJECT_END_X * zoomScale) + 320 }}
-                                  >
-                                    <div className="flex items-center relative group">
-                                      {/* Member Sidebar */}
-                                      <div
-                                        className={cn(
-                                          "shrink-0 flex items-center gap-4 py-6 px-8 sticky left-0 z-[60] dark:border-r dark:border-slate-900/50 bg-background/95 dark:bg-slate-950 w-80",
-                                          isFocused 
-                                            ? "shadow-[20px_0_40px_rgba(0,0,0,0.03)] dark:shadow-[30px_0_60px_rgba(0,0,0,0.8)] rounded-l-[38px]" 
-                                            : "shadow-[10px_0_30px_rgba(0,0,0,0.02)] dark:shadow-[15px_0_40px_rgba(0,0,0,0.7)]"
-                                        )}
-                                      >
-                                        <div className="flex-1 min-w-0 flex flex-col gap-4">
-                                          <div className="flex items-center gap-4">
-                                            <div className="w-12 h-12 rounded-full bg-white dark:bg-cyan-950 flex items-center justify-center border border-black/[0.03] dark:border-cyan-800/30 flex items-center justify-center shadow-[0_2px_10px_rgba(0,0,0,0.06)] dark:shadow-lg group-hover:border-cyan-400/50 dark:group-hover:shadow-[0_0_15px_rgba(34,211,238,0.2)] transition-all">
-                                              <span className="text-slate-900 dark:text-cyan-200 font-bold text-lg">{member.name.charAt(0)}</span>
-                                            </div>
-                                            <div className="flex flex-col min-w-0">
-                                              <span className="font-bold text-foreground truncate text-lg tracking-tight hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">
-                                                {member.name}
-                                              </span>
-                                              <div className="flex flex-col gap-1.5 mt-1.5">
-                                                <div className={cn(
-                                                  'text-[10px] font-bold px-1.5 py-0.5 rounded transition-all duration-500 w-fit border',
-                                                  (memberVelocity[member.id] || 0) >= 0
-                                                    ? 'bg-green-50 dark:bg-green-950/40 text-green-600 dark:text-green-400 border-green-200 dark:border-green-500/20 dark:shadow-[0_0_8px_rgba(34,197,94,0.1)]'
-                                                    : 'bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-500 border-amber-200 dark:border-amber-500/20 dark:shadow-[0_0_8px_rgba(245,158,11,0.1)]'
+                              return (
+                                <motion.div
+                                  key={member.id}
+                                  initial={{ opacity: 0, y: 20 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  className={cn(
+                                    "relative",
+                                    isFocused
+                                      ? "z-[100] bg-white dark:bg-cyan-950/5 shadow-[0_8px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_0_40px_rgba(34,211,238,0.1)] border-t border-black/[0.03] dark:border-cyan-500/30"
+                                      : "dark:border-b dark:border-border",
+                                    isFocused && isExpanded && "rounded-b-[40px] overflow-hidden",
+                                    highlightHotLanes && (parseInt(member.id) === 3 || parseInt(member.id) === 5) && !isFocused && "bg-amber-50/50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-500/40 dark:shadow-[inset_0_0_50px_rgba(245,158,11,0.05)]"
+                                  )}
+                                  style={{ minWidth: (PROJECT_END_X * zoomScale) + 320 }}
+                                >
+                                  <div className="flex items-center relative group">
+                                    {/* Member Sidebar */}
+                                    <div
+                                      className={cn(
+                                        "shrink-0 flex items-center gap-4 py-6 px-8 sticky left-0 z-[60] dark:border-r dark:border-slate-900/50 bg-background/95 dark:bg-slate-950 w-80",
+                                        isFocused
+                                          ? "shadow-[20px_0_40px_rgba(0,0,0,0.03)] dark:shadow-[30px_0_60px_rgba(0,0,0,0.8)] rounded-l-[38px]"
+                                          : "shadow-[10px_0_30px_rgba(0,0,0,0.02)] dark:shadow-[15px_0_40px_rgba(0,0,0,0.7)]"
+                                      )}
+                                    >
+                                      <div className="flex-1 min-w-0 flex flex-col gap-4">
+                                        <div className="flex items-center gap-4">
+                                          <div className="w-12 h-12 rounded-full bg-white dark:bg-cyan-950 flex items-center justify-center border border-black/[0.03] dark:border-cyan-800/30 flex items-center justify-center shadow-[0_2px_10px_rgba(0,0,0,0.06)] dark:shadow-lg group-hover:border-cyan-400/50 dark:group-hover:shadow-[0_0_15px_rgba(34,211,238,0.2)] transition-all">
+                                            <span className="text-slate-900 dark:text-cyan-200 font-bold text-lg">{member.name.charAt(0)}</span>
+                                          </div>
+                                          <div className="flex flex-col min-w-0">
+                                            <span className="font-bold text-foreground truncate text-lg tracking-tight hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">
+                                              {member.name}
+                                            </span>
+                                            <div className="flex flex-col gap-1.5 mt-1.5">
+                                              <div className={cn(
+                                                'text-[10px] font-bold px-1.5 py-0.5 rounded transition-all duration-500 w-fit border',
+                                                (memberVelocity[member.id] || 0) >= 0
+                                                  ? 'bg-green-50 dark:bg-green-950/40 text-green-600 dark:text-green-400 border-green-200 dark:border-green-500/20 dark:shadow-[0_0_8px_rgba(34,197,94,0.1)]'
+                                                  : 'bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-500 border-amber-200 dark:border-amber-500/20 dark:shadow-[0_0_8px_rgba(245,158,11,0.1)]'
+                                              )}>
+                                                {(memberVelocity[member.id] || 0) >= 0 ? '+' : ''}{memberVelocity[member.id] || 0}%
+                                              </div>
+
+                                              {/* Task 3: Resource Load Metrics */}
+                                              <div className="flex items-center gap-2">
+                                                <span className={cn(
+                                                  "text-[10px] font-black uppercase tracking-tighter transition-colors duration-500",
+                                                  (parseInt(member.id) === 3 || parseInt(member.id) === 5) ? (highlightHotLanes ? (isDark ? "text-amber-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.8)]" : "text-amber-600") : "text-amber-600 dark:text-amber-500") : "text-emerald-600 dark:text-emerald-400"
                                                 )}>
-                                                  {(memberVelocity[member.id] || 0) >= 0 ? '+' : ''}{memberVelocity[member.id] || 0}%
-                                                </div>
-
-                                                {/* Task 3: Resource Load Metrics */}
-                                                <div className="flex items-center gap-2">
-                                                  <span className={cn(
-                                                    "text-[10px] font-black uppercase tracking-tighter transition-colors duration-500",
-                                                    (parseInt(member.id) === 3 || parseInt(member.id) === 5) ? (highlightHotLanes ? (isDark ? "text-amber-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.8)]" : "text-amber-600") : "text-amber-600 dark:text-amber-500") : "text-emerald-600 dark:text-emerald-400"
-                                                  )}>
-                                                    {(parseInt(member.id) === 3 || parseInt(member.id) === 5) ? "145% Load" : "78% Load"}
-                                                  </span>
-                                                  <span className="text-[9px] text-slate-500 font-bold italic truncate max-w-[80px]">
-                                                    {parseInt(member.id) % 2 === 0 ? "free at 2 p.m." : "out Mon"}
-                                                  </span>
-                                                </div>
+                                                  {(parseInt(member.id) === 3 || parseInt(member.id) === 5) ? "145% Load" : "78% Load"}
+                                                </span>
+                                                <span className="text-[9px] text-slate-500 font-bold italic truncate max-w-[80px]">
+                                                  {parseInt(member.id) % 2 === 0 ? "free at 2 p.m." : "out Mon"}
+                                                </span>
                                               </div>
                                             </div>
                                           </div>
                                         </div>
-
-                                        <button
-                                          onClick={(e) => toggleMemberExpand(member.id, e)}
-                                          className={cn(
-                                            'shrink-0 w-8 h-8 rounded-xl border flex items-center justify-center transition-all shadow-sm dark:shadow-none',
-                                            isFocused
-                                              ? 'bg-cyan-400 dark:bg-cyan-500 text-slate-950 dark:text-white border-cyan-300 dark:border-cyan-400 hover:bg-cyan-500 dark:hover:bg-cyan-600 shadow-lg'
-                                              : 'border-slate-200/60 dark:border-white/10 text-muted-foreground hover:bg-cyan-50 dark:hover:bg-cyan-950/30 hover:text-cyan-600 dark:hover:text-cyan-400'
-                                          )}
-                                        >
-                                          <ChevronDown className={cn('w-4 h-4 transition-transform duration-300', isFocused && 'rotate-180')} />
-                                        </button>
                                       </div>
 
-                                      {/* Timeline / Macro-Bar */}
-                                      <div className="flex-1 h-full relative dark:border-l dark:border-slate-800/30 min-h-[100px] flex items-center">
-                                        {!isFocused ? (
-                                          /* MACRO-FLATTENED VIEW: Liquid Tube using Drop component */
-                                          <div className="absolute inset-0 flex items-center">
-                                            <AnimatePresence>
-                                              {memberDrops.map(drop => {
-                                                const streamDef = STAGING_STREAM_MAP[drop.streamId || ''];
-                                                const streamColorHex = streamDef ? getStreamColor(streamDef.colorKey).hex : '#64748b';
-                                                const intensity = 1.2; // Consistent intensity for macro view
-                                                return (
-                                                  <Drop
-                                                    key={`macro-${member.id}-${drop.id}`}
-                                                    {...drop}
-                                                    variant="minimal"
-                                                    intensity={intensity}
-                                                    streamColorHex={streamColorHex}
-                                                    zoomScale={zoomScale}
-                                                    onHoverStream={setHoveredStreamId}
-                                                    hoveredStreamId={hoveredStreamId}
-                                                    onHoverDrop={handleHoverDrop}
-                                                    selectedDropId={selectedDropId}
-                                                    onSelectDrop={setSelectedDropId}
-
-                                                    hasDependencies={(drop.dependsOn && drop.dependsOn.length > 0) || drops.some(d => d.dependsOn?.includes(drop.id))}
-                                                    isBlocked={drop.isBlocked}
-                                                    isReady={drop.isReady}
-                                                    ownerName={member.name}
-                                                  />
-                                                );
-                                              })}
-                                            </AnimatePresence>
-                                          </div>
-                                        ) : (
-                                          /* FOCUSED VIEW PLACEHOLDER (Actual sub-lanes are rendered below) */
-                                          <div className="flex-1" />
+                                      <button
+                                        onClick={(e) => toggleMemberExpand(member.id, e)}
+                                        className={cn(
+                                          'shrink-0 w-8 h-8 rounded-xl border flex items-center justify-center transition-all shadow-sm dark:shadow-none',
+                                          isFocused
+                                            ? 'bg-cyan-400 dark:bg-cyan-500 text-slate-950 dark:text-white border-cyan-300 dark:border-cyan-400 hover:bg-cyan-500 dark:hover:bg-cyan-600 shadow-lg'
+                                            : 'border-slate-200/60 dark:border-white/10 text-muted-foreground hover:bg-cyan-50 dark:hover:bg-cyan-950/30 hover:text-cyan-600 dark:hover:text-cyan-400'
                                         )}
-                                      </div>
+                                      >
+                                        <ChevronDown className={cn('w-4 h-4 transition-transform duration-300', isFocused && 'rotate-180')} />
+                                      </button>
                                     </div>
 
-                                    {/* Focus Mode Sub-Lanes */}
-                                    {isFocused && (
-                                      <motion.div
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{ height: 'auto', opacity: 1 }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        className="border-x border-b dark:border-slate-800/30 border-border rounded-b-[40px] bg-slate-50/50 dark:bg-slate-900/20 overflow-visible"
-                                      >
-                                          <div className="pl-16 relative py-4">
-                                            {/* Hierarchy Line */}
-                                            <div className="absolute left-10 top-0 bottom-10 w-px border-l border-dashed border-slate-700/50" />
-
-                                            {Object.entries(dropsByStream).map(([streamId, streamDrops]) => {
-                                              const stream = STAGING_STREAM_MAP[streamId];
-                                              const streamColor = stream ? getStreamColor(stream.colorKey).hex : '#475569';
-
-                                              return (
-                                                <div
-                                                  key={streamId}
-                                                  className="relative flex items-center min-h-[85px] border-t border-slate-800/30 group/sublane"
-                                                  style={{ minWidth: (PROJECT_END_X * zoomScale) + 320 - 64 }}
-                                                >
-                                                  {/* Sub-Header Horizontal connector */}
-                                                  <div className="absolute left-[-24px] top-1/2 w-6 border-t border-dashed border-slate-700/50" />
-
-                                                  <div
-                                                    className="shrink-0 flex items-center gap-3 px-8 py-4 border-r border-border dark:border-slate-800/30 sticky left-0 z-[55] bg-background/95 dark:bg-slate-950 dark:shadow-[12px_0_35px_rgba(0,0,0,0.6)]"
-                                                    style={{ width: 320 - 64 }}
-                                                  >
-                                                    <div
-                                                      className="w-2 h-8 rounded-full"
-                                                      style={{ backgroundColor: streamColor }}
-                                                    />
-                                                    <div className="flex flex-col min-w-0">
-                                                      <span 
-                                                        onClick={(e) => {
-                                                          e.stopPropagation();
-                                                          if (stream) router.push(`/library?expand=${stream.id}`);
-                                                        }}
-                                                        className="text-xs font-bold text-foreground truncate group-hover/sublane:text-cyan-600 dark:group-hover/sublane:text-white cursor-pointer hover:underline underline-offset-4"
-                                                      >
-                                                        {stream?.title || 'Unassigned'}
-                                                      </span>
-                                                      <span className="text-[9px] font-medium text-slate-500 uppercase tracking-tighter">
-                                                        {streamDrops.length} Drops
-                                                      </span>
-                                                    </div>
-                                                  </div>
-
-                                                  <div className="flex-1 h-full relative">
-                                                    <div className="absolute inset-0 flex items-center">
-                                                      {streamDrops.map(drop => {
-                                                        const streamDef = STAGING_STREAM_MAP[drop.streamId || ''];
-                                                        const streamColorHex = streamDef ? getStreamColor(streamDef.colorKey).hex : '#64748b';
-                                                        const isLateCriticalPath = false;
-
-                                                        return (
-                                                          <Drop
-                                                            key={drop.id}
-                                                            {...drop}
-                                                            ownerName={member.name}
-                                                            streamColorHex={streamColorHex}
-                                                            streamName={streamDef?.title}
-                                                            ownerVelocity={memberVelocity[member.id]}
-
-
-                                                            references={drop.references}
-                                                            onAction={handleDropAction}
-                                                            onDragEnd={handleDragEnd}
-                                                            zoomScale={zoomScale}
-                                                            onHoverStream={setHoveredStreamId}
-                                                            hoveredStreamId={hoveredStreamId}
-                                                            onHoverDrop={handleHoverDrop}
-                                                            selectedDropId={selectedDropId}
-                                                            onSelectDrop={setSelectedDropId}
-                                                            hasDependencies={(drop.dependsOn && drop.dependsOn.length > 0) || drops.some(d => d.dependsOn?.includes(drop.id))}
-                                                            isBlocked={drop.isBlocked}
-                                                            forceDimmed={false}
-                                                            isCriticalPath={false}
-                                                            isLateCriticalPath={false}
-                                                            isReady={drop.isReady}
-                                                            variant="full"
-                                                            enableStreamHover={false}
-                                                          />
-                                                        );
-                                                      })}
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                              );
-                                            })}
-                                          </div>
-                                        </motion.div>
-                                      )}
-                                  </motion.div>
-                                );
-                              })}
-                        </div>
-                      ) : (
-                        // ── OVERVIEW (STREAMS) VIEW ──
-                        <div className="flex flex-col gap-0">
-                            {[...STAGING_STREAMS]
-                              .filter(s => !focusedStreamId || s.id === focusedStreamId)
-                              .sort((a, b) => {
-                                const minA = Math.min(...drops.filter(d => d.streamId === a.id).map(d => d.xOffset), Infinity);
-                                const minB = Math.min(...drops.filter(d => d.streamId === b.id).map(d => d.xOffset), Infinity);
-                                return minA - minB;
-                              }).map((stream) => {
-                                const stats = streamStats.find(s => s.id === stream.id)!;
-                                const isExpanded = expandedStreamIds.has(stream.id);
-                                const streamDef = STAGING_STREAM_MAP[stream.id];
-                                const streamColor = getStreamColor(streamDef?.colorKey);
-                                const isFocused = focusedStreamId === stream.id;
-
-                                return (
-                                  <motion.div
-                                    key={stream.id}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    className={cn(
-                                      "relative",
-                                      isFocused 
-                                        ? "z-[100] bg-white dark:bg-cyan-950/5 shadow-[0_8px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_0_40px_rgba(34,211,238,0.1)] border-t border-black/[0.03] dark:border-cyan-500/30" 
-                                        : "dark:border-b dark:border-border",
-                                      isFocused && isExpanded && "rounded-b-[40px] overflow-hidden"
-                                    )}
-                                    style={{ minWidth: (PROJECT_END_X * zoomScale) + currentSidebarWidth }}
-                                    data-stream-id={stream.id}
-                                  >
-                                    {/* Stream Header Row */}
-                                    <div className="flex items-center relative group">
-                                      {/* Stream Sidebar */}
-                                      <div
-                                        className={cn(
-                                          "shrink-0 flex items-center gap-4 py-6 px-8 sticky left-0 z-[60] dark:border-r dark:border-slate-900/50 bg-background/95 dark:bg-slate-950",
-                                          isFocused 
-                                            ? "shadow-[20px_0_40px_rgba(0,0,0,0.03)] dark:shadow-[30px_0_60px_rgba(0,0,0,0.8)]" 
-                                            : (isDark ? "shadow-[15px_0_40px_rgba(0,0,0,0.7)]" : "shadow-[10px_0_30px_rgba(0,0,0,0.02)]")
-                                        )}
-                                        style={{ width: currentSidebarWidth }}
-                                      >
-                                        {/* Stream Content Stack */}
-                                        <div className="flex-1 min-w-0 flex flex-col gap-3">
-                                          {/* Top Line: Name and Focus Controls */}
-                                          <div className="flex-1 flex items-center gap-3 group/title">
-                                            <h3 
-                                              onClick={(e) => {
-                                                e.stopPropagation();
-                                                router.push(`/library?expand=${stream.id}`);
-                                              }}
-                                              className={cn(
-                                                "flex-1 font-bold transition-all truncate tracking-tight cursor-pointer hover:text-cyan-600 dark:hover:text-cyan-400 hover:underline underline-offset-4",
-                                                isFocused ? "text-xl text-foreground" : "text-sm text-foreground group-hover/title:text-foreground"
-                                              )}
-                                            >
-                                              {stream.title}
-                                            </h3>
-
-                                            {!isFocused && (
-                                              <button
-                                                onClick={() => setSelectedStreamDependencyId(selectedStreamDependencyId === stream.id ? null : stream.id)}
-                                                className={cn("p-1 rounded-md opacity-0 group-hover/title:opacity-100 transition-all ml-1",
-                                                  selectedStreamDependencyId === stream.id ? "opacity-100 bg-sky-900/40 text-cyan-400" : "text-muted-foreground hover:text-foreground hover:bg-muted")}
-                                              >
-                                                <Link className="w-3.5 h-3.5" />
-                                              </button>
-                                            )}
-
-                                            {stats.hasBlocker && (
-                                              <div className="shrink-0 animate-pulse ml-2">
-                                                <AlertTriangle className="w-4 h-4 text-rose-500 drop-shadow-[0_0_10px_rgba(244,63,94,0.4)]" />
-                                              </div>
-                                            )}
-                                          </div>
-
-                                          {/* Bottom Line: Progress Bar */}
-                                          <div className="flex items-center gap-4">
-                                            <div
-                                              className="h-7 w-10 shrink-0 rounded-lg flex items-center justify-center font-black text-[10px] shadow-sm border relative"
-                                              style={{
-                                                backgroundColor: `${streamColor.hex}15`,
-                                                borderColor: `${streamColor.hex}40`,
-                                                color: streamColor.hex
-                                              }}
-                                            >
-                                              {stream.initials}
-                                            </div>
-
-                                            <div className="flex-1 flex items-center gap-3">
-                                              <div className="flex-1 h-1.5 bg-muted dark:bg-slate-900 rounded-full overflow-hidden border border-border dark:border-white/5">
-                                                <motion.div
-                                                  initial={{ width: 0 }}
-                                                  animate={{ width: `${stats.percent}%` }}
-                                                  className="h-full rounded-full"
-                                                  style={{
-                                                    backgroundColor: streamColor.hex,
-                                                    boxShadow: theme === 'dark' ? `0 0 15px ${streamColor.hex}60` : 'none'
-                                                  }}
-                                                />
-                                              </div>
-                                              <span className="text-xs font-black text-muted-foreground tabular-nums">{stats.percent}%</span>
-                                            </div>
-                                          </div>
-                                        </div>
-
-                                        {/* Action button on the far right of sidebar */}
-                                        <button
-                                          onClick={() => toggleStreamExpand(stream.id)}
-                                          className={cn(
-                                            'shrink-0 w-8 h-8 rounded-xl border flex items-center justify-center transition-all shadow-sm dark:shadow-none',
-                                            isExpanded
-                                              ? 'bg-cyan-400 dark:bg-cyan-500 text-slate-950 dark:text-white border-cyan-300 dark:border-cyan-400 hover:bg-cyan-500 dark:hover:bg-cyan-600 shadow-lg dark:shadow-cyan-500/20'
-                                              : 'border-slate-200/60 dark:border-white/10 text-muted-foreground hover:bg-cyan-50 dark:hover:bg-cyan-950/30 hover:text-cyan-600 dark:hover:text-cyan-400'
-                                          )}
-                                        >
-                                          <ChevronDown className={cn('w-4 h-4 transition-transform duration-300', isExpanded && 'rotate-180')} />
-                                        </button>
-                                      </div>
-
-                                      {/* Timeline Area (Collapsed View) */}
-                                      <div className="flex-1 h-full relative dark:border-l dark:border-slate-800/30 overflow-visible min-h-[100px] flex items-center">
+                                    {/* Timeline / Macro-Bar */}
+                                    <div className="flex-1 h-full relative dark:border-l dark:border-slate-800/30 min-h-[100px] flex items-center">
+                                      {!isFocused ? (
+                                        /* MACRO-FLATTENED VIEW: Liquid Tube using Drop component */
                                         <div className="absolute inset-0 flex items-center">
                                           <AnimatePresence>
-                                            {!isExpanded && stats.drops.map(drop => {
-                                              // Calculate Overlap Intensity
-                                              const dropWidth = getDropWidth(drop, zoomScale);
-                                              const dropStart = drop.xOffset;
-                                              const dropEnd = drop.xOffset + (dropWidth / zoomScale);
-
-                                              const intensity = stats.drops.filter(other => {
-                                                if (other.id === drop.id) return false;
-                                                const otherWidth = getDropWidth(other, zoomScale);
-                                                const otherStart = other.xOffset;
-                                                const otherEnd = other.xOffset + (otherWidth / zoomScale);
-                                                // Check overlap
-                                                return dropStart < otherEnd && dropEnd > otherStart;
-                                              }).length + 1;
-
-                                              const owner = TEAM_MEMBERS[drop.lane]?.name || 'Unknown';
-
+                                            {memberDrops.map(drop => {
+                                              const streamDef = STAGING_STREAM_MAP[drop.streamId || ''];
+                                              const streamColorHex = streamDef ? getStreamColor(streamDef.colorKey).hex : '#64748b';
+                                              const intensity = 1.2; // Consistent intensity for macro view
                                               return (
                                                 <Drop
-                                                  key={`${stream.id}-${drop.id}`}
+                                                  key={`macro-${member.id}-${drop.id}`}
                                                   {...drop}
-                                                  ownerName={owner}
+                                                  variant="minimal"
                                                   intensity={intensity}
-                                                  streamInitials={stream.initials}
-                                                  streamColorHex={streamColor.hex}
-
-
-                                                  references={drop.references}
-                                                  onAction={handleDropAction}
-                                                  onDragEnd={handleDragEnd}
+                                                  streamColorHex={streamColorHex}
                                                   zoomScale={zoomScale}
                                                   onHoverStream={setHoveredStreamId}
                                                   hoveredStreamId={hoveredStreamId}
                                                   onHoverDrop={handleHoverDrop}
                                                   selectedDropId={selectedDropId}
                                                   onSelectDrop={setSelectedDropId}
+
                                                   hasDependencies={(drop.dependsOn && drop.dependsOn.length > 0) || drops.some(d => d.dependsOn?.includes(drop.id))}
                                                   isBlocked={drop.isBlocked}
-                                                  forceDimmed={false}
-                                                  isCriticalPath={false}
                                                   isReady={drop.isReady}
-                                                  variant="minimal"
+                                                  ownerName={member.name}
                                                 />
                                               );
                                             })}
                                           </AnimatePresence>
                                         </div>
-                                      </div>
+                                      ) : (
+                                        /* FOCUSED VIEW PLACEHOLDER (Actual sub-lanes are rendered below) */
+                                        <div className="flex-1" />
+                                      )}
                                     </div>
+                                  </div>
 
-                                    {/* Expandable Sub-Lanes */}
-                                    {isExpanded && (
-                                      <motion.div
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{ height: 'auto', opacity: 1 }}
-                                        exit={{ height: 0, opacity: 0 }}
+                                  {/* Focus Mode Sub-Lanes */}
+                                  {isFocused && (
+                                    <motion.div
+                                      initial={{ height: 0, opacity: 0 }}
+                                      animate={{ height: 'auto', opacity: 1 }}
+                                      exit={{ height: 0, opacity: 0 }}
+                                      className="border-x border-b dark:border-slate-800/30 border-border rounded-b-[40px] bg-slate-50/50 dark:bg-slate-900/20 overflow-visible"
+                                    >
+                                      <div className="pl-16 relative py-4">
+                                        {/* Hierarchy Line */}
+                                        <div className="absolute left-10 top-0 bottom-10 w-px border-l border-dashed border-slate-700/50" />
+
+                                        {Object.entries(dropsByStream).map(([streamId, streamDrops]) => {
+                                          const stream = STAGING_STREAM_MAP[streamId];
+                                          const streamColor = stream ? getStreamColor(stream.colorKey).hex : '#475569';
+
+                                          return (
+                                            <div
+                                              key={streamId}
+                                              className="relative flex items-center min-h-[85px] border-t border-slate-800/30 group/sublane"
+                                              style={{ minWidth: (PROJECT_END_X * zoomScale) + 320 - 64 }}
+                                            >
+                                              {/* Sub-Header Horizontal connector */}
+                                              <div className="absolute left-[-24px] top-1/2 w-6 border-t border-dashed border-slate-700/50" />
+
+                                              <div
+                                                className="shrink-0 flex items-center gap-3 px-8 py-4 border-r border-border dark:border-slate-800/30 sticky left-0 z-[55] bg-background/95 dark:bg-slate-950 dark:shadow-[12px_0_35px_rgba(0,0,0,0.6)]"
+                                                style={{ width: 320 - 64 }}
+                                              >
+                                                <div
+                                                  className="w-2 h-8 rounded-full"
+                                                  style={{ backgroundColor: streamColor }}
+                                                />
+                                                <div className="flex flex-col min-w-0">
+                                                  <span
+                                                    onClick={(e) => {
+                                                      e.stopPropagation();
+                                                      if (stream) router.push(`/library?expand=${stream.id}`);
+                                                    }}
+                                                    className="text-xs font-bold text-foreground truncate group-hover/sublane:text-cyan-600 dark:group-hover/sublane:text-white cursor-pointer hover:underline underline-offset-4"
+                                                  >
+                                                    {stream?.title || 'Unassigned'}
+                                                  </span>
+                                                  <span className="text-[9px] font-medium text-slate-500 uppercase tracking-tighter">
+                                                    {streamDrops.length} Drops
+                                                  </span>
+                                                </div>
+                                              </div>
+
+                                              <div className="flex-1 h-full relative">
+                                                <div className="absolute inset-0 flex items-center">
+                                                  {streamDrops.map(drop => {
+                                                    const streamDef = STAGING_STREAM_MAP[drop.streamId || ''];
+                                                    const streamColorHex = streamDef ? getStreamColor(streamDef.colorKey).hex : '#64748b';
+                                                    const isLateCriticalPath = false;
+
+                                                    return (
+                                                      <Drop
+                                                        key={drop.id}
+                                                        {...drop}
+                                                        ownerName={member.name}
+                                                        streamColorHex={streamColorHex}
+                                                        streamName={streamDef?.title}
+                                                        ownerVelocity={memberVelocity[member.id]}
+
+
+                                                        references={drop.references}
+                                                        onAction={handleDropAction}
+                                                        onDragEnd={handleDragEnd}
+                                                        zoomScale={zoomScale}
+                                                        onHoverStream={setHoveredStreamId}
+                                                        hoveredStreamId={hoveredStreamId}
+                                                        onHoverDrop={handleHoverDrop}
+                                                        selectedDropId={selectedDropId}
+                                                        onSelectDrop={setSelectedDropId}
+                                                        hasDependencies={(drop.dependsOn && drop.dependsOn.length > 0) || drops.some(d => d.dependsOn?.includes(drop.id))}
+                                                        isBlocked={drop.isBlocked}
+                                                        forceDimmed={false}
+                                                        isCriticalPath={false}
+                                                        isLateCriticalPath={false}
+                                                        isReady={drop.isReady}
+                                                        variant="full"
+                                                        enableStreamHover={false}
+                                                      />
+                                                    );
+                                                  })}
+                                                </div>
+                                              </div>
+                                            </div>
+                                          );
+                                        })}
+                                      </div>
+                                    </motion.div>
+                                  )}
+                                </motion.div>
+                              );
+                            })}
+                        </div>
+                      ) : (
+                        // ── OVERVIEW (STREAMS) VIEW ──
+                        <div className="flex flex-col gap-0">
+                          {[...STAGING_STREAMS]
+                            .filter(s => !focusedStreamId || s.id === focusedStreamId)
+                            .sort((a, b) => {
+                              const minA = Math.min(...drops.filter(d => d.streamId === a.id).map(d => d.xOffset), Infinity);
+                              const minB = Math.min(...drops.filter(d => d.streamId === b.id).map(d => d.xOffset), Infinity);
+                              return minA - minB;
+                            }).map((stream) => {
+                              const stats = streamStats.find(s => s.id === stream.id)!;
+                              const isExpanded = expandedStreamIds.has(stream.id);
+                              const streamDef = STAGING_STREAM_MAP[stream.id];
+                              const streamColor = getStreamColor(streamDef?.colorKey);
+                              const isFocused = focusedStreamId === stream.id;
+
+                              return (
+                                <motion.div
+                                  key={stream.id}
+                                  initial={{ opacity: 0, y: 20 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  className={cn(
+                                    "relative",
+                                    isFocused
+                                      ? "z-[100] bg-white dark:bg-cyan-950/5 shadow-[0_8px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_0_40px_rgba(34,211,238,0.1)] border-t border-black/[0.03] dark:border-cyan-500/30"
+                                      : "dark:border-b dark:border-border",
+                                    isFocused && isExpanded && "rounded-b-[40px] overflow-hidden"
+                                  )}
+                                  style={{ minWidth: (PROJECT_END_X * zoomScale) + currentSidebarWidth }}
+                                  data-stream-id={stream.id}
+                                >
+                                  {/* Stream Header Row */}
+                                  <div className="flex items-center relative group">
+                                    {/* Stream Sidebar */}
+                                    <div
+                                      className={cn(
+                                        "shrink-0 flex items-center gap-4 py-6 px-8 sticky left-0 z-[60] dark:border-r dark:border-slate-900/50 bg-background/95 dark:bg-slate-950",
+                                        isFocused
+                                          ? "shadow-[20px_0_40px_rgba(0,0,0,0.03)] dark:shadow-[30px_0_60px_rgba(0,0,0,0.8)]"
+                                          : (isDark ? "shadow-[15px_0_40px_rgba(0,0,0,0.7)]" : "shadow-[10px_0_30px_rgba(0,0,0,0.02)]")
+                                      )}
+                                      style={{ width: currentSidebarWidth }}
+                                    >
+                                      {/* Stream Content Stack */}
+                                      <div className="flex-1 min-w-0 flex flex-col gap-3">
+                                        {/* Top Line: Name and Focus Controls */}
+                                        <div className="flex-1 flex items-center gap-3 group/title">
+                                          <h3
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              router.push(`/library?expand=${stream.id}`);
+                                            }}
+                                            className={cn(
+                                              "flex-1 font-bold transition-all truncate tracking-tight cursor-pointer hover:text-cyan-600 dark:hover:text-cyan-400 hover:underline underline-offset-4",
+                                              isFocused ? "text-xl text-foreground" : "text-sm text-foreground group-hover/title:text-foreground"
+                                            )}
+                                          >
+                                            {stream.title}
+                                          </h3>
+
+                                          {!isFocused && (
+                                            <button
+                                              onClick={() => setSelectedStreamDependencyId(selectedStreamDependencyId === stream.id ? null : stream.id)}
+                                              className={cn("p-1 rounded-md opacity-0 group-hover/title:opacity-100 transition-all ml-1",
+                                                selectedStreamDependencyId === stream.id ? "opacity-100 bg-sky-900/40 text-cyan-400" : "text-muted-foreground hover:text-foreground hover:bg-muted")}
+                                            >
+                                              <Link className="w-3.5 h-3.5" />
+                                            </button>
+                                          )}
+
+                                          {stats.hasBlocker && (
+                                            <div className="shrink-0 animate-pulse ml-2">
+                                              <AlertTriangle className="w-4 h-4 text-rose-500 drop-shadow-[0_0_10px_rgba(244,63,94,0.4)]" />
+                                            </div>
+                                          )}
+                                        </div>
+
+                                        {/* Bottom Line: Progress Bar */}
+                                        <div className="flex items-center gap-4">
+                                          <div
+                                            className="h-7 w-10 shrink-0 rounded-lg flex items-center justify-center font-black text-[10px] shadow-sm border relative"
+                                            style={{
+                                              backgroundColor: `${streamColor.hex}15`,
+                                              borderColor: `${streamColor.hex}40`,
+                                              color: streamColor.hex
+                                            }}
+                                          >
+                                            {stream.initials}
+                                          </div>
+
+                                          <div className="flex-1 flex items-center gap-3">
+                                            <div className="flex-1 h-1.5 bg-muted dark:bg-slate-900 rounded-full overflow-hidden border border-border dark:border-white/5">
+                                              <motion.div
+                                                initial={{ width: 0 }}
+                                                animate={{ width: `${stats.percent}%` }}
+                                                className="h-full rounded-full"
+                                                style={{
+                                                  backgroundColor: streamColor.hex,
+                                                  boxShadow: theme === 'dark' ? `0 0 15px ${streamColor.hex}60` : 'none'
+                                                }}
+                                              />
+                                            </div>
+                                            <span className="text-xs font-black text-muted-foreground tabular-nums">{stats.percent}%</span>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      {/* Action button on the far right of sidebar */}
+                                      <button
+                                        onClick={() => toggleStreamExpand(stream.id)}
                                         className={cn(
-                                          "dark:border-x dark:border-b dark:border-slate-800/30 border-border rounded-b-[40px]",
-                                          isFocused ? "bg-white dark:bg-slate-900/20" : "bg-slate-50/50 dark:bg-slate-950/20"
+                                          'shrink-0 w-8 h-8 rounded-xl border flex items-center justify-center transition-all shadow-sm dark:shadow-none',
+                                          isExpanded
+                                            ? 'bg-cyan-400 dark:bg-cyan-500 text-slate-950 dark:text-white border-cyan-300 dark:border-cyan-400 hover:bg-cyan-500 dark:hover:bg-cyan-600 shadow-lg dark:shadow-cyan-500/20'
+                                            : 'border-slate-200/60 dark:border-white/10 text-muted-foreground hover:bg-cyan-50 dark:hover:bg-cyan-950/30 hover:text-cyan-600 dark:hover:text-cyan-400'
                                         )}
                                       >
-                                          <div className="pl-16 relative">
-                                            {/* Hierarchy Line */}
-                                            <div className="absolute left-10 top-0 bottom-10 w-px border-l border-dashed border-slate-700/50" />
+                                        <ChevronDown className={cn('w-4 h-4 transition-transform duration-300', isExpanded && 'rotate-180')} />
+                                      </button>
+                                    </div>
 
-                                            {stats.contributors.map(laneIdx => {
-                                              const member = TEAM_MEMBERS[laneIdx];
-                                              const memberDrops = stats.drops.filter(d => d.lane === laneIdx);
-                                              if (memberDrops.length === 0) return null;
+                                    {/* Timeline Area (Collapsed View) */}
+                                    <div className="flex-1 h-full relative dark:border-l dark:border-slate-800/30 overflow-visible min-h-[100px] flex items-center">
+                                      <div className="absolute inset-0 flex items-center">
+                                        <AnimatePresence>
+                                          {!isExpanded && stats.drops.map(drop => {
+                                            // Calculate Overlap Intensity
+                                            const dropWidth = getDropWidth(drop, zoomScale);
+                                            const dropStart = drop.xOffset;
+                                            const dropEnd = drop.xOffset + (dropWidth / zoomScale);
 
-                                              return (
-                                                <div
-                                                  key={laneIdx}
-                                                  className="relative flex items-center min-h-[85px] border-t border-slate-800/30 group/sublane"
-                                                  style={{ minWidth: (PROJECT_END_X * zoomScale) + currentSidebarWidth - 64 }}
-                                                >
-                                                  {/* Sub-Header Horizontal connector */}
-                                                  <div className="absolute left-[-24px] top-1/2 w-6 border-t border-dashed border-slate-700/50" />
+                                            const intensity = stats.drops.filter(other => {
+                                              if (other.id === drop.id) return false;
+                                              const otherWidth = getDropWidth(other, zoomScale);
+                                              const otherStart = other.xOffset;
+                                              const otherEnd = other.xOffset + (otherWidth / zoomScale);
+                                              // Check overlap
+                                              return dropStart < otherEnd && dropEnd > otherStart;
+                                            }).length + 1;
 
-                                                  <div
-                                                    className="shrink-0 flex items-center gap-3 px-8 py-4 border-r border-border dark:border-slate-800/30 sticky left-0 z-[55] bg-background/95 dark:bg-slate-950 dark:shadow-[12px_0_35px_rgba(0,0,0,0.6)]"
-                                                    style={{ width: currentSidebarWidth - 64 }}
-                                                  >
-                                                    <div className="w-8 h-8 rounded-full bg-white dark:bg-cyan-950 flex items-center justify-center border border-black/[0.03] dark:border-cyan-800/30 flex items-center justify-center text-[10px] font-bold text-slate-900 dark:text-cyan-200 group-hover/sublane:border-cyan-500/50 shadow-[0_2px_8px_rgba(0,0,0,0.04)] dark:shadow-lg">
-                                                      {member.name.charAt(0)}
-                                                    </div>
-                                                    <span className="text-xs font-semibold text-muted-foreground group-hover/sublane:text-foreground whitespace-nowrap">
-                                                      {member.name}
-                                                    </span>
-                                                  </div>
+                                            const owner = TEAM_MEMBERS[drop.lane]?.name || 'Unknown';
 
-                                                  <div className="flex-1 h-full relative">
-                                                    <div className="absolute inset-0 flex items-center">
-                                                      {memberDrops.map(drop => (
-                                                        <Drop
-                                                          key={`${stream.id}-${member.id}-${drop.id}`}
-                                                          {...drop}
-                                                          streamColorHex={streamColor.hex}
+                                            return (
+                                              <Drop
+                                                key={`${stream.id}-${drop.id}`}
+                                                {...drop}
+                                                ownerName={owner}
+                                                intensity={intensity}
+                                                streamInitials={stream.initials}
+                                                streamColorHex={streamColor.hex}
 
 
-                                                          references={drop.references}
-                                                          onAction={handleDropAction}
-                                                          onDragEnd={handleDragEnd}
-                                                          zoomScale={zoomScale}
-                                                          onHoverStream={setHoveredStreamId}
-                                                          hoveredStreamId={hoveredStreamId}
-                                                          onHoverDrop={handleHoverDrop}
-                                                          selectedDropId={selectedDropId}
-                                                          onSelectDrop={setSelectedDropId}
-                                                          hasDependencies={(drop.dependsOn && drop.dependsOn.length > 0) || drops.some(d => d.dependsOn?.includes(drop.id))}
-                                                          isBlocked={drop.isBlocked}
-                                                          variant="full"
-                                                          enableStreamHover={false}
-                                                        />
-                                                      ))}
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                              );
-                                            })}
-                                          </div>
-                                        </motion.div>
+                                                references={drop.references}
+                                                onAction={handleDropAction}
+                                                onDragEnd={handleDragEnd}
+                                                zoomScale={zoomScale}
+                                                onHoverStream={setHoveredStreamId}
+                                                hoveredStreamId={hoveredStreamId}
+                                                onHoverDrop={handleHoverDrop}
+                                                selectedDropId={selectedDropId}
+                                                onSelectDrop={setSelectedDropId}
+                                                hasDependencies={(drop.dependsOn && drop.dependsOn.length > 0) || drops.some(d => d.dependsOn?.includes(drop.id))}
+                                                isBlocked={drop.isBlocked}
+                                                forceDimmed={false}
+                                                isCriticalPath={false}
+                                                isReady={drop.isReady}
+                                                variant="minimal"
+                                              />
+                                            );
+                                          })}
+                                        </AnimatePresence>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  {/* Expandable Sub-Lanes */}
+                                  {isExpanded && (
+                                    <motion.div
+                                      initial={{ height: 0, opacity: 0 }}
+                                      animate={{ height: 'auto', opacity: 1 }}
+                                      exit={{ height: 0, opacity: 0 }}
+                                      className={cn(
+                                        "dark:border-x dark:border-b dark:border-slate-800/30 border-border rounded-b-[40px]",
+                                        isFocused ? "bg-white dark:bg-slate-900/20" : "bg-slate-50/50 dark:bg-slate-950/20"
                                       )}
+                                    >
+                                      <div className="pl-16 relative">
+                                        {/* Hierarchy Line */}
+                                        <div className="absolute left-10 top-0 bottom-10 w-px border-l border-dashed border-slate-700/50" />
+
+                                        {stats.contributors.map(laneIdx => {
+                                          const member = TEAM_MEMBERS[laneIdx];
+                                          const memberDrops = stats.drops.filter(d => d.lane === laneIdx);
+                                          if (memberDrops.length === 0) return null;
+
+                                          return (
+                                            <div
+                                              key={laneIdx}
+                                              className="relative flex items-center min-h-[85px] border-t border-slate-800/30 group/sublane"
+                                              style={{ minWidth: (PROJECT_END_X * zoomScale) + currentSidebarWidth - 64 }}
+                                            >
+                                              {/* Sub-Header Horizontal connector */}
+                                              <div className="absolute left-[-24px] top-1/2 w-6 border-t border-dashed border-slate-700/50" />
+
+                                              <div
+                                                className="shrink-0 flex items-center gap-3 px-8 py-4 border-r border-border dark:border-slate-800/30 sticky left-0 z-[55] bg-background/95 dark:bg-slate-950 dark:shadow-[12px_0_35px_rgba(0,0,0,0.6)]"
+                                                style={{ width: currentSidebarWidth - 64 }}
+                                              >
+                                                <div className="w-8 h-8 rounded-full bg-white dark:bg-cyan-950 flex items-center justify-center border border-black/[0.03] dark:border-cyan-800/30 flex items-center justify-center text-[10px] font-bold text-slate-900 dark:text-cyan-200 group-hover/sublane:border-cyan-500/50 shadow-[0_2px_8px_rgba(0,0,0,0.04)] dark:shadow-lg">
+                                                  {member.name.charAt(0)}
+                                                </div>
+                                                <span className="text-xs font-semibold text-muted-foreground group-hover/sublane:text-foreground whitespace-nowrap">
+                                                  {member.name}
+                                                </span>
+                                              </div>
+
+                                              <div className="flex-1 h-full relative">
+                                                <div className="absolute inset-0 flex items-center">
+                                                  {memberDrops.map(drop => (
+                                                    <Drop
+                                                      key={`${stream.id}-${member.id}-${drop.id}`}
+                                                      {...drop}
+                                                      streamColorHex={streamColor.hex}
+
+
+                                                      references={drop.references}
+                                                      onAction={handleDropAction}
+                                                      onDragEnd={handleDragEnd}
+                                                      zoomScale={zoomScale}
+                                                      onHoverStream={setHoveredStreamId}
+                                                      hoveredStreamId={hoveredStreamId}
+                                                      onHoverDrop={handleHoverDrop}
+                                                      selectedDropId={selectedDropId}
+                                                      onSelectDrop={setSelectedDropId}
+                                                      hasDependencies={(drop.dependsOn && drop.dependsOn.length > 0) || drops.some(d => d.dependsOn?.includes(drop.id))}
+                                                      isBlocked={drop.isBlocked}
+                                                      variant="full"
+                                                      enableStreamHover={false}
+                                                    />
+                                                  ))}
+                                                </div>
+                                              </div>
+                                            </div>
+                                          );
+                                        })}
+                                      </div>
                                     </motion.div>
-                                );
-                              })}
+                                  )}
+                                </motion.div>
+                              );
+                            })}
                         </div>
                       )}
                     </div>

@@ -2,7 +2,7 @@
 
 import React, { memo } from 'react';
 import { AnimatePresence, motion, type Variants } from 'framer-motion';
-import { AlertTriangle, TrendingUp, X, Activity, Brain, TrendingDown, Link2, Maximize2, Coins, Zap, Target, Users, Shield, AlertCircle, ArrowRight, Sparkles } from 'lucide-react';
+import { AlertTriangle, TrendingUp, X, Activity, Brain, TrendingDown, Link2, Maximize2, Coins, Zap, Target, Users, Shield, AlertCircle, ArrowRight, Sparkles, Minus, Plus } from 'lucide-react';
 import { BurndownChart } from './BurndownChart';
 import { cn } from '@/lib/utils';
 import { usePersona } from '@/context/PersonaContext';
@@ -19,6 +19,9 @@ interface DailyBriefingProps {
   onDismissResolution?: () => void;
   onBurndownClick?: () => void;
   onCapacityClick?: () => void;
+  zoomScale?: number;
+  setZoomScale?: React.Dispatch<React.SetStateAction<number>>;
+  minZoom?: number;
 }
 
 const rowVariants: Variants = {
@@ -77,6 +80,9 @@ export const DailyBriefing = memo(({
   onDismissResolution,
   onBurndownClick,
   onCapacityClick,
+  zoomScale,
+  setZoomScale,
+  minZoom = 0.1,
 }: DailyBriefingProps) => {
   const { activePersona } = usePersona();
   const hasAnyException = blockerCount > 0 || forecastSlipHours > 0 || blockerResolutionCount > 0;
@@ -103,7 +109,7 @@ export const DailyBriefing = memo(({
               {/* Project Burndown */}
               <div
                 onClick={onBurndownClick}
-                className="flex-[1] bg-card border border-border rounded-2xl px-4 py-3 h-24 flex flex-col justify-center group hover:bg-muted relative cursor-pointer gap-1 shadow-arctic dark:shadow-none"
+                className="flex-[1.2] bg-card border border-border rounded-2xl px-4 py-3 h-24 flex flex-col justify-center group hover:bg-muted relative cursor-pointer gap-1 shadow-arctic dark:shadow-none"
               >
                 <div className="absolute top-3 right-3 z-20">
                   <div className="p-1.5 rounded-lg bg-muted border border-border text-muted-foreground group-hover:text-cyan-600 dark:group-hover:text-cyan-400 group-hover:bg-background transition-all shadow-sm">
@@ -121,6 +127,43 @@ export const DailyBriefing = memo(({
                   <span className="text-[10px] font-bold text-teal-700 dark:text-teal-400 leading-none">on track</span>
                 </div>
               </div>
+
+              {/* Zoom Controls */}
+              {setZoomScale && zoomScale !== undefined && (
+                <div className="flex-none w-[280px] bg-card border border-border rounded-2xl px-4 py-3 h-24 flex flex-col justify-center gap-1.5 shadow-arctic dark:shadow-none ml-auto">
+                  <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Timeline Zoom</span>
+                  <div className="flex items-center bg-muted/50 dark:bg-slate-900 rounded-xl p-1 h-9 border border-border dark:border-white/5 w-full">
+                    <button
+                      onClick={() => setZoomScale(prev => Math.max(minZoom, prev - 0.1))}
+                      className="w-7 h-full flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-background transition-all disabled:opacity-30"
+                      disabled={zoomScale <= minZoom}
+                    >
+                      <Minus className="w-3.5 h-3.5" />
+                    </button>
+                    <div className="flex-1 px-1.5 flex items-center">
+                      <input
+                        type="range"
+                        min={minZoom}
+                        max={2}
+                        step={0.01}
+                        value={zoomScale}
+                        onChange={(e) => setZoomScale(parseFloat(e.target.value))}
+                        className="w-full h-1 bg-muted rounded-full appearance-none cursor-pointer accent-cyan-500
+                                    [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-2.5 [&::-webkit-slider-thumb]:h-2.5 
+                                    [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-cyan-500
+                                    [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(34,211,238,0.8)]
+                                    hover:[&::-webkit-slider-thumb]:scale-125 transition-transform"
+                      />
+                    </div>
+                    <button
+                      onClick={() => setZoomScale(prev => Math.min(2, prev + 0.1))}
+                      className="w-7 h-full flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-background transition-all"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="w-full bg-card rounded-2xl border border-border flex flex-col sm:flex-row overflow-hidden shadow-arctic dark:shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]">
