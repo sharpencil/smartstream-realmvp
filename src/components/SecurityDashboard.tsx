@@ -18,11 +18,11 @@ const SECURITY_PILLARS: SecurityPillar[] = [
   {
     id: 'idm',
     name: 'Identity Management',
-    provider: 'Clerk SSO',
+    provider: 'Public Bypass',
     icon: Fingerprint,
     status: 'active',
-    description: 'Enforcing MFA and role-based access control across all firm applications.',
-    lastChecked: '2 mins ago',
+    description: 'Authentication bypassed for Lawrence to review the prototype without login.',
+    lastChecked: 'Just now',
   },
   {
     id: 'enc',
