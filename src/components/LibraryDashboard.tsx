@@ -170,7 +170,7 @@ export function LibraryDashboard() {
          >
            <div className="w-full flex items-center justify-between mb-6">
              <h2 className="text-xl font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2 whitespace-nowrap">
-               <Rocket className="w-5 h-5 text-cyan-500 dark:text-cyan-400 shrink-0" />
+               <Rocket className="w-5 h-5 text-purple-500 dark:text-purple-400 shrink-0" />
                Stream Genesis
              </h2>
              <span className="text-sm text-muted-foreground">Decompile requirements into manageable AI-driven execution streams.</span>
