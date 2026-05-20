@@ -1,14 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Suspense } from "react";
 import "./globals.css";
-import { Sidebar } from "@/components/Sidebar";
-import { GlobalHeader } from "@/components/GlobalHeader";
+import { OrgProvider } from "@/context/OrgContext";
+import { ClientShell } from "@/components/ClientShell";
 import { GenesisProvider } from "@/context/GenesisContext";
-import { GenesisModal } from "@/components/GenesisModal";
 import { PersonaProvider } from "@/context/PersonaContext";
-import { AgentPanel } from "@/components/AgentPanel";
-import { MainLayoutWrapper } from "@/components/MainLayoutWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,19 +37,13 @@ export default function RootLayout({
       <body className="h-screen flex flex-col bg-background text-foreground transition-colors duration-500 overflow-hidden w-full relative" suppressHydrationWarning>
         <ThemeProvider>
           <PersonaProvider>
-            <GenesisProvider>
-              <Sidebar />
-              <GlobalHeader />
-              <Suspense fallback={null}>
-                <GenesisModal />
-              </Suspense>
-              <AgentPanel />
-              <main className="flex-1 min-h-0 ml-20 pt-16 overflow-y-auto w-[calc(100%-5rem)]">
-                <MainLayoutWrapper>
+            <OrgProvider>
+              <GenesisProvider>
+                <ClientShell>
                   {children}
-                </MainLayoutWrapper>
-              </main>
-            </GenesisProvider>
+                </ClientShell>
+              </GenesisProvider>
+            </OrgProvider>
           </PersonaProvider>
         </ThemeProvider>
       </body>

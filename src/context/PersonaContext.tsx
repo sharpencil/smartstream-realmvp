@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-export type PersonaType = 'Project Manager' | 'Team Member';
+export type PersonaType = 'Admin' | 'Project Owner' | 'Project Manager' | 'Team Member';
 
 export interface FeedItem {
   id: string;

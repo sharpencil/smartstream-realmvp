@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronDown, Search, Bell, Plus, Check } from 'lucide-react';
 import { useGenesis } from '@/context/GenesisContext';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
 import { cn } from '@/lib/utils';
 import { usePersona } from '@/context/PersonaContext';
+import { useOrg } from '@/context/OrgContext';
 import { Button } from './ui/Button';
 
 const organizations = [
@@ -16,7 +17,7 @@ const organizations = [
   "Umbrella Corp",
 ];
 
-const projects = [
+const fallbackProjects = [
   "Project Phoenix",
   "Arctic Pulse",
   "Genesis Protocol",
@@ -27,8 +28,30 @@ const projects = [
 export function GlobalHeader() {
   const { openGenesis } = useGenesis();
   const { activePersona } = usePersona();
+  const { orgState, projects } = useOrg();
+  
   const [selectedOrg, setSelectedOrg] = useState(organizations[0]);
-  const [selectedProject, setSelectedProject] = useState(projects[0]);
+  const [selectedProject, setSelectedProject] = useState(fallbackProjects[0]);
+
+  // Sync custom organization name from signup
+  useEffect(() => {
+    if (orgState?.orgName) {
+      setSelectedOrg(orgState.orgName);
+    }
+  }, [orgState]);
+
+  // Sync custom projects list from signup / CRUD
+  const displayProjects = projects.length > 0 ? projects.map(p => p.name) : fallbackProjects;
+
+  useEffect(() => {
+    if (displayProjects.length > 0 && !displayProjects.includes(selectedProject)) {
+      setSelectedProject(displayProjects[0]);
+    }
+  }, [projects]);
+
+  const displayOrgs = orgState?.orgName 
+    ? [orgState.orgName, ...organizations.filter(o => o !== orgState.orgName)]
+    : organizations;
 
   return (
     <header className="fixed top-0 left-0 right-0 h-16 bg-background border-b border-border dark:border-white/15 z-[300] px-6 flex items-center justify-between shadow-sm dark:shadow-none">
@@ -50,7 +73,7 @@ export function GlobalHeader() {
             </PopoverTrigger>
             <PopoverContent align="start" className="w-56 p-1.5 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-black/[0.05] dark:border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.1)] dark:shadow-none rounded-[16px]">
               <div className="flex flex-col gap-1">
-                {organizations.map((org) => (
+                {displayOrgs.map((org) => (
                   <button
                     key={org}
                     onClick={() => setSelectedOrg(org)}
@@ -80,7 +103,7 @@ export function GlobalHeader() {
             </PopoverTrigger>
             <PopoverContent align="start" className="w-64 p-1.5 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-black/[0.05] dark:border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.1)] dark:shadow-none rounded-[16px]">
               <div className="flex flex-col gap-1">
-                {projects.map((project) => (
+                {displayProjects.map((project) => (
                   <button
                     key={project}
                     onClick={() => setSelectedProject(project)}

@@ -11,10 +11,15 @@ import { cn } from '@/lib/utils';
 import * as Popover from '@radix-ui/react-popover';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePersona, PersonaType } from '@/context/PersonaContext';
+import { useOrg } from '@/context/OrgContext';
 import { useTheme } from 'next-themes';
 import { Sun, Moon } from 'lucide-react';
 
 const PERSONA_MENUS: Record<PersonaType, Array<{ name: string; icon: any; href: string }>> = {
+  'Admin': [
+    { name: 'Admin Cockpit', icon: Shield, href: '#' },
+  ],
+  'Project Owner': [],
   'Project Manager': [
     { name: 'Pulse', icon: Activity, href: '/' },
     { name: 'Streams', icon: LayoutDashboard, href: '/library' },
@@ -25,6 +30,8 @@ const PERSONA_MENUS: Record<PersonaType, Array<{ name: string; icon: any; href: 
     { name: 'Project Map', icon: Map, href: '/map' },
   ],
 };
+
+const PERSONA_ORDER: PersonaType[] = ['Admin', 'Project Owner', 'Project Manager', 'Team Member'];
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -59,6 +66,13 @@ export function Sidebar() {
   };
 
   const pillars = PERSONA_MENUS[activePersona];
+  const { activeAdminTab, setActiveAdminTab, orgState } = useOrg();
+
+  const displayName = orgState ? orgState.fullName : 'John Doe';
+  const displayEmail = orgState ? orgState.workEmail : 'john@example.com';
+  const displayInitials = orgState 
+    ? orgState.fullName.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 3) 
+    : 'JD';
 
   return (
     <>
@@ -68,7 +82,16 @@ export function Sidebar() {
           <AnimatePresence mode="wait">
             {pillars.map((pillar) => {
               const Icon = pillar.icon;
-              const isActive = pathname === pillar.href || (pathname === '' && pillar.href === '/');
+              
+              const isActive = activePersona === 'Admin'
+                ? pillar.name === 'Admin Cockpit'
+                : pathname === pillar.href || (pathname === '' && pillar.href === '/');
+
+              const handleClick = (e: React.MouseEvent) => {
+                if (activePersona === 'Admin') {
+                  e.preventDefault();
+                }
+              };
               
               return (
                 <motion.div
@@ -80,6 +103,7 @@ export function Sidebar() {
                 >
                   <Link 
                     href={pillar.href}
+                    onClick={handleClick}
                     className={cn(
                       "group relative p-3 rounded-[20px] transition-all duration-300 block",
                       isActive 
@@ -121,55 +145,68 @@ export function Sidebar() {
             <Popover.Trigger asChild>
               <div className="relative group cursor-pointer">
                 <div className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 border border-black/[0.03] dark:border-white/10 flex items-center justify-center hover:border-cyan-500/50 transition-all duration-300 overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.06)] dark:shadow-none group-hover:shadow-cyan-500/10">
-                  <span className="text-slate-900 dark:text-cyan-400 font-bold text-xs tracking-tighter">JD</span>
+                  <span className="text-slate-900 dark:text-cyan-400 font-bold text-xs tracking-tighter">{displayInitials}</span>
                 </div>
                 <div className="absolute -top-1 -right-1 w-4 h-4 bg-cyan-500 rounded-full border-2 border-white dark:border-[#0a192f] flex items-center justify-center">
                   <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
                 </div>
               </div>
             </Popover.Trigger>
-
+ 
             <Popover.Portal>
               <Popover.Content 
                 side="right" 
                 align="end" 
                 sideOffset={16}
-                className="z-[250] w-56 rounded-[16px] bg-white/90 dark:bg-[#0a192f]/90 border border-black/[0.05] dark:border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.1)] dark:shadow-2xl p-2 outline-none animate-in fade-in zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:zoom-out-95"
+                className="z-[250] w-56 rounded-[16px] bg-white dark:bg-[#0a192f] border border-black/[0.05] dark:border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.12)] dark:shadow-2xl p-2 outline-none animate-in fade-in zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:zoom-out-95"
               >
                 <div className="px-3 py-3 mb-2 border-b border-black/[0.03] dark:border-white/10">
                   <div className="flex items-center gap-3 mb-2">
                     <div className="w-8 h-8 rounded-full bg-white dark:bg-cyan-950 flex items-center justify-center border border-black/[0.03] dark:border-cyan-500/30 shadow-[0_2px_8px_rgba(0,0,0,0.04)] dark:shadow-none">
-                      <span className="text-slate-900 dark:text-cyan-400 text-[10px] font-bold">JD</span>
+                      <span className="text-slate-900 dark:text-cyan-400 text-[10px] font-bold">{displayInitials}</span>
                     </div>
-                    <div className="flex flex-col">
-                      <p className="text-xs font-bold text-slate-900 dark:text-slate-100">John Doe</p>
-                      <p className="text-[10px] text-slate-500 dark:text-slate-500">john@example.com</p>
+                    <div className="flex flex-col min-w-0">
+                      <p className="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">{displayName}</p>
+                      <p className="text-[10px] text-slate-500 dark:text-slate-500 truncate font-mono">{displayEmail}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 px-2 py-1 bg-cyan-500/10 border border-cyan-500/20 rounded-md mb-2">
                     <Shield className="w-3 h-3 text-cyan-500 dark:text-cyan-400" />
-                    <span className="text-[9px] font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-widest">Organization Admin</span>
+                    <span className="text-[9px] font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-widest truncate">
+                      {orgState ? 'Workspace Admin' : 'Demo Profile'}
+                    </span>
                   </div>
                   <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-3">Identity Context</p>
                 </div>
                 <div className="flex flex-col gap-1">
-                  {(Object.keys(PERSONA_MENUS) as PersonaType[]).map((persona) => (
+                  {PERSONA_ORDER.map((persona) => {
+                    const isComingSoon = persona === 'Project Owner';
+                    return (
                     <button
                       key={persona}
-                      onClick={() => handlePersonaSwitch(persona)}
+                      onClick={() => !isComingSoon && handlePersonaSwitch(persona)}
+                      disabled={isComingSoon}
                       className={cn(
                         "flex items-center w-full px-3 py-2 text-sm rounded-xl transition-all duration-200",
-                        activePersona === persona 
-                          ? "bg-white dark:bg-cyan-950/50 text-slate-900 dark:text-cyan-400 font-medium border border-black/[0.03] dark:border-cyan-500/30 shadow-[0_2px_10px_rgba(0,0,0,0.06)] dark:shadow-none" 
-                          : "text-slate-500 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white"
+                        isComingSoon
+                          ? "text-slate-400 dark:text-slate-600 cursor-not-allowed opacity-60"
+                          : activePersona === persona 
+                            ? "bg-white dark:bg-cyan-950/50 text-slate-900 dark:text-cyan-400 font-medium border border-black/[0.03] dark:border-cyan-500/30 shadow-[0_2px_10px_rgba(0,0,0,0.06)] dark:shadow-none" 
+                            : "text-slate-500 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white"
                       )}
                     >
-                      {persona}
-                      {activePersona === persona && (
+                      <span className="truncate">{persona}</span>
+                      {!isComingSoon && activePersona === persona && (
                         <div className="ml-auto w-2 h-2 rounded-full bg-cyan-500 dark:bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
                       )}
+                      {isComingSoon && (
+                        <span className="ml-auto text-[8px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded-md">
+                          Soon
+                        </span>
+                      )}
                     </button>
-                  ))}
+                    );
+                  })}
                 </div>
               </Popover.Content>
             </Popover.Portal>
