@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { 
-  Activity, LayoutDashboard, Users, Cpu, 
-  GitCommit, BarChart, Map, Brain, Shield, Calendar 
+  Activity, LayoutDashboard, Users, 
+  GitCommit, Map, Brain, Shield, Calendar 
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -19,11 +19,9 @@ const PERSONA_MENUS: Record<PersonaType, Array<{ name: string; icon: any; href: 
     { name: 'Pulse', icon: Activity, href: '/' },
     { name: 'Streams', icon: LayoutDashboard, href: '/library' },
     { name: 'Team', icon: Users, href: '/team' },
-    { name: 'Operations', icon: Cpu, href: '/operations' },
   ],
   'Team Member': [
     { name: 'My Flow', icon: GitCommit, href: '/' },
-    { name: 'My Performance', icon: BarChart, href: '/performance' },
     { name: 'Project Map', icon: Map, href: '/map' },
   ],
 };

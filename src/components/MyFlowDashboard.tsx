@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { STAGING_DROPS, STAGING_STREAMS } from '@/lib/stagingData';
 import { getStreamColor } from '@/lib/streams';
-import { CheckCircle2, AlertOctagon, Send, PlayCircle, XCircle, Clock, Check, AlertCircle, ArrowUpRight, ArrowDownRight, Layers } from 'lucide-react';
+import { CheckCircle2, AlertOctagon, Send, PlayCircle, XCircle, Clock, Check, AlertCircle, ArrowUpRight, ArrowDownRight, Layers, Undo, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTheme } from 'next-themes';
 
@@ -13,7 +13,7 @@ const MY_USER_ID = "1";
 const DAY_WIDTH = 80;
 const NOW_LINE_BASE = 2000; // Large logical base to allow scrolling left and right
 
-type HandshakeState = 'PENDING' | 'ACTIVE' | 'RATIONALE' | 'COMPLETED';
+type HandshakeState = 'PENDING' | 'ACTIVE' | 'RATIONALE' | 'RETURN_RATIONALE' | 'COMPLETED';
 
 interface FlowDrop {
   drop_id: string;
@@ -60,6 +60,7 @@ function AlertBanner() {
 export function MyFlowDashboard() {
   const [drops, setDrops] = useState<FlowDrop[]>([]);
   const [rationaleText, setRationaleText] = useState("");
+  const [blockerCategory, setBlockerCategory] = useState("Drop");
   const [selectedDropId, setSelectedDropId] = useState<string | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const { theme } = useTheme();
@@ -182,6 +183,15 @@ export function MyFlowDashboard() {
     });
   };
 
+  const handleReturn = () => {
+    if (!activeDrop) return;
+    setDrops(prev => {
+      const next = [...prev];
+      next[activeDropIndex] = { ...activeDrop, state: 'RETURN_RATIONALE' };
+      return next;
+    });
+  };
+
   const handleComplete = () => {
     if (!activeDrop) return;
 
@@ -218,6 +228,7 @@ export function MyFlowDashboard() {
   const handleSubmitRationale = () => {
     if (rationaleText.length < 10 || !activeDrop) return;
     setRationaleText("");
+    setBlockerCategory("Drop");
 
     // Revert to PENDING after rationale submission
     setDrops(prev => {
@@ -327,7 +338,7 @@ export function MyFlowDashboard() {
               const c = getStreamColor(sInfo?.colorKey);
               const isCompleted = drop.state === 'COMPLETED';
               const isSelected = drop.drop_id === selectedDropId;
-              const isGhost = drop.state === 'PENDING' || drop.state === 'RATIONALE' || (!isCompleted && drop.state !== 'ACTIVE');
+              const isGhost = drop.state === 'PENDING' || drop.state === 'RATIONALE' || drop.state === 'RETURN_RATIONALE' || (!isCompleted && drop.state !== 'ACTIVE');
 
               // PulseDashboard matching aesthetics
               const dropBg = isCompleted ? (theme === 'dark' ? '#0f172a' : '#f1f5f9') : (isGhost ? 'transparent' : `${c.hex}20`);
@@ -409,7 +420,8 @@ export function MyFlowDashboard() {
               "w-full max-w-3xl bg-white dark:bg-slate-900/80 backdrop-blur-2xl border rounded-3xl overflow-hidden shadow-2xl relative transition-all duration-500",
               activeDrop.state === 'PENDING' ? "border-cyan-500/50 shadow-[0_0_50px_rgba(34,211,238,0.15)]" :
                 activeDrop.state === 'RATIONALE' ? "border-rose-500/50 shadow-[0_0_50px_rgba(244,63,94,0.15)]" :
-                  "border-white/10 hover:border-white/20"
+                  activeDrop.state === 'RETURN_RATIONALE' ? "border-indigo-500/50 shadow-[0_0_50px_rgba(99,102,241,0.15)]" :
+                    "border-white/10 hover:border-white/20"
             )}
           >
             {/* Identity Notch on Hero Card */}
@@ -541,6 +553,13 @@ export function MyFlowDashboard() {
                           Mark Completed
                         </button>
                         <button
+                          onClick={handleReturn}
+                          className="flex-1 px-8 py-4 rounded-full bg-slate-50 dark:bg-slate-800/50 hover:bg-indigo-500/10 dark:hover:bg-indigo-500/10 border border-slate-200 dark:border-slate-700 hover:border-indigo-200 dark:hover:border-indigo-500/30 text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 font-bold flex items-center justify-center gap-2 transition-all"
+                        >
+                          <Undo className="w-5 h-5" />
+                          Return
+                        </button>
+                        <button
                           onClick={handleFlagBlocker}
                           className="flex-1 px-8 py-4 rounded-full bg-slate-50 dark:bg-slate-800/50 hover:bg-amber-500/10 dark:hover:bg-amber-500/10 border border-slate-200 dark:border-slate-700 hover:border-amber-200 dark:hover:border-amber-500/30 text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 font-bold flex items-center justify-center gap-2 transition-all"
                         >
@@ -569,6 +588,25 @@ export function MyFlowDashboard() {
                     <p className="text-slate-500 dark:text-slate-400 mb-6">
                       Please provide the rationale for rejecting or blocking this drop. This feedback will be ingested by the system to re-level the project topology.
                     </p>
+                    <div className="w-full text-left mb-4 relative">
+                      <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
+                        Blocker Rationale Type
+                      </label>
+                      <div className="relative">
+                        <select
+                          value={blockerCategory}
+                          onChange={(e) => setBlockerCategory(e.target.value)}
+                          className="w-full appearance-none bg-slate-50 dark:bg-slate-900/50 border border-rose-500/30 rounded-xl py-3 pl-4 pr-10 text-sm font-semibold text-slate-700 dark:text-slate-200 focus:outline-none focus:border-rose-500/70 focus:ring-1 focus:ring-rose-500/70 cursor-pointer transition-all"
+                        >
+                          <option value="Drop" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">Drop</option>
+                          <option value="Person" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">Person</option>
+                          <option value="External" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">External</option>
+                          <option value="Other" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">Other</option>
+                        </select>
+                        <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-rose-400 pointer-events-none" />
+                      </div>
+                    </div>
+
                     <textarea
                       autoFocus
                       value={rationaleText}
@@ -596,6 +634,55 @@ export function MyFlowDashboard() {
                       >
                         <Send className="w-4 h-4" />
                         Submit Rationale
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* STATE: RETURN_RATIONALE */}
+                {activeDrop.state === 'RETURN_RATIONALE' && (
+                  <motion.div
+                    key="return_rationale"
+                    initial={{ opacity: 0, rotateX: 90 }}
+                    animate={{ opacity: 1, rotateX: 0 }}
+                    exit={{ opacity: 0, rotateX: -90 }}
+                    transition={{ duration: 0.4 }}
+                    className="flex flex-col h-full"
+                  >
+                    <div className="flex items-center gap-3 text-indigo-400 mb-4">
+                      <Undo className="w-6 h-6" />
+                      <h3 className="text-xl font-medium">Return Drop</h3>
+                    </div>
+                    <p className="text-slate-500 dark:text-slate-400 mb-6">
+                      Please provide the reason for returning this drop. This feedback will help adjust requirements or re-assign tasks.
+                    </p>
+                    <textarea
+                      autoFocus
+                      value={rationaleText}
+                      onChange={(e) => setRationaleText(e.target.value)}
+                      placeholder="E.g., Require further clarification on design mockups, changing priorities..."
+                      className="flex-1 w-full bg-slate-50 dark:bg-slate-900/50 border border-indigo-500/30 rounded-xl p-4 text-slate-900 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/70 focus:ring-1 focus:ring-indigo-500/70 resize-none transition-all min-h-[120px]"
+                    />
+                    <div className="mt-6 flex justify-end gap-3">
+                      <button
+                        onClick={() => {
+                          setDrops(prev => {
+                            const next = [...prev];
+                            next[activeDropIndex] = { ...activeDrop, state: 'ACTIVE' }; // Revert to ACTIVE
+                            return next;
+                          });
+                        }}
+                        className="px-6 py-2.5 rounded-xl font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:text-slate-200 transition-colors"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={handleSubmitRationale}
+                        disabled={rationaleText.length < 10}
+                        className="px-6 py-2.5 rounded-xl font-medium flex items-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                      >
+                        <Send className="w-4 h-4" />
+                        Submit Return Reason
                       </button>
                     </div>
                   </motion.div>
