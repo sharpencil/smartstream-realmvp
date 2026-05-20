@@ -81,33 +81,8 @@ export function OrgProvider({ children }: { children: React.ReactNode }) {
         } catch (e) {
           console.error('Failed to parse saved organization state:', e);
         }
-      } else {
-        // Fallback to auto-seed a default admin workspace if browser storage is empty
-        const defaultOrg: OrgState = {
-          fullName: 'Alex River',
-          workEmail: 'alex@smartstream.ai',
-          orgName: 'SmartStream Corp',
-          createdAt: new Date().toISOString(),
-        };
-        setOrgState(defaultOrg);
-        localStorage.setItem('smartstream_orgState', JSON.stringify(defaultOrg));
-
-        // Ensure we seed the admin user matching this default workspace
-        if (!savedUsers) {
-          const adminId = 'admin-user';
-          const newAdmin: WorkspaceUser = {
-            id: adminId,
-            name: 'Alex River',
-            email: 'alex@smartstream.ai',
-            role: 'Admin',
-            roles: ['Admin'],
-            projects: [],
-            status: 'Active',
-          };
-          setUsers([newAdmin]);
-          localStorage.setItem('smartstream_users', JSON.stringify([newAdmin]));
-        }
       }
+      // If no savedOrg, orgState stays null → ClientShell redirects to /sign-up
 
       // Pre-seed projects if none exist (or upgrade older stream-based ones)
       if (savedProjects && !savedProjects.includes('AI Evaluation Layer')) {
@@ -140,7 +115,7 @@ export function OrgProvider({ children }: { children: React.ReactNode }) {
         localStorage.setItem('smartstream_projects', JSON.stringify(defaultProjects));
       }
 
-      // Pre-seed users if none exist
+      // Hydrate users if previously saved
       if (savedUsers) {
         const VALID_ROLES: WorkspaceUser['role'][] = ['Admin', 'Project Owner', 'Project Manager', 'Team Member'];
         const parsed = JSON.parse(savedUsers) as WorkspaceUser[];
@@ -152,47 +127,6 @@ export function OrgProvider({ children }: { children: React.ReactNode }) {
           return { ...u, roles, role: roles[0] };
         });
         setUsers(migrated);
-      } else {
-        const defaultUsers: WorkspaceUser[] = [
-          {
-            id: 'emp-1',
-            name: 'Lena Vane',
-            email: 'lena@smartstream.ai',
-            role: 'Project Owner',
-            roles: ['Project Owner'],
-            projects: ['6725bdd7'],
-            status: 'Active',
-          },
-          {
-            id: 'emp-2',
-            name: 'Marcus Thorne',
-            email: 'marcus@smartstream.ai',
-            role: 'Project Manager',
-            roles: ['Project Manager'],
-            projects: ['4d1572ca'],
-            status: 'Active',
-          },
-          {
-            id: 'emp-3',
-            name: 'Sarah Chen',
-            email: 'sarah@smartstream.ai',
-            role: 'Team Member',
-            roles: ['Team Member'],
-            projects: ['6725bdd7', '4d1572ca'],
-            status: 'Active',
-          },
-          {
-            id: 'emp-4',
-            name: 'David Aris',
-            email: 'david@smartstream.ai',
-            role: 'Team Member',
-            roles: ['Team Member'],
-            projects: ['e1f1787a'],
-            status: 'Active',
-          }
-        ];
-        setUsers(defaultUsers);
-        localStorage.setItem('smartstream_users', JSON.stringify(defaultUsers));
       }
 
       setLoaded(true);

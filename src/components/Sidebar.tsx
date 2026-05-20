@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { 
   Activity, LayoutDashboard, Users, 
-  GitCommit, Map, Brain, Shield, Calendar 
+  GitCommit, Map, Brain, Shield, Calendar, LogOut 
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -66,7 +66,7 @@ export function Sidebar() {
   };
 
   const pillars = PERSONA_MENUS[activePersona];
-  const { activeAdminTab, setActiveAdminTab, orgState } = useOrg();
+  const { activeAdminTab, setActiveAdminTab, orgState, clearWorkspace } = useOrg();
 
   const displayName = orgState ? orgState.fullName : 'John Doe';
   const displayEmail = orgState ? orgState.workEmail : 'john@example.com';
@@ -207,6 +207,20 @@ export function Sidebar() {
                     </button>
                     );
                   })}
+                </div>
+
+                {/* Log Out */}
+                <div className="mt-1 pt-1 border-t border-black/[0.03] dark:border-white/10">
+                  <button
+                    onClick={() => {
+                      setPopoverOpen(false);
+                      clearWorkspace();
+                    }}
+                    className="flex items-center gap-2.5 w-full px-3 py-2 text-sm rounded-xl transition-all duration-200 text-rose-500 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10"
+                  >
+                    <LogOut className="w-3.5 h-3.5" />
+                    <span className="font-medium">Log Out</span>
+                  </button>
                 </div>
               </Popover.Content>
             </Popover.Portal>
