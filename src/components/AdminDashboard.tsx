@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useOrg, WorkspaceUser, WorkspaceProject } from '@/context/OrgContext';
 import { UserModal } from '@/components/UserModal';
 import { ProjectModal } from '@/components/ProjectModal';
@@ -45,22 +46,39 @@ export function AdminDashboard() {
     setIsEditingProfile(false);
   };
 
-  // Inline role multi-select popover state
-  const [activeRoleDropdownUserId, setActiveRoleDropdownUserId] = useState<string | null>(null);
-  const roleDropdownRef = useRef<HTMLDivElement>(null);
+  // Inline role multi-select popover — portal-based to escape overflow clipping
+  const [dropdownAnchor, setDropdownAnchor] = useState<{
+    userId: string;
+    top: number;
+    left: number;
+  } | null>(null);
+  const rolePortalRef = useRef<HTMLDivElement>(null);
 
-  // Close role dropdown on outside click
+  // Close role dropdown on outside click (checks both trigger area and portal)
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (roleDropdownRef.current && !roleDropdownRef.current.contains(e.target as Node)) {
-        setActiveRoleDropdownUserId(null);
+      if (rolePortalRef.current && !rolePortalRef.current.contains(e.target as Node)) {
+        setDropdownAnchor(null);
       }
     };
-    if (activeRoleDropdownUserId) {
+    if (dropdownAnchor) {
       document.addEventListener('mousedown', handleClickOutside);
     }
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [activeRoleDropdownUserId]);
+  }, [dropdownAnchor]);
+
+  const handleRoleTriggerClick = (e: React.MouseEvent<HTMLButtonElement>, userId: string) => {
+    if (dropdownAnchor?.userId === userId) {
+      setDropdownAnchor(null);
+      return;
+    }
+    const rect = e.currentTarget.getBoundingClientRect();
+    setDropdownAnchor({
+      userId,
+      top: rect.bottom + window.scrollY + 6,
+      left: rect.left + window.scrollX,
+    });
+  };
 
   const handleEditUser = (user: WorkspaceUser) => {
     setEditingUser(user);
@@ -102,7 +120,7 @@ export function AdminDashboard() {
     switch (role) {
       case 'Admin':          return 'bg-rose-500/10 border-rose-500/30 text-rose-600 dark:text-rose-400';
       case 'Project Owner':  return 'bg-purple-500/10 border-purple-500/30 text-purple-600 dark:text-purple-400';
-      case 'Project Manager':return 'bg-indigo-500/10 border-indigo-500/30 text-indigo-600 dark:text-cyan-400';
+      case 'Project Manager':return 'bg-indigo-500/10 border-indigo-500/30 text-indigo-600 dark:text-indigo-400';
       case 'Team Member':    return 'bg-teal-500/10 border-teal-500/30 text-teal-600 dark:text-teal-400';
       default:               return 'bg-slate-500/10 border-slate-500/30 text-slate-500';
     }
@@ -112,7 +130,7 @@ export function AdminDashboard() {
     switch (role) {
       case 'Admin':          return 'text-rose-500';
       case 'Project Owner':  return 'text-purple-500';
-      case 'Project Manager':return 'text-indigo-500 dark:text-cyan-400';
+      case 'Project Manager':return 'text-indigo-500';
       case 'Team Member':    return 'text-teal-500';
       default:               return 'text-slate-500';
     }
@@ -249,7 +267,7 @@ export function AdminDashboard() {
                                   return (
                                     <span 
                                       key={pId} 
-                                      className={`px-2 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider border ${getStreamColor(proj.initials)}`}
+                                      className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border ${getStreamColor(proj.initials)}`}
                                       title={proj.name}
                                     >
                                       {proj.initials}
@@ -261,74 +279,33 @@ export function AdminDashboard() {
                           </td>
                           {/* Role multi-select popover */}
                           <td className="py-4 px-4">
-                            <div className="relative" ref={activeRoleDropdownUserId === user.id ? roleDropdownRef : undefined}>
-                              {/* Trigger button — shows current role badges */}
-                              <button
-                                type="button"
-                                onClick={() => setActiveRoleDropdownUserId(
-                                  activeRoleDropdownUserId === user.id ? null : user.id
-                                )}
-                                className="flex flex-wrap items-center gap-1 min-w-[110px] max-w-[200px] group cursor-pointer"
-                                title="Click to manage roles"
-                              >
-                                {(Array.isArray(user.roles) && user.roles.length > 0 ? user.roles : [user.role]).map((r) => (
-                                  <span
-                                    key={r}
-                                    className={`inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-extrabold uppercase tracking-wider border ${getRoleStyle(r)}`}
-                                  >
-                                    {r}
-                                  </span>
-                                ))}
-                                {user.id !== 'admin-user' && (
-                                  <ChevronDown className="w-3 h-3 text-slate-400 group-hover:text-slate-600 transition-colors ml-0.5 shrink-0 dark:group-hover:text-cyan-400" />
-                                )}
-                              </button>
-
-                              {/* Popover dropdown */}
-                              {activeRoleDropdownUserId === user.id && (
-                                <div className="absolute z-50 top-full left-0 mt-1.5 w-52 bg-white dark:bg-[#0d1f3c] border border-slate-200 dark:border-white/10 rounded-2xl shadow-2xl p-2 space-y-0.5">
-                                  <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400 px-2 pt-1 pb-2 border-b border-slate-100 dark:border-white/5">
-                                    Assign Roles
-                                  </p>
-                                  {ALL_ROLES.map((role) => {
-                                    const currentRoles = Array.isArray(user.roles) && user.roles.length > 0 ? user.roles : [user.role];
-                                    const isChecked = currentRoles.includes(role);
-                                    const isLocked = user.id === 'admin-user' && role === 'Admin';
-                                    return (
-                                      <button
-                                        key={role}
-                                        type="button"
-                                        onClick={() => handleRoleToggle(user, role)}
-                                        disabled={isLocked}
-                                        className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-[10px] font-semibold transition-colors cursor-pointer ${
-                                          isChecked
-                                            ? 'bg-slate-50 dark:bg-slate-800/60'
-                                            : 'hover:bg-slate-50 dark:hover:bg-slate-800/40'
-                                        } ${isLocked ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                      >
-                                        <span className={`w-4 h-4 rounded-md border-2 flex items-center justify-center shrink-0 transition-all ${
-                                          isChecked
-                                            ? `border-current bg-current/10 ${getRoleCheckStyle(role)}`
-                                            : 'border-slate-300 dark:border-slate-600'
-                                        }`}>
-                                          {isChecked && <Check className="w-2.5 h-2.5" />}
-                                        </span>
-                                        <span className={`${getRoleCheckStyle(role)} font-bold`}>{role}</span>
-                                      </button>
-                                    );
-                                  })}
-                                </div>
+                            <button
+                              type="button"
+                              onClick={(e) => user.id !== 'admin-user' && handleRoleTriggerClick(e, user.id)}
+                              className="flex flex-wrap items-center gap-1 min-w-[110px] max-w-[200px] group cursor-pointer"
+                              title="Click to manage roles"
+                            >
+                              {(Array.isArray(user.roles) && user.roles.length > 0 ? user.roles : [user.role]).map((r) => (
+                                <span
+                                  key={r}
+                                  className={`inline-flex items-center px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border ${getRoleStyle(r)}`}
+                                >
+                                  {r}
+                                </span>
+                              ))}
+                              {user.id !== 'admin-user' && (
+                                <ChevronDown className="w-3 h-3 text-slate-400 group-hover:text-slate-600 transition-colors ml-0.5 shrink-0 dark:group-hover:text-slate-200" />
                               )}
-                            </div>
+                            </button>
                           </td>
                           {/* Status */}
                           <td className="py-4 px-4">
-                            <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest border ${
+                            <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border ${
                               user.status === 'Active'
-                                ? 'bg-teal-500/10 border-teal-500/20 text-teal-600 dark:text-teal-400'
-                                : 'bg-amber-500/10 border-amber-500/20 text-amber-600 dark:text-amber-400'
+                                ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-600 dark:text-emerald-400'
+                                : 'bg-rose-500/10 border-rose-500/30 text-rose-500 dark:text-rose-400'
                             }`}>
-                              <span className={`w-1.5 h-1.5 rounded-full ${user.status === 'Active' ? 'bg-teal-500 dark:bg-teal-400 animate-pulse' : 'bg-amber-500 dark:bg-amber-400'}`} />
+                              <span className={`w-1.5 h-1.5 rounded-full ${user.status === 'Active' ? 'bg-emerald-500 dark:bg-emerald-400 animate-pulse' : 'bg-rose-500 dark:bg-rose-400'}`} />
                               {user.status}
                             </span>
                           </td>
@@ -337,7 +314,7 @@ export function AdminDashboard() {
                             <div className="flex items-center justify-end gap-2">
                               <button
                                 onClick={() => handleEditUser(user)}
-                                className="p-1.5 hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-cyan-400 transition-colors cursor-pointer"
+                                className="p-1.5 hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors cursor-pointer"
                                 title="Edit user profile"
                               >
                                 <Edit2 className="w-3.5 h-3.5" />
@@ -407,7 +384,7 @@ export function AdminDashboard() {
                           </td>
                           {/* Initials */}
                           <td className="py-4 px-4">
-                            <span className={`px-2.5 py-0.5 rounded-md text-[10px] font-extrabold border ${getStreamColor(proj.initials)}`}>
+                            <span className={`px-2.5 py-1 rounded-lg text-[10px] font-extrabold border ${getStreamColor(proj.initials)}`}>
                               {proj.initials}
                             </span>
                           </td>
@@ -417,13 +394,14 @@ export function AdminDashboard() {
                           </td>
                           {/* Status */}
                           <td className="py-4 px-4">
-                            <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest border ${
+                            <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border ${
                               proj.status === 'Active'
-                                ? 'bg-slate-100 border-slate-300 text-slate-700 dark:bg-cyan-500/10 dark:border-cyan-500/20 dark:text-cyan-400'
+                                ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-600 dark:text-emerald-400'
                                 : proj.status === 'Completed'
                                 ? 'bg-teal-500/10 border-teal-500/20 text-teal-600 dark:text-teal-400'
-                                : 'bg-slate-500/10 border-slate-500/20 text-slate-500 dark:text-slate-400'
+                                : 'bg-slate-100 border-slate-300 text-slate-500 dark:bg-slate-500/10 dark:border-slate-500/20 dark:text-slate-400'
                             }`}>
+                              {proj.status === 'Active' && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />}
                               {proj.status}
                             </span>
                           </td>
@@ -432,7 +410,7 @@ export function AdminDashboard() {
                             <div className="flex items-center justify-end gap-2">
                               <button
                                 onClick={() => handleEditProject(proj)}
-                                className="p-1.5 hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-cyan-400 transition-colors cursor-pointer"
+                                className="p-1.5 hover:bg-slate-100 dark:hover:bg-white/5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors cursor-pointer"
                                 title="Edit project"
                               >
                                 <Edit2 className="w-3.5 h-3.5" />
@@ -479,7 +457,7 @@ export function AdminDashboard() {
                       {!isEditingProfile ? (
                         <button
                           onClick={handleStartEditProfile}
-                          className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-slate-400 hover:text-slate-700 dark:hover:text-cyan-400 transition-colors cursor-pointer"
+                          className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors cursor-pointer"
                         >
                           <Pencil className="w-3 h-3" />
                           Edit
@@ -488,7 +466,7 @@ export function AdminDashboard() {
                         <div className="flex items-center gap-2">
                           <button
                             onClick={handleSaveProfile}
-                            className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-teal-600 dark:text-teal-400 hover:text-teal-700 transition-colors cursor-pointer"
+                            className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-cyan-600 dark:text-cyan-400 hover:text-cyan-700 dark:hover:text-cyan-300 transition-colors cursor-pointer"
                           >
                             <Save className="w-3 h-3" />
                             Save
@@ -512,7 +490,7 @@ export function AdminDashboard() {
                           <input
                             value={editOrgName}
                             onChange={(e) => setEditOrgName(e.target.value)}
-                            className="w-full bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-white/5 rounded-xl py-2 px-3 text-sm font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/10 transition-all"
+                            className="w-full bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-white/5 rounded-xl py-2 px-3 text-sm font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/10 transition-all"
                           />
                         ) : (
                           <p className="text-sm font-bold text-slate-900 dark:text-slate-100">{orgState?.orgName}</p>
@@ -526,7 +504,7 @@ export function AdminDashboard() {
                           <input
                             value={editFullName}
                             onChange={(e) => setEditFullName(e.target.value)}
-                            className="w-full bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-white/5 rounded-xl py-2 px-3 text-sm font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/10 transition-all"
+                            className="w-full bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-white/5 rounded-xl py-2 px-3 text-sm font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/10 transition-all"
                           />
                         ) : (
                           <p className="text-sm font-bold text-slate-900 dark:text-slate-100">{orgState?.fullName}</p>
@@ -541,7 +519,7 @@ export function AdminDashboard() {
                             type="email"
                             value={editEmail}
                             onChange={(e) => setEditEmail(e.target.value)}
-                            className="w-full bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-white/5 rounded-xl py-2 px-3 text-sm font-semibold font-mono text-slate-900 dark:text-white focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/10 transition-all"
+                            className="w-full bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-white/5 rounded-xl py-2 px-3 text-sm font-semibold font-mono text-slate-900 dark:text-white focus:outline-none focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/10 transition-all"
                           />
                         ) : (
                           <p className="text-sm font-semibold font-mono text-slate-500 dark:text-slate-300">{orgState?.workEmail}</p>
@@ -571,7 +549,7 @@ export function AdminDashboard() {
                       {/* Plan */}
                       <div className="space-y-1">
                         <label className="text-[10px] font-bold tracking-widest text-slate-400 uppercase">Current Plan</label>
-                        <p className="text-sm font-bold text-slate-700 dark:text-cyan-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <p className="text-sm font-bold text-purple-600 dark:text-purple-400 uppercase tracking-widest flex items-center gap-1.5">
                           <Sparkles className="w-3.5 h-3.5 animate-pulse" />
                           Enterprise Premium
                         </p>
@@ -629,6 +607,56 @@ export function AdminDashboard() {
         }}
         projectToEdit={editingProject}
       />
+
+      {/* Role dropdown portal — renders outside table's overflow-x-auto */}
+      {dropdownAnchor && typeof document !== 'undefined' && createPortal(
+        <div
+          ref={rolePortalRef}
+          style={{
+            position: 'fixed',
+            top: dropdownAnchor.top,
+            left: dropdownAnchor.left,
+            zIndex: 9999,
+          }}
+          className="w-52 bg-white dark:bg-[#0d1f3c] border border-slate-200 dark:border-white/10 rounded-2xl shadow-2xl p-2 space-y-0.5 animate-in fade-in zoom-in-95 duration-100"
+        >
+          <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400 px-2 pt-1 pb-2 border-b border-slate-100 dark:border-white/5">
+            Assign Roles
+          </p>
+          {(() => {
+            const user = users.find(u => u.id === dropdownAnchor.userId);
+            if (!user) return null;
+            return ALL_ROLES.map((role) => {
+              const currentRoles = Array.isArray(user.roles) && user.roles.length > 0 ? user.roles : [user.role];
+              const isChecked = currentRoles.includes(role);
+              const isLocked = user.id === 'admin-user' && role === 'Admin';
+              return (
+                <button
+                  key={role}
+                  type="button"
+                  onClick={() => handleRoleToggle(user, role)}
+                  disabled={isLocked}
+                  className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-[10px] font-semibold transition-colors cursor-pointer ${
+                    isChecked
+                      ? 'bg-slate-50 dark:bg-slate-800/60'
+                      : 'hover:bg-slate-50 dark:hover:bg-slate-800/40'
+                  } ${isLocked ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                  <span className={`w-4 h-4 rounded-md border-2 flex items-center justify-center shrink-0 transition-all ${
+                    isChecked
+                      ? `border-current bg-current/10 ${getRoleCheckStyle(role)}`
+                      : 'border-slate-300 dark:border-slate-600'
+                  }`}>
+                    {isChecked && <Check className="w-2.5 h-2.5" />}
+                  </span>
+                  <span className={`${getRoleCheckStyle(role)} font-bold`}>{role}</span>
+                </button>
+              );
+            });
+          })()}
+        </div>,
+        document.body
+      )}
 
     </div>
   );

@@ -96,7 +96,7 @@ export function AgentPanel() {
                   <Sparkles className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
                 </div>
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em]">Daily Briefing</span>
+                  <span className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.2em]">Daily Briefing</span>
                   <div className="h-[1px] flex-1 bg-indigo-500/20" />
                 </div>
                 <p className="text-sm text-indigo-900 dark:text-indigo-100 leading-relaxed font-medium">
@@ -126,9 +126,9 @@ export function AgentPanel() {
                   item.type === 'update' && "bg-blue-50 dark:bg-cyan-950/10 border-blue-200 dark:border-cyan-900/30 shadow-arctic dark:shadow-inner dark:shadow-cyan-900/10"
                 )}
               >
-                {item.type === 'alert' && <AlertTriangle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />}
-                {item.type === 'suggestion' && <Sparkles className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" />}
-                {item.type === 'update' && <Info className="w-5 h-5 text-blue-400 shrink-0 mt-0.5" />}
+                {item.type === 'alert' && <AlertTriangle className="w-5 h-5 text-rose-500 dark:text-rose-400 shrink-0 mt-0.5" />}
+                {item.type === 'suggestion' && <Sparkles className="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />}
+                {item.type === 'update' && <Info className="w-5 h-5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />}
                 <p className="text-sm text-foreground leading-relaxed font-light">
                   {item.text}
                 </p>
@@ -150,8 +150,8 @@ export function AgentPanel() {
                     ].map(drop => (
                       <div key={drop.id} className="p-3 rounded-xl bg-muted border border-border hover:border-indigo-500/30 transition-all cursor-pointer group shadow-sm dark:shadow-none">
                         <div className="flex items-center justify-between mb-1">
-                          <span className="text-[10px] font-mono text-indigo-400 font-bold">#{drop.id}</span>
-                          <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">{drop.confidence} Confidence</span>
+                          <span className="text-[10px] font-mono text-indigo-600 dark:text-indigo-400 font-bold">#{drop.id}</span>
+                          <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-500/10 px-1.5 py-0.5 rounded">{drop.confidence} Confidence</span>
                         </div>
                         <p className="text-sm text-foreground font-medium group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors">{drop.title}</p>
                         <p className="text-[10px] text-muted-foreground mt-1 italic">&quot;{drop.why}&quot;</p>

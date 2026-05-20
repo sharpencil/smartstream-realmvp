@@ -5,8 +5,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Network, Search, AlertTriangle, Blocks } from 'lucide-react';
 import { STREAM_COLORS, getStreamColor, PALETTE_KEYS } from '@/lib/streams';
 import { STAGING_STREAMS, STAGING_DROPS } from '@/lib/stagingData';
+import { cn } from '@/lib/utils';
 
-export function DependencyMatrix() {
+export function DependencyMatrix({ searchTerm = '' }: { searchTerm?: string }) {
   const [selectedStreamId, setSelectedStreamId] = useState<string | null>(null);
 
   // 1. Build stream-to-stream dependency graph
@@ -106,26 +107,9 @@ export function DependencyMatrix() {
     <motion.div
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="w-full flex-1 flex flex-col relative overflow-hidden bg-background dark:bg-[#061124] rounded-3xl border border-border dark:border-slate-800/60 shadow-inner dark:shadow-indigo-900/10 min-h-[600px] mt-4"
+      className="w-full flex-1 flex flex-col relative overflow-hidden bg-background dark:bg-[#061124] rounded-3xl border border-border dark:border-slate-800/60 shadow-inner dark:shadow-indigo-900/10 min-h-[600px]"
     >
-      <div className="flex items-center justify-between p-6 border-b border-border dark:border-white/5 bg-muted/30 dark:bg-[#0a192f]/50">
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-indigo-50 dark:bg-indigo-950/50 rounded-lg border border-indigo-200 dark:border-indigo-500/20 shadow-sm dark:shadow-[0_0_15px_rgba(129,140,248,0.1)]">
-            <Network className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-          </div>
-          <div className="flex flex-col">
-            <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100 tracking-wide">Stream Dependencies</h2>
-            <span className="text-[10px] text-muted-foreground uppercase tracking-widest">Dynamic Cross-Stream Pipeline Matrix</span>
-          </div>
-        </div>
 
-        <div className="flex items-center gap-3">
-          <div className="relative">
-            <Search className="w-4 h-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
-            <input type="text" placeholder="Find stream..." className="bg-background dark:bg-black/30 border border-border dark:border-slate-800 rounded-full py-1.5 pl-9 pr-4 text-xs text-foreground dark:text-slate-300 focus:outline-none focus:border-cyan-500/50 transition-colors w-48 shadow-sm dark:shadow-none" />
-          </div>
-        </div>
-      </div>
 
       <div className="flex-1 w-full bg-background dark:bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] dark:from-slate-900/40 dark:via-[#061124] dark:to-[#061124] relative overflow-auto p-12 custom-scrollbar">
 
@@ -216,11 +200,18 @@ export function DependencyMatrix() {
                   const streamColor = streamColors[stream.id];
                   const colorHex = streamColor.hex;
 
+                  const matchesSearch = !searchTerm || 
+                    stream.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                    stream.initials.toLowerCase().includes(searchTerm.toLowerCase());
+
                   return (
                     <motion.div
                       key={stream.id}
                       onClick={() => setSelectedStreamId(prev => prev === stream.id ? null : stream.id)}
-                      className="w-full bg-card dark:bg-[#0a192f] border border-border dark:border-slate-700/60 rounded-2xl p-5 shadow-sm dark:shadow-xl dark:shadow-black/40 relative group cursor-pointer"
+                      className={cn(
+                        "w-full bg-card dark:bg-[#0a192f] border border-border dark:border-slate-700/60 rounded-2xl p-5 shadow-sm dark:shadow-xl dark:shadow-black/40 relative group cursor-pointer transition-opacity duration-300",
+                        !matchesSearch && "opacity-20 pointer-events-none"
+                      )}
                       style={{ boxShadow: `inset 0 0 20px ${colorHex}15` }}
                     >
                       <div className="absolute top-0 left-0 bottom-0 w-1.5 rounded-l-2xl opacity-80" style={{ backgroundColor: colorHex }} />

@@ -840,11 +840,11 @@ export function PulseDashboard() {
 
       // Oracle feed
       const feedMessages: Record<string, FeedItem> = {
-        remove: { id: Date.now().toString(), type: 'update', text: <span><span className="text-blue-400 font-medium">Flow Re-leveled:</span> Drop removed. Timeline pulled forward.</span> },
-        complete: { id: Date.now().toString(), type: 'update', text: <span><span className="text-blue-400 font-medium">Flow Re-leveled:</span> Drop completed early. Velocity registered.</span> },
-        block: { id: Date.now().toString(), type: 'alert', text: <span><span className="text-rose-400 font-medium">Ripple Alert:</span> Drop blocked{rationale ? ` — "${rationale}"` : ''}. Dependency shifted.</span> },
-        ghost: { id: Date.now().toString(), type: 'suggestion', text: <span><span className="text-cyan-400 font-medium">Reverted:</span> Drop rescheduled to Ghost projection.</span> },
-        'in-progress': { id: Date.now().toString(), type: 'suggestion', text: <span><span className="text-cyan-400 font-medium">Resumed:</span> Drop set back to In Progress.</span> },
+        remove: { id: Date.now().toString(), type: 'update', text: <span><span className="text-blue-600 dark:text-blue-400 font-medium">Flow Re-leveled:</span> Drop removed. Timeline pulled forward.</span> },
+        complete: { id: Date.now().toString(), type: 'update', text: <span><span className="text-blue-600 dark:text-blue-400 font-medium">Flow Re-leveled:</span> Drop completed early. Velocity registered.</span> },
+        block: { id: Date.now().toString(), type: 'alert', text: <span><span className="text-rose-600 dark:text-rose-400 font-medium">Ripple Alert:</span> Drop blocked{rationale ? ` — "${rationale}"` : ''}. Dependency shifted.</span> },
+        ghost: { id: Date.now().toString(), type: 'suggestion', text: <span><span className="text-indigo-600 dark:text-indigo-400 font-medium">Reverted:</span> Drop rescheduled to Ghost projection.</span> },
+        'in-progress': { id: Date.now().toString(), type: 'suggestion', text: <span><span className="text-indigo-600 dark:text-indigo-400 font-medium">Resumed:</span> Drop set back to In Progress.</span> },
       };
       const msg = feedMessages[action];
       if (msg) setFeed(prev => [msg, ...prev]);
@@ -896,7 +896,7 @@ export function PulseDashboard() {
       });
 
       setFeed(prev => [
-        { id: Date.now().toString(), type: 'update', text: <span><span className="text-cyan-400 font-medium">Flow Recalculated:</span> Resources re-allocated. Forecast updated.</span> },
+        { id: Date.now().toString(), type: 'update', text: <span><span className="text-blue-600 dark:text-blue-400 font-medium">Flow Recalculated:</span> Resources re-allocated. Forecast updated.</span> },
         ...prev
       ]);
       setForecastSlipHours(prev => Math.max(0, prev - 2)); // Ripple recovery
@@ -916,7 +916,7 @@ export function PulseDashboard() {
     setFeed(prev => [{
       id: Date.now().toString(),
       type: 'update',
-      text: <span><span className="text-cyan-400 font-medium">Decision Executed:</span> Reassigned DROP-8120 to {TEAM_MEMBERS.find(m => m.id === decision.toMemberId)?.name}.</span>
+      text: <span><span className="text-blue-600 dark:text-blue-400 font-medium">Decision Executed:</span> Reassigned DROP-8120 to {TEAM_MEMBERS.find(m => m.id === decision.toMemberId)?.name}.</span>
     }, ...prev]);
   };
 
@@ -1039,9 +1039,9 @@ export function PulseDashboard() {
                           )}
                           <span className="relative z-20 uppercase font-bold text-[11px] tracking-widest">{tab.label}</span>
 
-                          {/* Hover Indicator (Cyan Dot) */}
+                          {/* Hover Indicator (Teal Dot) */}
                           {!isActive && (
-                            <div className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <div className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-teal-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                           )}
                         </button>
                       );
@@ -1068,10 +1068,10 @@ export function PulseDashboard() {
                         step={0.01}
                         value={zoomScale}
                         onChange={(e) => setZoomScale(parseFloat(e.target.value))}
-                        className="w-32 h-1 bg-muted rounded-full appearance-none cursor-pointer accent-cyan-500
+                        className="w-32 h-1 bg-muted rounded-full appearance-none cursor-pointer accent-teal-500
                                     [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 
-                                    [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-cyan-500
-                                    [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(34,211,238,0.8)]
+                                    [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-teal-500
+                                    [&::-webkit-slider-thumb]:shadow-[0_0_10px_rgba(20,184,166,0.8)]
                                     hover:[&::-webkit-slider-thumb]:scale-125 transition-transform"
                       />
                     </div>
@@ -1164,7 +1164,7 @@ export function PulseDashboard() {
                           initial={{ opacity: 0, scale: 0.8 }}
                           animate={{ opacity: 1, scale: 1 }}
                           exit={{ opacity: 0, scale: 0.8 }}
-                          className="absolute top-[135px] pointer-events-none z-[120] flex items-center gap-2 bg-cyan-500 text-white px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest dark:shadow-[0_0_20px_rgba(34,211,238,0.4)]"
+                          className="absolute top-[135px] pointer-events-none z-[120] flex items-center gap-2 bg-teal-500 text-white px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest dark:shadow-[0_0_20px_rgba(20,184,166,0.4)]"
                           style={{ left: (NOW_LINE_X * zoomScale) + currentSidebarWidth + 10 }}
                         >
                           <Clock className="w-3 h-3" />
@@ -1175,13 +1175,13 @@ export function PulseDashboard() {
 
                     {/* Now Line */}
                     <div
-                      className="absolute top-[120px] bottom-0 w-[2px] bg-gradient-to-b from-cyan-400/0 via-cyan-400 to-cyan-400/0 z-[120]
+                      className="absolute top-[120px] bottom-0 w-[2px] bg-gradient-to-b from-teal-400/0 via-teal-400 to-teal-400/0 z-[120]
                        animate-time-pulse pointer-events-none
                        before:absolute before:content-[''] before:left-1/2 before:-translate-x-1/2 before:-top-3
-                       before:w-3.5 before:h-3.5 before:bg-cyan-400 before:rounded-full before:shadow-[0_0_10px_rgba(34,211,238,1)]
+                       before:w-3.5 before:h-3.5 before:bg-teal-400 before:rounded-full before:shadow-[0_0_10px_rgba(20,184,166,1)]
                        before:hover:scale-125 before:transition-transform before:pointer-events-auto before:cursor-pointer
                        after:content-['NOW'] after:absolute after:-top-8 after:left-1/2 after:-translate-x-1/2
-                       after:bg-transparent after:text-cyan-400
+                       after:bg-transparent after:text-teal-400
                        after:text-[10px] after:font-bold after:tracking-widest
                        transition-all duration-500"
                       style={{ left: (NOW_LINE_X * zoomScale) + currentSidebarWidth }}
@@ -1200,8 +1200,8 @@ export function PulseDashboard() {
                       />
 
 
-                      {/* Dependency Traces SVG Layer - Elevated above popups with additive blending */}
-                      <svg id="svg-overlay-container" className="absolute inset-0 w-full h-full pointer-events-none z-[1500] overflow-visible" style={{ mixBlendMode: 'plus-lighter' }}>
+                      {/* Dependency Traces SVG Layer - Elevated above popups with additive blending in dark mode */}
+                      <svg id="svg-overlay-container" className="absolute inset-0 w-full h-full pointer-events-none z-[1500] overflow-visible" style={{ mixBlendMode: isDark ? 'plus-lighter' : 'normal' }}>
                         <defs>
                           <filter id="underwater-blur">
                             <feGaussianBlur stdDeviation="3" result="blur" />
@@ -1337,7 +1337,7 @@ export function PulseDashboard() {
                                   className={cn(
                                     "relative",
                                     isFocused
-                                      ? "z-[100] bg-white dark:bg-cyan-950/5 shadow-[0_8px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_0_40px_rgba(34,211,238,0.1)] border-t border-black/[0.03] dark:border-cyan-500/30"
+                                      ? "z-[100] bg-white dark:bg-teal-950/5 shadow-[0_8px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_0_40px_rgba(20,184,166,0.1)] border-t border-black/[0.03] dark:border-teal-500/30"
                                       : "dark:border-b dark:border-border",
                                     isFocused && isExpanded && "rounded-b-[40px] overflow-hidden",
                                     highlightHotLanes && (parseInt(member.id) === 3 || parseInt(member.id) === 5) && !isFocused && "bg-amber-50/50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-500/40 dark:shadow-[inset_0_0_50px_rgba(245,158,11,0.05)]"
@@ -1356,11 +1356,11 @@ export function PulseDashboard() {
                                     >
                                       <div className="flex-1 min-w-0 flex flex-col gap-4">
                                         <div className="flex items-center gap-4">
-                                          <div className="w-12 h-12 rounded-full bg-white dark:bg-cyan-950 flex items-center justify-center border border-black/[0.03] dark:border-cyan-800/30 flex items-center justify-center shadow-[0_2px_10px_rgba(0,0,0,0.06)] dark:shadow-lg group-hover:border-cyan-400/50 dark:group-hover:shadow-[0_0_15px_rgba(34,211,238,0.2)] transition-all">
-                                            <span className="text-slate-900 dark:text-cyan-200 font-bold text-lg">{member.name.charAt(0)}</span>
+                                          <div className="w-12 h-12 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center border border-black/[0.03] dark:border-slate-700 flex items-center justify-center shadow-[0_2px_10px_rgba(0,0,0,0.06)] dark:shadow-lg group-hover:border-teal-500/50 dark:group-hover:shadow-[0_0_15px_rgba(20,184,166,0.2)] transition-all">
+                                            <span className="text-slate-900 dark:text-slate-200 font-bold text-lg">{member.name.charAt(0)}</span>
                                           </div>
                                           <div className="flex flex-col min-w-0">
-                                            <span className="font-bold text-foreground truncate text-lg tracking-tight hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">
+                                            <span className="font-bold text-foreground truncate text-lg tracking-tight hover:text-teal-600 dark:hover:text-teal-400 transition-colors">
                                               {member.name}
                                             </span>
                                             <div className="flex flex-col gap-1.5 mt-1.5">
@@ -1395,8 +1395,8 @@ export function PulseDashboard() {
                                         className={cn(
                                           'shrink-0 w-8 h-8 rounded-xl border flex items-center justify-center transition-all shadow-sm dark:shadow-none',
                                           isFocused
-                                            ? 'bg-cyan-400 dark:bg-cyan-500 text-slate-950 dark:text-white border-cyan-300 dark:border-cyan-400 hover:bg-cyan-500 dark:hover:bg-cyan-600 shadow-lg'
-                                            : 'border-slate-200/60 dark:border-white/10 text-muted-foreground hover:bg-cyan-50 dark:hover:bg-cyan-950/30 hover:text-cyan-600 dark:hover:text-cyan-400'
+                                            ? 'bg-teal-400 dark:bg-teal-500 text-slate-950 dark:text-white border-teal-300 dark:border-teal-400 hover:bg-teal-500 dark:hover:bg-teal-600 shadow-lg'
+                                            : 'border-slate-200/60 dark:border-white/10 text-muted-foreground hover:bg-teal-50 dark:hover:bg-teal-950/30 hover:text-teal-600 dark:hover:text-teal-400'
                                         )}
                                       >
                                         <ChevronDown className={cn('w-4 h-4 transition-transform duration-300', isFocused && 'rotate-180')} />
@@ -1482,7 +1482,7 @@ export function PulseDashboard() {
                                                       e.stopPropagation();
                                                       if (stream) router.push(`/library?expand=${stream.id}`);
                                                     }}
-                                                    className="text-xs font-bold text-foreground truncate group-hover/sublane:text-cyan-600 dark:group-hover/sublane:text-white cursor-pointer hover:underline underline-offset-4"
+                                                    className="text-xs font-bold text-foreground truncate group-hover/sublane:text-teal-600 dark:group-hover/sublane:text-teal-400 cursor-pointer hover:underline underline-offset-4"
                                                   >
                                                     {stream?.title || 'Unassigned'}
                                                   </span>
@@ -1565,7 +1565,7 @@ export function PulseDashboard() {
                                   className={cn(
                                     "relative",
                                     isFocused
-                                      ? "z-[100] bg-white dark:bg-cyan-950/5 shadow-[0_8px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_0_40px_rgba(34,211,238,0.1)] border-t border-black/[0.03] dark:border-cyan-500/30"
+                                      ? "z-[100] bg-white dark:bg-teal-950/5 shadow-[0_8px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_0_40px_rgba(20,184,166,0.1)] border-t border-black/[0.03] dark:border-teal-500/30"
                                       : "dark:border-b dark:border-border",
                                     isFocused && isExpanded && "rounded-b-[40px] overflow-hidden"
                                   )}
@@ -1594,7 +1594,7 @@ export function PulseDashboard() {
                                               router.push(`/library?expand=${stream.id}`);
                                             }}
                                             className={cn(
-                                              "flex-1 font-bold transition-all truncate tracking-tight cursor-pointer hover:text-cyan-600 dark:hover:text-cyan-400 hover:underline underline-offset-4",
+                                              "flex-1 font-bold transition-all truncate tracking-tight cursor-pointer hover:text-teal-600 dark:hover:text-teal-400 hover:underline underline-offset-4",
                                               isFocused ? "text-xl text-foreground" : "text-sm text-foreground group-hover/title:text-foreground"
                                             )}
                                           >
@@ -1605,7 +1605,7 @@ export function PulseDashboard() {
                                             <button
                                               onClick={() => setSelectedStreamDependencyId(selectedStreamDependencyId === stream.id ? null : stream.id)}
                                               className={cn("p-1 rounded-md opacity-0 group-hover/title:opacity-100 transition-all ml-1",
-                                                selectedStreamDependencyId === stream.id ? "opacity-100 bg-sky-900/40 text-cyan-400" : "text-muted-foreground hover:text-foreground hover:bg-muted")}
+                                                selectedStreamDependencyId === stream.id ? "opacity-100 bg-teal-100/70 text-teal-700 dark:bg-teal-950/40 dark:text-teal-400" : "text-muted-foreground hover:text-foreground hover:bg-muted")}
                                             >
                                               <Link className="w-3.5 h-3.5" />
                                             </button>
@@ -1654,8 +1654,8 @@ export function PulseDashboard() {
                                         className={cn(
                                           'shrink-0 w-8 h-8 rounded-xl border flex items-center justify-center transition-all shadow-sm dark:shadow-none',
                                           isExpanded
-                                            ? 'bg-cyan-400 dark:bg-cyan-500 text-slate-950 dark:text-white border-cyan-300 dark:border-cyan-400 hover:bg-cyan-500 dark:hover:bg-cyan-600 shadow-lg dark:shadow-cyan-500/20'
-                                            : 'border-slate-200/60 dark:border-white/10 text-muted-foreground hover:bg-cyan-50 dark:hover:bg-cyan-950/30 hover:text-cyan-600 dark:hover:text-cyan-400'
+                                            ? 'bg-teal-400 dark:bg-teal-500 text-slate-950 dark:text-white border-teal-300 dark:border-teal-400 hover:bg-teal-500 dark:hover:bg-teal-600 shadow-lg dark:shadow-teal-500/20'
+                                            : 'border-slate-200/60 dark:border-white/10 text-muted-foreground hover:bg-teal-50 dark:hover:bg-teal-950/30 hover:text-teal-600 dark:hover:text-teal-400'
                                         )}
                                       >
                                         <ChevronDown className={cn('w-4 h-4 transition-transform duration-300', isExpanded && 'rotate-180')} />
@@ -1749,7 +1749,7 @@ export function PulseDashboard() {
                                                 className="shrink-0 flex items-center gap-3 px-8 py-4 border-r border-border dark:border-slate-800/30 sticky left-0 z-[55] bg-background/95 dark:bg-slate-950 dark:shadow-[12px_0_35px_rgba(0,0,0,0.6)]"
                                                 style={{ width: currentSidebarWidth - 64 }}
                                               >
-                                                <div className="w-8 h-8 rounded-full bg-white dark:bg-cyan-950 flex items-center justify-center border border-black/[0.03] dark:border-cyan-800/30 flex items-center justify-center text-[10px] font-bold text-slate-900 dark:text-cyan-200 group-hover/sublane:border-cyan-500/50 shadow-[0_2px_8px_rgba(0,0,0,0.04)] dark:shadow-lg">
+                                                <div className="w-8 h-8 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center border border-black/[0.03] dark:border-slate-700 flex items-center justify-center text-[10px] font-bold text-slate-900 dark:text-slate-200 group-hover/sublane:border-teal-500/50 shadow-[0_2px_8px_rgba(0,0,0,0.04)] dark:shadow-lg">
                                                   {member.name.charAt(0)}
                                                 </div>
                                                 <span className="text-xs font-semibold text-muted-foreground group-hover/sublane:text-foreground whitespace-nowrap">

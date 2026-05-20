@@ -43,6 +43,7 @@ interface OrgContextType {
   updateProject: (id: string, name: string, description: string, status: WorkspaceProject['status']) => void;
   deleteProject: (id: string) => void;
   clearWorkspace: () => void;
+  loaded: boolean;
 }
 
 const OrgContext = createContext<OrgContextType | undefined>(undefined);
@@ -70,12 +71,42 @@ export function OrgProvider({ children }: { children: React.ReactNode }) {
   // Hydrate from localStorage on client mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const savedOrg = localStorage.getItem('smartstream_orgState');
       const savedUsers = localStorage.getItem('smartstream_users');
       const savedProjects = localStorage.getItem('smartstream_projects');
 
-      if (savedOrg) {
-        setOrgState(JSON.parse(savedOrg));
+      const savedOrg = localStorage.getItem('smartstream_orgState');
+      if (savedOrg && savedOrg !== 'null' && savedOrg !== 'undefined') {
+        try {
+          setOrgState(JSON.parse(savedOrg));
+        } catch (e) {
+          console.error('Failed to parse saved organization state:', e);
+        }
+      } else {
+        // Fallback to auto-seed a default admin workspace if browser storage is empty
+        const defaultOrg: OrgState = {
+          fullName: 'Alex River',
+          workEmail: 'alex@smartstream.ai',
+          orgName: 'SmartStream Corp',
+          createdAt: new Date().toISOString(),
+        };
+        setOrgState(defaultOrg);
+        localStorage.setItem('smartstream_orgState', JSON.stringify(defaultOrg));
+
+        // Ensure we seed the admin user matching this default workspace
+        if (!savedUsers) {
+          const adminId = 'admin-user';
+          const newAdmin: WorkspaceUser = {
+            id: adminId,
+            name: 'Alex River',
+            email: 'alex@smartstream.ai',
+            role: 'Admin',
+            roles: ['Admin'],
+            projects: [],
+            status: 'Active',
+          };
+          setUsers([newAdmin]);
+          localStorage.setItem('smartstream_users', JSON.stringify([newAdmin]));
+        }
       }
 
       // Pre-seed projects if none exist (or upgrade older stream-based ones)
@@ -111,11 +142,15 @@ export function OrgProvider({ children }: { children: React.ReactNode }) {
 
       // Pre-seed users if none exist
       if (savedUsers) {
+        const VALID_ROLES: WorkspaceUser['role'][] = ['Admin', 'Project Owner', 'Project Manager', 'Team Member'];
         const parsed = JSON.parse(savedUsers) as WorkspaceUser[];
-        const migrated = parsed.map(u => ({
-          ...u,
-          roles: Array.isArray(u.roles) && u.roles.length > 0 ? u.roles : [u.role || 'Team Member']
-        }));
+        const migrated = parsed.map(u => {
+          // Normalise roles: must be an array of known values
+          const rawRoles = Array.isArray(u.roles) && u.roles.length > 0 ? u.roles : [u.role];
+          const cleanRoles = rawRoles.filter(r => VALID_ROLES.includes(r as WorkspaceUser['role'])) as WorkspaceUser['role'][];
+          const roles = cleanRoles.length > 0 ? cleanRoles : ['Team Member' as const];
+          return { ...u, roles, role: roles[0] };
+        });
         setUsers(migrated);
       } else {
         const defaultUsers: WorkspaceUser[] = [
@@ -197,21 +232,19 @@ export function OrgProvider({ children }: { children: React.ReactNode }) {
     };
     setOrgState(newOrg);
 
-    // Also inject/update the admin user in users list
+    // Seed only the new Admin user in the user & role directory, without any assigned projects initially
     const adminId = 'admin-user';
-    setUsers((prev) => {
-      const filtered = prev.filter((u) => u.id !== adminId);
-      const newAdmin: WorkspaceUser = {
-        id: adminId,
-        name: fullName,
-        email: workEmail,
-        role: 'Admin',
-        roles: ['Admin'],
-        projects: ['6725bdd7', '4d1572ca', 'e1f1787a'], // Admin assigned to all projects initially
-        status: 'Active',
-      };
-      return [newAdmin, ...filtered];
-    });
+    const newAdmin: WorkspaceUser = {
+      id: adminId,
+      name: fullName,
+      email: workEmail,
+      role: 'Admin',
+      roles: ['Admin'],
+      projects: [], // Admin shouldn't have any assigned project yet since it's a brand new admin user
+      status: 'Active',
+    };
+    
+    setUsers([newAdmin]);
 
     // Auto log in as Admin persona
     setActivePersona('Admin');
@@ -332,6 +365,7 @@ export function OrgProvider({ children }: { children: React.ReactNode }) {
         updateProject,
         deleteProject,
         clearWorkspace,
+        loaded,
       }}
     >
       {children}

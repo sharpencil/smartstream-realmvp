@@ -147,7 +147,7 @@ export const Drop = memo(({
     if (isBlocked) return 'bg-red-100 dark:bg-red-600 border-2 border-red-300 dark:border-transparent shadow-[0_0_15px_rgba(239,68,68,0.1)]';
 
     if (isCompleted) return 'bg-slate-100 dark:bg-slate-900';
-    if (isActive) return 'bg-cyan-50/50 dark:bg-blue-600/40';
+    if (isActive) return 'bg-blue-50/50 dark:bg-blue-600/40';
     return 'bg-card dark:bg-slate-800'; // Default for planned
   };
 
@@ -166,7 +166,7 @@ export const Drop = memo(({
                 <span className={cn(
                   'text-[8px] font-black uppercase tracking-[0.2em] px-1.5 py-0.5 rounded-sm',
                   isCompleted ? 'bg-green-500/10 dark:bg-green-500/20 text-green-600 dark:text-green-400'
-                    : isActive ? 'bg-cyan-500/10 dark:bg-blue-500/20 text-cyan-600 dark:text-blue-400'
+                    : isActive ? 'bg-blue-500/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400'
                       : 'bg-slate-500/10 dark:bg-slate-500/20 text-slate-600 dark:text-slate-400'
                 )}>
                   {isCompleted ? 'Completed' : isActive ? 'Active' : 'Planned'} • {effortHours}h
@@ -193,7 +193,7 @@ export const Drop = memo(({
                       e.stopPropagation();
                       if (streamId) router.push(`/library?expand=${streamId}`);
                     }}
-                    className="text-[9px] font-bold text-slate-400 uppercase tracking-widest cursor-pointer hover:text-cyan-400 transition-colors"
+                    className="text-[9px] font-bold text-slate-400 uppercase tracking-widest cursor-pointer hover:text-teal-400 transition-colors"
                   >
                     Stream: {streamName}
                   </div>
@@ -301,7 +301,7 @@ export const Drop = memo(({
             </div>
 
             {isDragging && dragTooltip && (
-              <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-cyan-500 text-white px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap shadow-sm pointer-events-none drop-shadow-md z-50">
+              <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-teal-500 text-white px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap shadow-sm pointer-events-none drop-shadow-md z-50">
                 {dragTooltip}
               </div>
             )}
@@ -345,7 +345,7 @@ export const Drop = memo(({
                 )}
               </span>
             </div>
-            <h4 className="text-sm font-bold text-foreground dark:text-cyan-50 leading-snug mt-2 pr-8">{title}</h4>
+            <h4 className="text-sm font-bold text-foreground dark:text-slate-50 leading-snug mt-2 pr-8">{title}</h4>
 
           </div>
 
@@ -366,7 +366,7 @@ export const Drop = memo(({
                 <ul className="space-y-1.5">
                   {tasks.map((task, i) => (
                     <li key={i} className="flex gap-2 text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-                      <span className="shrink-0 w-4 h-4 rounded-full border border-cyan-500/30 flex items-center justify-center text-[9px] font-bold text-cyan-600 dark:text-cyan-500/70 mt-0.5">
+                      <span className="shrink-0 w-4 h-4 rounded-full border border-teal-500/30 flex items-center justify-center text-[9px] font-bold text-teal-600 dark:text-teal-400 mt-0.5">
                         {i + 1}
                       </span>
                       <span>{task}</span>
@@ -403,11 +403,6 @@ export const Drop = memo(({
               </Popover.Close>
             </div>
 
-            <div className="bg-slate-50 dark:bg-slate-900/40 border border-border dark:border-white/5 rounded-xl p-2.5">
-              <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest text-center leading-relaxed">
-                Assignment managed by <span className="text-cyan-400">Oracle AI</span> algorithm
-              </p>
-            </div>
 
             {!isCompleted && (
               <div>
@@ -424,7 +419,7 @@ export const Drop = memo(({
                   value={rationale}
                   onChange={(e) => setRationale(e.target.value)}
                   placeholder="Add rationale... (Why?)"
-                  className="w-full bg-muted dark:bg-black/30 border border-border dark:border-white/10 rounded-xl py-2 px-3 text-xs text-foreground dark:text-slate-200 placeholder:text-muted-foreground dark:placeholder:text-slate-600 focus:outline-none focus:border-cyan-500/50 transition-all font-mono shadow-inner block mt-1"
+                  className="w-full bg-muted dark:bg-black/30 border border-border dark:border-white/10 rounded-xl py-2 px-3 text-xs text-foreground dark:text-slate-200 placeholder:text-muted-foreground dark:placeholder:text-slate-600 focus:outline-none focus:border-teal-500/50 transition-all font-mono shadow-inner block mt-1"
                 />
               </div>
             )}

@@ -116,7 +116,7 @@ export function Sidebar() {
                     
                     {/* Hover Indicator (Cyan Dot) */}
                     {!isActive && (
-                      <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-teal-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                     )}
 
                     {/* Tooltip */}
@@ -144,10 +144,10 @@ export function Sidebar() {
           <Popover.Root open={popoverOpen} onOpenChange={setPopoverOpen}>
             <Popover.Trigger asChild>
               <div className="relative group cursor-pointer">
-                <div className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 border border-black/[0.03] dark:border-white/10 flex items-center justify-center hover:border-cyan-500/50 transition-all duration-300 overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.06)] dark:shadow-none group-hover:shadow-cyan-500/10">
-                  <span className="text-slate-900 dark:text-cyan-400 font-bold text-xs tracking-tighter">{displayInitials}</span>
+                <div className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 border border-black/[0.03] dark:border-white/10 flex items-center justify-center hover:border-teal-500/50 transition-all duration-300 overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.06)] dark:shadow-none group-hover:shadow-teal-500/10">
+                  <span className="text-slate-900 dark:text-slate-200 font-bold text-xs tracking-tighter">{displayInitials}</span>
                 </div>
-                <div className="absolute -top-1 -right-1 w-4 h-4 bg-cyan-500 rounded-full border-2 border-white dark:border-[#0a192f] flex items-center justify-center">
+                <div className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-white dark:border-[#0a192f] flex items-center justify-center">
                   <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
                 </div>
               </div>
@@ -162,17 +162,17 @@ export function Sidebar() {
               >
                 <div className="px-3 py-3 mb-2 border-b border-black/[0.03] dark:border-white/10">
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-8 h-8 rounded-full bg-white dark:bg-cyan-950 flex items-center justify-center border border-black/[0.03] dark:border-cyan-500/30 shadow-[0_2px_8px_rgba(0,0,0,0.04)] dark:shadow-none">
-                      <span className="text-slate-900 dark:text-cyan-400 text-[10px] font-bold">{displayInitials}</span>
+                    <div className="w-8 h-8 rounded-full bg-white dark:bg-teal-950/40 flex items-center justify-center border border-black/[0.03] dark:border-teal-500/30 shadow-[0_2px_8px_rgba(0,0,0,0.04)] dark:shadow-none">
+                      <span className="text-slate-900 dark:text-teal-400 text-[10px] font-bold">{displayInitials}</span>
                     </div>
                     <div className="flex flex-col min-w-0">
                       <p className="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">{displayName}</p>
                       <p className="text-[10px] text-slate-500 dark:text-slate-500 truncate font-mono">{displayEmail}</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 px-2 py-1 bg-cyan-500/10 border border-cyan-500/20 rounded-md mb-2">
-                    <Shield className="w-3 h-3 text-cyan-500 dark:text-cyan-400" />
-                    <span className="text-[9px] font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-widest truncate">
+                  <div className="flex items-center gap-2 px-2 py-1 bg-purple-500/10 border border-purple-500/20 rounded-md mb-2">
+                    <Shield className="w-3 h-3 text-purple-500 dark:text-purple-400" />
+                    <span className="text-[9px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-widest truncate">
                       {orgState ? 'Workspace Admin' : 'Demo Profile'}
                     </span>
                   </div>
@@ -191,13 +191,13 @@ export function Sidebar() {
                         isComingSoon
                           ? "text-slate-400 dark:text-slate-600 cursor-not-allowed opacity-60"
                           : activePersona === persona 
-                            ? "bg-white dark:bg-cyan-950/50 text-slate-900 dark:text-cyan-400 font-medium border border-black/[0.03] dark:border-cyan-500/30 shadow-[0_2px_10px_rgba(0,0,0,0.06)] dark:shadow-none" 
+                            ? "bg-white dark:bg-teal-950/40 text-slate-900 dark:text-teal-400 font-medium border border-black/[0.03] dark:border-teal-500/30 shadow-[0_2px_10px_rgba(0,0,0,0.06)] dark:shadow-none" 
                             : "text-slate-500 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white"
                       )}
                     >
                       <span className="truncate">{persona}</span>
                       {!isComingSoon && activePersona === persona && (
-                        <div className="ml-auto w-2 h-2 rounded-full bg-cyan-500 dark:bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
+                        <div className="ml-auto w-2 h-2 rounded-full bg-teal-500 dark:bg-teal-400 shadow-[0_0_8px_rgba(20,184,166,0.8)]" />
                       )}
                       {isComingSoon && (
                         <span className="ml-auto text-[8px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded-md">
@@ -222,7 +222,7 @@ export function Sidebar() {
             animate={{ scale: 200, opacity: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1.0, ease: "easeOut" }}
-            className="fixed z-[40] w-10 h-10 rounded-full bg-cyan-500/20 pointer-events-none"
+            className="fixed z-[40] w-10 h-10 rounded-full bg-teal-500/20 pointer-events-none"
             style={{ 
               bottom: '2rem', 
               left: '1.25rem', // roughly matching the avatar position

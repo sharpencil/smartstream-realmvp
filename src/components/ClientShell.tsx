@@ -7,22 +7,32 @@ import { GlobalHeader } from '@/components/GlobalHeader';
 import { AgentPanel } from '@/components/AgentPanel';
 import { MainLayoutWrapper } from '@/components/MainLayoutWrapper';
 import { GenesisModal } from '@/components/GenesisModal';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 export function ClientShell({ children }: { children: React.ReactNode }) {
-  const { orgState } = useOrg();
+  const { orgState, loaded } = useOrg();
   const pathname = usePathname();
+  const router = useRouter();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!mounted) {
-    // Return standard skeleton or loading during initial hydration
+  // Automatic client-side redirect guard if fully loaded but has no organization workspace
+  useEffect(() => {
+    if (mounted && loaded && orgState === null && pathname !== '/sign-up') {
+      router.push('/sign-up');
+    }
+  }, [mounted, loaded, orgState, pathname, router]);
+
+  if (!mounted || !loaded) {
+    // Return a clean loading screen during server layout and client hydration
     return (
-      <main className="flex-1 min-h-0 w-full overflow-y-auto bg-slate-950">
-        {children}
+      <main className="flex-1 min-h-0 w-full h-screen bg-slate-950 flex items-center justify-center">
+        <div className="text-[11px] font-bold text-slate-500 uppercase tracking-widest animate-pulse">
+          Syncing workspace...
+        </div>
       </main>
     );
   }

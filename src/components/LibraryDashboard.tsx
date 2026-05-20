@@ -1,6 +1,6 @@
 'use client';
 
-import { FileUp, Layers, UserPlus, Database, Fingerprint, Network, UserCheck, ChevronDown, ChevronRight, Rocket, Activity, Target, Briefcase } from 'lucide-react';
+import { FileUp, Layers, UserPlus, Database, Fingerprint, Network, UserCheck, ChevronDown, ChevronRight, Rocket, Activity, Target, Briefcase, Search } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
@@ -15,6 +15,7 @@ export function LibraryDashboard() {
   const [isTeamConfirmed, setIsTeamConfirmed] = useState(false);
   const [synthesisProgress, setSynthesisProgress] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [searchTerm, setSearchTerm] = useState('');
 
 
   const handleUpload = () => {
@@ -104,9 +105,9 @@ export function LibraryDashboard() {
                   )}
                   <span className="relative z-20 font-bold uppercase text-[11px] tracking-widest">{tab.label}</span>
                   
-                  {/* Hover Indicator (Cyan Dot) */}
+                  {/* Hover Indicator (Teal Dot) */}
                   {!isActive && (
-                    <div className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-teal-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                   )}
                 </button>
               );
@@ -143,12 +144,21 @@ export function LibraryDashboard() {
                <Network className="w-5 h-5 text-teal-500 dark:text-teal-400 shrink-0" />
                Stream Dependencies
              </h2>
-             <span className="text-sm text-muted-foreground">Visualizing the inter-stream coupling and critical path logic.</span>
+             <div className="relative">
+               <Search className="w-4 h-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
+               <input 
+                 type="text" 
+                 placeholder="Find stream..." 
+                 value={searchTerm}
+                 onChange={(e) => setSearchTerm(e.target.value)}
+                 className="bg-background dark:bg-black/30 border border-border dark:border-slate-800 rounded-full py-1.5 pl-9 pr-4 text-xs text-foreground dark:text-slate-300 focus:outline-none focus:border-teal-500/50 transition-colors w-48 shadow-sm dark:shadow-none" 
+               />
+             </div>
            </div>
-           
-           <div className="pb-8">
-             <DependencyMatrix />
-           </div>
+            
+            <div className="pb-8">
+              <DependencyMatrix searchTerm={searchTerm} />
+            </div>
          </motion.div>
        )}
 

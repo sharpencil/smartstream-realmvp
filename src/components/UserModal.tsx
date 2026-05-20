@@ -67,7 +67,7 @@ export function UserModal({ isOpen, onClose, userToEdit }: UserModalProps) {
     switch (role) {
       case 'Admin':          return 'bg-rose-500/10 border-rose-500/30 text-rose-600 dark:text-rose-400 shadow-[0_2px_8px_rgba(239,68,68,0.1)]';
       case 'Project Owner':  return 'bg-purple-500/10 border-purple-500/30 text-purple-600 dark:text-purple-400 shadow-[0_2px_8px_rgba(168,85,247,0.1)]';
-      case 'Project Manager':return 'bg-cyan-500/10 border-cyan-500/30 text-cyan-600 dark:text-cyan-400 shadow-[0_2px_8px_rgba(6,182,212,0.1)]';
+      case 'Project Manager':return 'bg-indigo-500/10 border-indigo-500/30 text-indigo-600 dark:text-indigo-400 shadow-[0_2px_8px_rgba(99,102,241,0.1)]';
       case 'Team Member':    return 'bg-teal-500/10 border-teal-500/30 text-teal-600 dark:text-teal-400 shadow-[0_2px_8px_rgba(20,184,166,0.1)]';
       default:               return 'bg-slate-500/10 border-slate-500/30 text-slate-500';
     }
@@ -77,7 +77,7 @@ export function UserModal({ isOpen, onClose, userToEdit }: UserModalProps) {
     switch (role) {
       case 'Admin':          return 'text-rose-500';
       case 'Project Owner':  return 'text-purple-500';
-      case 'Project Manager':return 'text-cyan-500';
+      case 'Project Manager':return 'text-indigo-500';
       case 'Team Member':    return 'text-teal-500';
       default:               return 'text-slate-500';
     }
@@ -111,7 +111,7 @@ export function UserModal({ isOpen, onClose, userToEdit }: UserModalProps) {
       <DialogContent className="max-w-md border-slate-200/80 dark:border-white/10 bg-white/95 dark:bg-[#0a192f]/95 backdrop-blur-2xl rounded-[32px] p-6 shadow-2xl">
         <DialogHeader className="mb-4">
           <DialogTitle className="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
-            <User className="w-5 h-5 text-cyan-500" />
+            <User className="w-5 h-5 text-indigo-500" />
             {userToEdit ? 'Edit Workspace Profile' : 'Invite New Team Member'}
           </DialogTitle>
           <DialogDescription className="text-xs text-slate-500 dark:text-slate-400">
@@ -139,7 +139,7 @@ export function UserModal({ isOpen, onClose, userToEdit }: UserModalProps) {
                 placeholder="e.g. Lena Vane"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-white/5 rounded-xl py-2.5 px-3.5 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/10 transition-all duration-300"
+                className="w-full bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-white/5 rounded-xl py-2.5 px-3.5 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/10 transition-all duration-300"
               />
             </div>
           </div>
@@ -155,7 +155,7 @@ export function UserModal({ isOpen, onClose, userToEdit }: UserModalProps) {
                 placeholder="e.g. lena@company.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-white/5 rounded-xl py-2.5 px-3.5 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/10 transition-all duration-300"
+                className="w-full bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-white/5 rounded-xl py-2.5 px-3.5 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/10 transition-all duration-300"
                 disabled={!!userToEdit && userToEdit.id === 'admin-user'} // Lock admin email to avoid breaking the core profile
               />
             </div>
@@ -211,11 +211,11 @@ export function UserModal({ isOpen, onClose, userToEdit }: UserModalProps) {
                       onClick={() => handleToggleProject(proj.id)}
                       className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1.5 cursor-pointer border ${
                         isSelected
-                          ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-600 dark:text-cyan-400 font-extrabold shadow-[0_2px_8px_rgba(6,182,212,0.1)]'
+                          ? 'bg-teal-500/10 border-teal-500/30 text-teal-600 dark:text-teal-400 font-extrabold shadow-[0_2px_8px_rgba(20,184,166,0.1)]'
                           : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-white/5 text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:hover:border-white/10'
                       }`}
                     >
-                      {isSelected && <Check className="w-3 h-3 text-cyan-500" />}
+                      {isSelected && <Check className="w-3 h-3 text-teal-500" />}
                       <span>{proj.name}</span>
                     </button>
                   );

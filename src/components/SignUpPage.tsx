@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useOrg } from '@/context/OrgContext';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Shield, Sparkles, Building, Mail, User, ArrowRight } from 'lucide-react';
+import { Shield, Sparkles, Building, Mail, User, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
 export function SignUpPage() {
@@ -73,14 +73,6 @@ export function SignUpPage() {
               className="h-full w-auto object-contain dark:drop-shadow-[0_0_20px_rgba(6,182,212,0.6)] dark:invert-[0.05]" 
             />
           </motion.div>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="text-[11px] font-bold uppercase tracking-[0.3em] text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 dark:bg-cyan-500/5 px-4 py-1.5 rounded-full border border-cyan-500/20"
-          >
-            Genesis Protocol
-          </motion.p>
         </div>
 
         {/* Glassmorphic Signup Card */}
@@ -100,7 +92,7 @@ export function SignUpPage() {
             {/* Full Name Field */}
             <div className="space-y-2">
               <label className="text-[10px] font-bold tracking-widest text-slate-500 dark:text-slate-400 uppercase flex items-center gap-1.5 pl-1">
-                <User className="w-3.5 h-3.5 text-cyan-500/70" />
+                <User className="w-3.5 h-3.5 text-slate-400" />
                 Full Name
               </label>
               <div className="relative group">
@@ -109,7 +101,7 @@ export function SignUpPage() {
                   placeholder="e.g. John Doe"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full bg-white/70 dark:bg-slate-950/60 border border-slate-200/80 dark:border-white/5 rounded-2xl py-3 px-4 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/10 focus:bg-white dark:focus:bg-slate-950 transition-all duration-300"
+                  className="w-full bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-white/5 rounded-xl py-2.5 px-3.5 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/10 transition-all duration-300"
                   disabled={loading}
                 />
               </div>
@@ -118,7 +110,7 @@ export function SignUpPage() {
             {/* Work Email Field */}
             <div className="space-y-2">
               <label className="text-[10px] font-bold tracking-widest text-slate-500 dark:text-slate-400 uppercase flex items-center gap-1.5 pl-1">
-                <Mail className="w-3.5 h-3.5 text-cyan-500/70" />
+                <Mail className="w-3.5 h-3.5 text-slate-400" />
                 Work Email
               </label>
               <div className="relative group">
@@ -127,7 +119,7 @@ export function SignUpPage() {
                   placeholder="e.g. john@yourcompany.com"
                   value={workEmail}
                   onChange={(e) => setWorkEmail(e.target.value)}
-                  className="w-full bg-white/70 dark:bg-slate-950/60 border border-slate-200/80 dark:border-white/5 rounded-2xl py-3 px-4 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/10 focus:bg-white dark:focus:bg-slate-950 transition-all duration-300"
+                  className="w-full bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-white/5 rounded-xl py-2.5 px-3.5 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/10 transition-all duration-300"
                   disabled={loading}
                 />
               </div>
@@ -136,7 +128,7 @@ export function SignUpPage() {
             {/* Organization Name Field */}
             <div className="space-y-2">
               <label className="text-[10px] font-bold tracking-widest text-slate-500 dark:text-slate-400 uppercase flex items-center gap-1.5 pl-1">
-                <Building className="w-3.5 h-3.5 text-cyan-500/70" />
+                <Building className="w-3.5 h-3.5 text-slate-400" />
                 Organization Name
               </label>
               <div className="relative group">
@@ -145,7 +137,7 @@ export function SignUpPage() {
                   placeholder="e.g. Stark Industries"
                   value={orgName}
                   onChange={(e) => setOrgName(e.target.value)}
-                  className="w-full bg-white/70 dark:bg-slate-950/60 border border-slate-200/80 dark:border-white/5 rounded-2xl py-3 px-4 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/10 focus:bg-white dark:focus:bg-slate-950 transition-all duration-300"
+                  className="w-full bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-white/5 rounded-xl py-2.5 px-3.5 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/10 transition-all duration-300"
                   disabled={loading}
                 />
               </div>
@@ -166,7 +158,7 @@ export function SignUpPage() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full h-[50px] text-xs flex items-center justify-center gap-2 cursor-pointer border border-cyan-500/20"
+              className="w-full h-[50px] text-xs flex items-center justify-center gap-3 cursor-pointer border border-cyan-500/20 group"
             >
               {loading ? (
                 <div className="flex items-center gap-2">
@@ -176,7 +168,9 @@ export function SignUpPage() {
               ) : (
                 <>
                   <span>Create My Workspace</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+                  <div className="w-5 h-5 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center group-hover:translate-x-0.5 transition-transform duration-200">
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </div>
                 </>
               )}
             </Button>

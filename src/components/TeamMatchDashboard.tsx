@@ -85,7 +85,7 @@ export function TeamMatchDashboard({ onTraceDependency, onOverride, selectedDate
           <div className="mb-8">
           <div className="mb-6">
             <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
-              <Users className="w-4 h-4 text-cyan-400" />
+              <Users className="w-4 h-4 text-teal-400" />
               Active Match Feed
             </h2>
             <p className="text-xs text-slate-400 mt-1 pl-6">Real-time load & suitability metrics</p>
@@ -193,9 +193,9 @@ export function TeamMatchDashboard({ onTraceDependency, onOverride, selectedDate
                 <h3 className="text-sm font-bold text-slate-200 mb-3">{move.title}</h3>
                 
                 <div className="space-y-2 mb-4">
-                  <div className="flex items-center justify-between bg-cyan-950/20 border border-cyan-500/20 rounded-lg p-2">
-                    <span className="text-xs font-bold text-cyan-100">1. {move.primary.name}</span>
-                    <span className="text-xs font-mono font-bold text-cyan-400">{move.primary.score.toFixed(2)}</span>
+                  <div className="flex items-center justify-between bg-indigo-950/20 border border-indigo-500/20 rounded-lg p-2">
+                    <span className="text-xs font-bold text-indigo-100">1. {move.primary.name}</span>
+                    <span className="text-xs font-mono font-bold text-indigo-400">{move.primary.score.toFixed(2)}</span>
                   </div>
                   <div className="flex items-center justify-between bg-muted dark:bg-white/5 border border-border dark:border-white/5 rounded-lg p-2 opacity-70">
                     <span className="text-xs text-slate-300">2. {move.runnerUp.name}</span>
