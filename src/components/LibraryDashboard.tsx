@@ -387,7 +387,7 @@ export function LibraryDashboard() {
 
                           <Button 
                             variant="primary"
-                            onClick={() => window.location.href = '/'}
+                            onClick={() => window.location.href = '/dashboard'}
                             className="px-8 py-3 text-sm tracking-widest gap-3"
                           >
                             SEND TO PULSE

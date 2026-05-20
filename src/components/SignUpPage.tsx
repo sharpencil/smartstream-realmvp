@@ -39,7 +39,7 @@ export function SignUpPage() {
     setTimeout(() => {
       createWorkspace(fullName, workEmail, orgName);
       setLoading(false);
-      router.push('/');
+      router.push('/dashboard');
     }, 1200);
   };
 

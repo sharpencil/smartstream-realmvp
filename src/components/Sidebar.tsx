@@ -21,12 +21,12 @@ const PERSONA_MENUS: Record<PersonaType, Array<{ name: string; icon: any; href: 
   ],
   'Project Owner': [],
   'Project Manager': [
-    { name: 'Pulse', icon: Activity, href: '/' },
+    { name: 'Pulse', icon: Activity, href: '/dashboard' },
     { name: 'Streams', icon: LayoutDashboard, href: '/library' },
     { name: 'Team', icon: Users, href: '/team' },
   ],
   'Team Member': [
-    { name: 'My Flow', icon: GitCommit, href: '/' },
+    { name: 'My Flow', icon: GitCommit, href: '/dashboard' },
     { name: 'Project Map', icon: Map, href: '/map' },
   ],
 };
@@ -56,7 +56,7 @@ export function Sidebar() {
     // Switch persona slightly after ripple starts
     setTimeout(() => {
       setActivePersona(persona);
-      router.push('/');
+      router.push('/dashboard');
     }, 200);
 
     // End transition
@@ -85,7 +85,7 @@ export function Sidebar() {
               
               const isActive = activePersona === 'Admin'
                 ? pillar.name === 'Admin Cockpit'
-                : pathname === pillar.href || (pathname === '' && pillar.href === '/');
+                : pathname === pillar.href || (pathname === '/dashboard' && pillar.href === '/dashboard');
 
               const handleClick = (e: React.MouseEvent) => {
                 if (activePersona === 'Admin') {
