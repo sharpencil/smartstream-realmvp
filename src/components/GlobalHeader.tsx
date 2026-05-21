@@ -92,35 +92,39 @@ export function GlobalHeader() {
             </PopoverContent>
           </Popover>
 
-          <span className="text-muted-foreground">/</span>
+          {activePersona !== 'Admin' && (
+            <>
+              <span className="text-muted-foreground">/</span>
 
-          <Popover>
-            <PopoverTrigger asChild>
-              <button className="h-[34px] flex items-center gap-2 hover:text-slate-900 dark:hover:text-white transition-all bg-cyan-500/[0.08] dark:bg-cyan-950/20 text-cyan-700 dark:text-cyan-100 px-3 rounded-[12px] border border-cyan-500/10 dark:border-cyan-500/10 group focus:outline-none shadow-sm shadow-cyan-500/5">
-                <span className="text-[11px] font-bold uppercase tracking-wider">{selectedProject}</span>
-                <ChevronDown className="w-4 h-4 opacity-50 text-cyan-600 dark:text-cyan-400 group-hover:opacity-100 transition-opacity" />
-              </button>
-            </PopoverTrigger>
-            <PopoverContent align="start" className="w-64 p-1.5 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-black/[0.05] dark:border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.1)] dark:shadow-none rounded-[16px]">
-              <div className="flex flex-col gap-1">
-                {displayProjects.map((project) => (
-                  <button
-                    key={project}
-                    onClick={() => setSelectedProject(project)}
-                    className={cn(
-                      "flex items-center justify-between px-3 py-2 rounded-[12px] text-left text-[11px] font-bold uppercase tracking-widest transition-all duration-200",
-                      selectedProject === project 
-                        ? "text-slate-900 dark:text-teal-400 bg-white dark:bg-teal-400/5 shadow-[0_2px_8px_rgba(0,0,0,0.04)] dark:shadow-none border border-black/[0.02] dark:border-teal-500/20" 
-                        : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5"
-                    )}
-                  >
-                    {project}
-                    {selectedProject === project && <Check className="w-3.5 h-3.5 text-cyan-600 dark:text-teal-400" />}
+              <Popover>
+                <PopoverTrigger asChild>
+                  <button className="h-[34px] flex items-center gap-2 hover:text-slate-900 dark:hover:text-white transition-all bg-cyan-500/[0.08] dark:bg-cyan-950/20 text-cyan-700 dark:text-cyan-100 px-3 rounded-[12px] border border-cyan-500/10 dark:border-cyan-500/10 group focus:outline-none shadow-sm shadow-cyan-500/5">
+                    <span className="text-[11px] font-bold uppercase tracking-wider">{selectedProject}</span>
+                    <ChevronDown className="w-4 h-4 opacity-50 text-cyan-600 dark:text-cyan-400 group-hover:opacity-100 transition-opacity" />
                   </button>
-                ))}
-              </div>
-            </PopoverContent>
-          </Popover>
+                </PopoverTrigger>
+                <PopoverContent align="start" className="w-64 p-1.5 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-black/[0.05] dark:border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.1)] dark:shadow-none rounded-[16px]">
+                  <div className="flex flex-col gap-1">
+                    {displayProjects.map((project) => (
+                      <button
+                        key={project}
+                        onClick={() => setSelectedProject(project)}
+                        className={cn(
+                          "flex items-center justify-between px-3 py-2 rounded-[12px] text-left text-[11px] font-bold uppercase tracking-widest transition-all duration-200",
+                          selectedProject === project 
+                            ? "text-slate-900 dark:text-teal-400 bg-white dark:bg-teal-400/5 shadow-[0_2px_8px_rgba(0,0,0,0.04)] dark:shadow-none border border-black/[0.02] dark:border-teal-500/20" 
+                            : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5"
+                        )}
+                      >
+                        {project}
+                        {selectedProject === project && <Check className="w-3.5 h-3.5 text-cyan-600 dark:text-teal-400" />}
+                      </button>
+                    ))}
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </>
+          )}
         </div>
       </div>
 
